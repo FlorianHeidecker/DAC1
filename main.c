@@ -9,11 +9,13 @@
 #include <stdio.h>
 
 #include "menu.h"
+#include "data.h"
 
 int main(void) {
-    printf("\n==================================================\n");
-    printf("test");
-    printf("\n==================================================\n");
+    printf("\n==test data============================================\n");
+    printf("%s%s\n",get_name_text(0,1), get_value_text(0,1));
+    set_setting(0,1,2); // change setting to off
+    printf("%s%s\n",get_name_text(0,1), get_value_text(0,1));
+    printf("\n==test data============================================\n");
     return 0;
-    
 }
