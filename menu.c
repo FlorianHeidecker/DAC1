@@ -45,10 +45,6 @@ void menu_setup() {
     char main_menu = 0;
     char sub_menu = 0;
     char parameter_menu = 0;
-    
-    //printf(menu_view[2][0][0]);
-    //printf("  ");
-    //printf(menu_view[2][0][1]);
 }
 
 void menu_loop(char rotary_encoder){
