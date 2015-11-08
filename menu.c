@@ -106,7 +106,7 @@ void menu_loop(char rotary_encoder){
             
             if(rotary_encoder = TURN_LEFT){
                 parameter_menu--;
-                if(parameter_menu == 0){
+                if(parameter_menu == 1){
                     parameter_menu = max_parameter_menu;
                 }
             }
@@ -114,7 +114,7 @@ void menu_loop(char rotary_encoder){
             if(rotary_encoder = TURN_RIGHT){
                 parameter_menu++;
                 if(parameter_menu == max_parameter_menu){
-                    parameter_menu = 0;
+                    parameter_menu = 1;
                 }
             }
             
