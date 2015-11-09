@@ -8,12 +8,13 @@
 #include "xc.h"
 #include "data.h"
 
-const char main_menu_length = 3; // max array index
-const char sub_menu_length = 4; // max array index
-const char parameter_menu_length = 2; // max array index
+#define MAIN_MENU_LENGTH        4
+#define SUB_MENU_LENGTH         5
+#define PARAMETER_MENU_LENGTH   3
+
 
 //==menu text array=============================================================
-char* menu_text [4][5][3]= {
+char* menu_text[MAIN_MENU_LENGTH][SUB_MENU_LENGTH][PARAMETER_MENU_LENGTH] = {
     { {"Titel_1", "\0", "\0"},{"Subtitel_11    ", "on", "off"},{"Subtitel_12", "\0", "\0"},{"Subtitel_13", "\0", "\0"},{"return", "\0", "\0"} },
     { {"Titel_2", "\0", "\0"},{"Subtitel_21    ", "414Hz", "96Hz"},{"Subtitel_22", "\0", "\0"},{"Subtitel_23", "\0", "\0"},{"return", "\0", "\0"} },
     { {"Titel_3", "\0", "\0"},{"Subtitel_31    ", "\0", "\0"},{"Subtitel_32", "\0", "\0"},{"Subtitel_33", "\0", "\0"},{"return", "\0", "\0"} },
@@ -21,7 +22,7 @@ char* menu_text [4][5][3]= {
 };
 
 //==value array for settings====================================================
-char* setting_value [4][3][3]= {
+char* setting_value[MAIN_MENU_LENGTH][SUB_MENU_LENGTH][PARAMETER_MENU_LENGTH] = {
     { {1, 0, 0},{1, 0, 0},{1, 0, 0} },
     { {1, 0, 0},{1, 0, 0},{1, 0, 0} },
     { {1, 0, 0},{1, 0, 0},{1, 0, 0} },
@@ -29,7 +30,7 @@ char* setting_value [4][3][3]= {
 };
 
 //==save settings array index===================================================
-char* setting_save [4][5] = {
+char* setting_save[MAIN_MENU_LENGTH][SUB_MENU_LENGTH] = {
     { 1, 1, 1, 1, 1 },
     { 1, 1, 1, 1, 1 },
     { 1, 1, 1, 1, 1 },
@@ -37,18 +38,18 @@ char* setting_save [4][5] = {
 };
 
 // get main menu points
-char* get_main_menu_length(){
-    return main_menu_length;
+char* get_main_menu_max_index(){
+    return (MAIN_MENU_LENGTH-1);
 }
 
 // get sub menu points
-char* get_sub_menu_length(){
-    return sub_menu_length;
+char* get_sub_menu_max_index(){
+    return (SUB_MENU_LENGTH-1);
 }
 
 // get parameter menu points
-char* get_parameter_menu_length(){
-    return parameter_menu_length;
+char* get_parameter_menu_max_index(){
+    return (PARAMETER_MENU_LENGTH-1);
 }
 
 // get name menu text
