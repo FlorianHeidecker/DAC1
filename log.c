@@ -1,22 +1,16 @@
-/******************************************************************************
- ********************[ Renesas JCP2016 HL-3D Validation Test ]*****************	
- ******************************************************************************
- ** File:      	 log.c
- **----------------------------------------------------------------------------
- ** CREATED BY:  Sebastian Wolfarth 	    
- **----------------------------------------------------------------------------
- ** <version>		<Date>
- ** Comment
- **----------------------------------------------------------------------------
- ** v0.1		 Mon Aug 10 12:43:46 2015 
- ** Initial Version	
- **----------------------------------------------------------------------------
- ** (c)Continental Automotive GmbH		
- ******************************************************************************
- ** THIS FILE IS PROVIDED 'AS IS' WITHOUT WARRANTY OF ANY KIND. The IC-GROUP
- ** ACCEPTS NO RESPONSIBILITY OR LIABILITY FOR ANY ERRORS OR ELIGIBILITY FOR
- ** ANY PURPOSES
- *****************************************************************************/
+/** 
+ * @file	log.c
+ *
+ * @brief	Implementation of printf() like logging over UART
+ *
+ * This Module implements a logging functionality. It operates similar to printf.
+ * Multiple Log Levels can be defined for debug purposes. By disabling
+ * the logging for on group no code will be generated for this part.
+ * 
+ * The implementation of the output can be different depending on the device and
+ * the available library functions. 
+ *
+ */
 
 
 #include <string.h>
