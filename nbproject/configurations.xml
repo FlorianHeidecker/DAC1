@@ -4,9 +4,10 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>data.h</itemPath>
-      <itemPath>log.h</itemPath>
-      <itemPath>menu.h</itemPath>
+      <itemPath>source/data.h</itemPath>
+      <itemPath>source/log.h</itemPath>
+      <itemPath>source/menu.h</itemPath>
+      <itemPath>source/global.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -15,10 +16,10 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>data.c</itemPath>
-      <itemPath>log.c</itemPath>
-      <itemPath>main.c</itemPath>
-      <itemPath>menu.c</itemPath>
+      <itemPath>source/data.c</itemPath>
+      <itemPath>source/log.c</itemPath>
+      <itemPath>source/main.c</itemPath>
+      <itemPath>source/menu.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
