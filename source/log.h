@@ -20,6 +20,8 @@
 #ifndef _LOG_H
 #define _LOG_H
 
+#include <stdint.h>
+
 
 /** Initialisation routine for the debug interface */
 #define SER_INIT()		//uart1_init()
@@ -61,6 +63,7 @@
 
 void log_init(void);
 void log_write(const char* format, ...);
+void _format_number(int32_t number, int16_t base, int16_t digits, char padding, char* buffer);
 
 #endif /* _LOG_H */
 

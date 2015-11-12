@@ -15,7 +15,7 @@
 #define	GLOBAL_H
 
 #include <xc.h>
-#include <ctype.h>
+#include <stdint.h>
 
 /* Device dependend devines*/
 #define CPU_FREQUENCY       7370000UL   /* 7.37 MHz*/
