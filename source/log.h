@@ -29,8 +29,7 @@
 #define SER_PUTS(x)		//PutStr(x,1)
 
 
-#define SIMULATOR
-
+/** This define is set in MPLAB configuration for Simulator */
 #ifdef SIMULATOR
     #define LOG_WRITE_FUNCTION(x, args...)    printf(x, ##args)
 #else

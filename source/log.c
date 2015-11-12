@@ -32,7 +32,7 @@
     
     va_list params;
     va_start(params, str);
-    vsprintf(buffer,str,params);
+    //vsprintf(buffer,str,params);
     va_end(params);
 
     SER_PUTS(buffer);
