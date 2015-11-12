@@ -1,0 +1,7 @@
+#ignore all files
+*
+
+#but not
+!.gitignore
+!configurations.xml
+!project.xml
