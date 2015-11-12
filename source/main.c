@@ -11,6 +11,7 @@
 #include "menu.h"
 #include "data.h"
 #include "log.h"
+#include "lcd.h"
 
 
 int main(void) {

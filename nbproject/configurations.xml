@@ -8,6 +8,7 @@
       <itemPath>source/log.h</itemPath>
       <itemPath>source/menu.h</itemPath>
       <itemPath>source/global.h</itemPath>
+      <itemPath>source/lcd.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -20,6 +21,7 @@
       <itemPath>source/log.c</itemPath>
       <itemPath>source/main.c</itemPath>
       <itemPath>source/menu.c</itemPath>
+      <itemPath>source/lcd.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
