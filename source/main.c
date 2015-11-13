@@ -9,11 +9,13 @@
 #include <stdio.h>
 
 #include "log.h"
+#include "PLL_API.h"
 
 
 int main(void) {
     LOG("main()\n");
     
-    LOG("main() end\n");
+    pll_init();
+    
     return 0;
 }
