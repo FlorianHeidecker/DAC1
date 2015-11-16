@@ -26,17 +26,17 @@ void pll_init(){
     PLL_FS1_TRIS   = 0; /* output */
     PLL_FS2_TRIS   = 0; /* output */
     
-    set_SCKO1(PLL_SCKO1_33MHz);     /* default value */
-    set_SCKO23(PLL_SAMPLING_FREQ_44_1kHz);  /* default value */
+    set_scko1_freq(PLL_SCKO1_33MHz);     /* default value */
+    set_sampling_freq(PLL_SAMPLING_FREQ_44_1kHz);  /* default value */
 }
 
-void set_SCKO1(SCKO1_FREQ scko1_freq){
+void set_scko1_freq(scko1_freq_t scko1_freq){
     if(scko1_freq == PLL_SCKO1_16MHz) PLL_LOG("set SCKO1 FREQUENCY = PLL_SCKO1_16MHz\n");
     if(scko1_freq == PLL_SCKO1_33MHz) PLL_LOG("set SCKO1 FREQUENCY = PLL_SCKO1_33MHz\n");
     PLL_CSEL_LATCH = scko1_freq;
 }
 
-void set_SCKO23(SAMPLING_FREQ sampling_freq){
+void set_sampling_freq(sampling_freq_t sampling_freq){
     switch(sampling_freq){
         case PLL_SAMPLING_FREQ_32kHz:
             PLL_LOG("set SAMPLING FREQUENCY = PLL_SAMPLING_FREQ_32kHz\n");
@@ -77,12 +77,12 @@ void set_SCKO23(SAMPLING_FREQ sampling_freq){
     }
 }
 
-SCKO1_FREQ get_SCKO1(){
+scko1_freq_t get_scko1_freq(){
     return PLL_CSEL_LATCH;
 }
 
-SAMPLING_FREQ get_SCKO23(){
-    SAMPLING_FREQ index = PLL_SR_LATCH*4 + PLL_FS2_LATCH*2 + PLL_FS1_LATCH;
+sampling_freq_t get_sampling_freq(){
+    sampling_freq_t index = PLL_SR_LATCH*4 + PLL_FS2_LATCH*2 + PLL_FS1_LATCH;
     return index;
 }
 
