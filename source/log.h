@@ -12,15 +12,18 @@
  *
  * @author	Sebastian Wolfarth
  * @date	11.12.2011 - initial version
+ * @date    16.11.2015 - added stdio.h include to log.h
  *
- * @version	0.1
+ * @version	0.11
  *
  */
+
+#include <stdint.h>
+#include <stdio.h>
 
 #ifndef _LOG_H
 #define _LOG_H
 
-#include <stdint.h>
 
 
 /** Initialisation routine for the debug interface */
@@ -41,10 +44,10 @@
 
 /** Enables basic log output on UART1 */
 #define LOGGING
-
+/** PLL API log output on UART1 */
+#define PLL_API_LOGGING
 /** This is an example for a new stage of loging */
 #define NEW_STAGE_LOGGING
-
 
 
 #ifdef LOGGING
@@ -52,6 +55,13 @@
 #else
 	#define LOG(x, args...)
 #endif /* LOGGING */
+
+
+#ifdef PLL_API_LOGGING
+	#define PLL_LOG(x, args...)   LOG_WRITE_FUNCTION(x, ##args)
+#else
+	#define PLL_LOG(x, args...)
+#endif /* PLL_LOGGING */
 
 
 #ifdef NEW_STAGE_LOGGING

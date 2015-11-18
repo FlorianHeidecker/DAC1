@@ -10,13 +10,15 @@
 
 #include "log.h"
 #include "xlcd.h"
+#include "PLL_API.h"
 
 
 int main(void) {
     LOG("main()\n");
     
+    set_setting(0,1,2); // change setting to off
     
-    
-    
-    while(1);
+	while(1);
+    return 0;
+	
 }

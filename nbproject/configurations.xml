@@ -7,6 +7,7 @@
       <itemPath>source/log.h</itemPath>
       <itemPath>source/global.h</itemPath>
       <itemPath>source/xlcd.h</itemPath>
+      <itemPath>source/PLL_API.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -29,6 +30,7 @@
       </logicalFolder>
       <itemPath>source/log.c</itemPath>
       <itemPath>source/main.c</itemPath>
+      <itemPath>source/PLL_API.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"

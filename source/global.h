@@ -10,12 +10,13 @@
  * @version	0.1
  *
  */
+#include <xc.h>
+#include <stdint.h>
+
 
 #ifndef GLOBAL_H
 #define	GLOBAL_H
 
-#include <xc.h>
-#include <stdint.h>
 
 /* Device dependend devines*/
 #define CPU_FREQUENCY       7370000UL   /* 7.37 MHz*/
@@ -85,6 +86,9 @@
 #define LCD_DATA_PORT       PORTA
 
 /* PLL */
+#define PLL_CSEL_TRIS         TRISBbits.TRISB9
+#define PLL_CSEL_LATCH        LATBbits.LATB9
+
 #define PLL_SR_TRIS         TRISCbits.TRISC6
 #define PLL_SR_LATCH        LATCbits.LATC6
 

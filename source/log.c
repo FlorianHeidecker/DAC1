@@ -27,7 +27,7 @@
 
  
 
-char *ltoa(long N, char *str, int base)
+char *ltoa(char *str, long N, int base)
 {
       register int i = 2;
       long uarg;
@@ -168,8 +168,9 @@ char *ltoa(long N, char *str, int base)
 
     if (buffer != NULL)
     {
-       ltoa(number, temp, base);
-       len = strlen(temp);
+       //ltoa(number, temp, base);
+        ltoa(temp, number, base);
+        len = strlen(temp);
       
        if (digits > 0)
        {
