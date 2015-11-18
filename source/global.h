@@ -81,13 +81,25 @@
 #define LCD_RS_LATCH        LATBbits.LATB2
 #define LCD_RS_PORT         PORTBbits.PORTB2
 
-#define LCD_DATA_TRIS       TRISA
-#define LCD_DATA_LATCH      LATB
-#define LCD_DATA_PORT       PORTA
+#define LCD_DB0_TRIS        TRISAbits.TRISA0
+#define LCD_DB0_LATCH       LATAbits.LATA0
+#define LCD_DB0_PORT        PORTAbits.RA0
+
+#define LCD_DB1_TRIS        TRISAbits.TRISA1
+#define LCD_DB1_LATCH       LATAbits.LATA1
+#define LCD_DB1_PORT        PORTAbits.RA1
+
+#define LCD_DB2_TRIS        TRISAbits.TRISA2
+#define LCD_DB2_LATCH       LATAbits.LATA2
+#define LCD_DB2_PORT        PORTAbits.RA2
+
+#define LCD_DB3_TRIS        TRISAbits.TRISA3
+#define LCD_DB3_LATCH       LATAbits.LATA3
+#define LCD_DB3_PORT        PORTAbits.RA3
 
 /* PLL */
-#define PLL_CSEL_TRIS         TRISBbits.TRISB9
-#define PLL_CSEL_LATCH        LATBbits.LATB9
+#define PLL_CSEL_TRIS       TRISBbits.TRISB9
+#define PLL_CSEL_LATCH      LATBbits.LATB9
 
 #define PLL_SR_TRIS         TRISCbits.TRISC6
 #define PLL_SR_LATCH        LATCbits.LATC6

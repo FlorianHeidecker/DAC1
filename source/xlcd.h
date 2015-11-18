@@ -3,6 +3,9 @@
 /*                                                                  */
 /********************************************************************/
 
+
+#include "global.h"
+
 #if defined(__dsPIC30F__)
 #include <p30Fxxxx.h>
 #elif defined(__dsPIC33F__)
@@ -22,21 +25,21 @@
 #define _XLCD_H
 
 /* Comment out the following line if 4-bit interface is being used */
-#define EIGHT_BIT_INTERFACE
+//#define EIGHT_BIT_INTERFACE
 
 /* #defines of the data pins and the corresponding tris pins */
 /* The READ_PIN_X #defines must match the corresponding DATA_PIN_X defines */
 #if defined(__dsPIC30F__) || defined(__dsPIC33F__) || defined(__PIC24H__)  
 
-#define DATA_PIN_7           LATDbits.LATD7
-#define DATA_PIN_6           LATDbits.LATD6
-#define DATA_PIN_5           LATDbits.LATD5
-#define DATA_PIN_4           LATDbits.LATD4
+#define DATA_PIN_7           LCD_DB3_LATCH  //LATDbits.LATD7
+#define DATA_PIN_6           LCD_DB2_LATCH  //LATDbits.LATD6
+#define DATA_PIN_5           LCD_DB1_LATCH  //LATDbits.LATD5
+#define DATA_PIN_4           LCD_DB0_LATCH  //LATDbits.LATD4
 
-#define READ_PIN_7		PORTDbits.RD7
-#define READ_PIN_6		PORTDbits.RD6
-#define READ_PIN_5		PORTDbits.RD5
-#define READ_PIN_4		PORTDbits.RD4
+#define READ_PIN_7      LCD_DB3_PORT    //PORTDbits.RD7
+#define READ_PIN_6		LCD_DB2_PORT    //PORTDbits.RD6
+#define READ_PIN_5		LCD_DB1_PORT    //PORTDbits.RD5
+#define READ_PIN_4		LCD_DB0_PORT    //PORTDbits.RD4
 
 #ifdef EIGHT_BIT_INTERFACE
 
@@ -52,10 +55,10 @@
 
 #endif /* #ifdef EIGHT_BIT_INTERFACE */
 
-#define TRIS_DATA_PIN_7       TRISDbits.TRISD7
-#define TRIS_DATA_PIN_6       TRISDbits.TRISD6
-#define TRIS_DATA_PIN_5       TRISDbits.TRISD5
-#define TRIS_DATA_PIN_4       TRISDbits.TRISD4
+#define TRIS_DATA_PIN_7       LCD_DB3_TRIS  //TRISDbits.TRISD7
+#define TRIS_DATA_PIN_6       LCD_DB2_TRIS  //TRISDbits.TRISD6
+#define TRIS_DATA_PIN_5       LCD_DB1_TRIS  //TRISDbits.TRISD5
+#define TRIS_DATA_PIN_4       LCD_DB0_TRIS  //TRISDbits.TRISD4
 
 #ifdef EIGHT_BIT_INTERFACE
 
@@ -69,13 +72,13 @@
 #if defined(_RD8) && defined(_RD9) && defined(_RD10)
 
 /* #defines of the control pins and the corresponding tris pins for 30F */
-#define E_PIN                 LATDbits.LATD8       /* PORT for E */
-#define RW_PIN                LATDbits.LATD9       /* PORT for RW */
-#define RS_PIN                LATDbits.LATD10      /* PORT for RS */
+#define E_PIN                 LCD_EN_LATCH  //LATDbits.LATD8       /* PORT for E */
+#define RW_PIN                LCD_RW_LATCH  //LATDbits.LATD9       /* PORT for RW */
+#define RS_PIN                LCD_RS_LATCH  //LATDbits.LATD10      /* PORT for RS */
 
-#define TRIS_E                TRISDbits.TRISD8    /* TRIS for E */
-#define TRIS_RW               TRISDbits.TRISD9    /* TRIS for RW */
-#define TRIS_RS               TRISDbits.TRISD10   /* TRIS for RS */
+#define TRIS_E                LCD_EN_TRIS   //TRISDbits.TRISD8    /* TRIS for E */
+#define TRIS_RW               LCD_RW_TRIS   //TRISDbits.TRISD9    /* TRIS for RW */
+#define TRIS_RS               LCD_RS_TRIS   //TRISDbits.TRISD10   /* TRIS for RS */
 
 #endif /* #ifdef dsPIC30 || dsPIC33F || PIC24H */
 
