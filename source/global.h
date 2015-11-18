@@ -86,6 +86,9 @@
 #define LCD_DATA_PORT       PORTA
 
 /* PLL */
+#define PLL_CSEL_TRIS         TRISBbits.TRISB9
+#define PLL_CSEL_LATCH        LATBbits.LATB9
+
 #define PLL_SR_TRIS         TRISCbits.TRISC6
 #define PLL_SR_LATCH        LATCbits.LATC6
 
