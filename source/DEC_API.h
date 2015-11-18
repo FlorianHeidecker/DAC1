@@ -20,9 +20,10 @@
 #include <xc.h>
 
 /** State of rotation */
-typedef enum {DEC_TURN_LEFT=0,
-              DEC_NO_TURN=1,
-              DEC_TURN_RIGHT=2} state_rotation_t;
+typedef enum {DEC_NO_TURN=0,
+              DEC_TURN_LEFT=1,
+              DEC_BUTTON=2,
+              DEC_TURN_RIGHT=3} state_rotation_t;
 
 /** Rotary Encoder PINS TRIS initialization */
 void DEC_init();
@@ -30,8 +31,8 @@ void DEC_init();
 /** Get the State of the Rotary Encoder Button */
 unsigned char get_DEC_button();
 
-/** Get the State of the Rotation */
-state_rotation_t get_DEC_rotation();
+/** Get the State of the rotary encoder */
+state_rotation_t get_DEC_status();
 
 
 #endif /* _DEC_API_H */

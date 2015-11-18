@@ -22,7 +22,7 @@
 #include "DEC_API.h"
 
 void DEC_init(){
-    PLL_LOG("rotencoder init\n");
+    LOG("rotencoder init\n");
     DEC_CHA_TRIS    = 1; /* input */
     DEC_CHB_TRIS    = 1; /* input */
     DEC_TASTE_TRIS  = 1; /* input */
@@ -37,10 +37,13 @@ unsigned char get_DEC_button(){
     return DEC_TASTE_PORT;
 }
 
-state_rotation_t get_DEC_rotation(){
+state_rotation_t get_DEC_status(){
     static char dec_last = 0x00;
     char dec_inp = 0x00;
     
+    if(DEC_TASTE_PORT){
+        return DEC_BUTTON;
+    }
     if(DEC_CHA_PORT){
         dec_inp = 0x01;
     }
@@ -50,7 +53,7 @@ state_rotation_t get_DEC_rotation(){
     dec_inp -= dec_last;
     if(dec_inp & 0x01){
         dec_last += dec_inp;
-        return ((dec_inp & 0x02));
+        return ((dec_inp & 0x02)+1);    /* 1=left turn, 3=right turn */
     }
     else{
         return DEC_NO_TURN;
