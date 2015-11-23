@@ -61,7 +61,6 @@ char *ltoa(char *str, long N, int base)
       return str;
 }
  
->>>>>>> refs/remotes/origin/master
 
 
  void log_init(void)
