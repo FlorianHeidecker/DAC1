@@ -10,12 +10,16 @@
 
 #include "log.h"
 #include "PLL_API.h"
+#include "xlcd/xlcd.h"
 
 
 int main(void) {
     LOG("main()\n");
     
+    OpenXLCD(FOUR_BIT & LINES_5X7);
+    
     pll_init();
+    
     
     return 0;
 }
