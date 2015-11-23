@@ -7,6 +7,7 @@
       <itemPath>source/log.h</itemPath>
       <itemPath>source/global.h</itemPath>
       <itemPath>source/UART_API.h</itemPath>
+      <itemPath>source/PLL_API.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -18,6 +19,7 @@
       <itemPath>source/log.c</itemPath>
       <itemPath>source/main.c</itemPath>
       <itemPath>source/UART_API.c</itemPath>
+      <itemPath>source/PLL_API.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
