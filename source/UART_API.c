@@ -17,8 +17,8 @@ void uart_init(void) {
 	U1MODEbits.BRGH = 0;
 	U1BRG = ((PERIPHERAL_FREQUENCY / 16 / BAUDRATE) - 1);
 
-	TRISBbits.TRISB14 = 0;	//Set Pin14(TX) as output
-	TRISBbits.TRISB15 = 1; //Set Pin15(RX) as (analog) input
+	UART_TX_TRIS = 0;	//Set Pin14(TX) as output
+	UART_RX_TRIS = 1; //Set Pin15(RX) as (analog) input
 
 	AD1PCFGLbits.PCFG9 = 1;	//Set RX as digital input
 
