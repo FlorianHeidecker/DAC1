@@ -6,7 +6,7 @@
                    projectFiles="true">
       <itemPath>source/log.h</itemPath>
       <itemPath>source/global.h</itemPath>
-      <itemPath>source/UART.h</itemPath>
+      <itemPath>source/UART_API.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -17,7 +17,7 @@
                    projectFiles="true">
       <itemPath>source/log.c</itemPath>
       <itemPath>source/main.c</itemPath>
-      <itemPath>source/UART.c</itemPath>
+      <itemPath>source/UART_API.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
