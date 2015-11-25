@@ -72,8 +72,37 @@
 #endif /* NEW_STAGE_LOGGING */
 
 
+/** @brief Initializes logging function
+ *
+ * This functions calls all other functions which are needed to initialize
+ * the logging module.
+ */
 void log_init(void);
+
+
+/** @brief Formats and sends string
+ *
+ * Writes the C string pointed by format to output Interface using SER_PUTC() 
+ * If format includes format specifiers (subsequences beginning with %), 
+ * the additional arguments following format are formatted and inserted in the 
+ * resulting string replacing their respective specifiers.
+ *
+ * @param format	String to send and add subsequences
+ * @param ...		Arguments for the format specifiers
+ */
 void log_write(const char* format, ...);
+
+
+/** @brief Helper Function to format the String
+ *
+ *  This functions formats an added subsequence similar to printf. 
+ * 
+ * @param number    Number to insert
+ * @param base      Base of the number to insert (e.g. 10 for decimal system)
+ * @param digits    Number of digits to add in the string
+ * @param padding   Character to pad
+ * @param buffer	Output buffer which will be filled 
+ */
 void _format_number(int32_t number, int16_t base, int16_t digits, char padding, char* buffer);
 
 #endif /* _LOG_H */
