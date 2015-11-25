@@ -29,7 +29,7 @@
 //==============================================================================
 
 /* SPI */
-#define SCLK_TRIS           TRISBbits.TRISC7
+#define SCLK_TRIS           TRISBbits.TRISB7
 #define SCLK_LATCH          LATBbits.LATB7
 
 #define MISO_TRIS           TRISBbits.TRISB6
