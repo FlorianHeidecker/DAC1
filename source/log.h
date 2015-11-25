@@ -20,6 +20,7 @@
 
 #include <stdint.h>
 #include <stdio.h>
+#include "UART_API.h"
 
 #ifndef _LOG_H
 #define _LOG_H
@@ -27,11 +28,11 @@
 
 
 /** Initialisation routine for the debug interface */
-#define SER_INIT()		//uart1_init()
+#define SER_INIT()		uart_init()
 /** routine to send one char on the debug interface */
-#define SER_PUTC(x)		//PutChar(x)
+#define SER_PUTC(x)		uart_send_char(x)
 /** routine to send a string on the debug interface */
-#define SER_PUTS(x)		//PutStr(x,1)
+#define SER_PUTS(x)		uart_send_string(x)
 
 
 /** This define is set in MPLAB configuration for Simulator */
