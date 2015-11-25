@@ -25,8 +25,6 @@
 #define LTOA_BUFSIZE    12
 
 
- 
-
 char *ltoa(char *str, long N, int base)
 {
       register int i = 2;
