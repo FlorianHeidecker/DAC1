@@ -23,11 +23,8 @@
 int main(void) {
     LOG("main()\n");
     
-
-    
     pll_init();
 
 
     while(1); 
-    return 0;
 }
