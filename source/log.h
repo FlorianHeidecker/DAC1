@@ -20,6 +20,7 @@
 
 #include <stdint.h>
 #include <stdio.h>
+#include "UART_API.h"
 
 #ifndef _LOG_H
 #define _LOG_H
@@ -27,11 +28,11 @@
 
 
 /** Initialisation routine for the debug interface */
-#define SER_INIT()		//uart1_init()
+#define SER_INIT()		uart_init()
 /** routine to send one char on the debug interface */
-#define SER_PUTC(x)		//PutChar(x)
+#define SER_PUTC(x)		uart_send_char(x)
 /** routine to send a string on the debug interface */
-#define SER_PUTS(x)		//PutStr(x,1)
+#define SER_PUTS(x)		uart_send_string(x)
 
 
 /** This define is set in MPLAB configuration for Simulator */
@@ -71,8 +72,37 @@
 #endif /* NEW_STAGE_LOGGING */
 
 
+/** @brief Initializes logging function
+ *
+ * This functions calls all other functions which are needed to initialize
+ * the logging module.
+ */
 void log_init(void);
+
+
+/** @brief Formats and sends string
+ *
+ * Writes the C string pointed by format to output Interface using SER_PUTC() 
+ * If format includes format specifiers (subsequences beginning with %), 
+ * the additional arguments following format are formatted and inserted in the 
+ * resulting string replacing their respective specifiers.
+ *
+ * @param format	String to send and add subsequences
+ * @param ...		Arguments for the format specifiers
+ */
 void log_write(const char* format, ...);
+
+
+/** @brief Helper Function to format the String
+ *
+ *  This functions formats an added subsequence similar to printf. 
+ * 
+ * @param number    Number to insert
+ * @param base      Base of the number to insert (e.g. 10 for decimal system)
+ * @param digits    Number of digits to add in the string
+ * @param padding   Character to pad
+ * @param buffer	Output buffer which will be filled 
+ */
 void _format_number(int32_t number, int16_t base, int16_t digits, char padding, char* buffer);
 
 #endif /* _LOG_H */
