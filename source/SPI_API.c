@@ -7,6 +7,7 @@
 
 #include <xc.h>
 
+
 #include "log.h"
 #include "global.h"
 #include "SPI_API.h"
@@ -37,8 +38,8 @@ void spi_init(void){
     // active state is a high level
     SPI1STATbits.SPIROV = 0; //clear the receive overflow flag, refer to master mode setup procedure
     SPI1STATbits.SPIEN = 1; // Enable SPI module
-    //SPI1CON1bits.PPRE = 0x??     //add clk setting
-    //SPI1CON1bits.SPRE = 0x??
+    SPI1CON1bits.PPRE = 3;  //primary prescaler
+    SPI1CON1bits.SPRE = 7;  //secondary prescaler
 
 
 }
@@ -48,6 +49,12 @@ int spi_rw(int data){
     while(!SPI1STATbits.SPIRBF);
     return SPI1BUF;
 }
+
+int spi_rw_n(uint8_t *send, uint8_t *receive, int num_bytes, int channel)
+{
+    
+}
+
 
 
 int spi_src(int header, int data){
