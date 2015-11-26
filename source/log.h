@@ -12,15 +12,18 @@
  *
  * @author	Sebastian Wolfarth
  * @date	11.12.2011 - initial version
+ * @date    16.11.2015 - added stdio.h include to log.h
  *
- * @version	0.1
+ * @version	0.11
  *
  */
+
+#include <stdint.h>
+#include <stdio.h>
 
 #ifndef _LOG_H
 #define _LOG_H
 
-#include <stdint.h>
 
 
 /** Initialisation routine for the debug interface */
