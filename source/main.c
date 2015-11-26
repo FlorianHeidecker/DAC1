@@ -17,5 +17,4 @@ int main(void) {
     
     pll_init();
     
-    return 0;
 }
