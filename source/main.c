@@ -18,12 +18,23 @@
 #include "log.h"
 #include "PLL_API.h"
 #include "UART_API.h"
+#include "SPI_API.h"
 
 
 int main(void) {
+    int temp;
+    AD1PCFGL = 0x1fff;
+    log_init();
     LOG("main()\n");
     
 
+    spi_init();
+    while(1)
+    {
+    temp = spi_rw(0x5555);
+    for(temp=0; temp<10000;temp++);
+    }
+    
     
     pll_init();
 

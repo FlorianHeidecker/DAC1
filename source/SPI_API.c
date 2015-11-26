@@ -50,10 +50,10 @@ int spi_rw(int data){
     return SPI1BUF;
 }
 
-int spi_rw_n(uint8_t *send, uint8_t *receive, int num_bytes, int channel)
-{
-    
-}
+//int spi_rw_n(uint8_t *send, uint8_t *receive, int num_bytes, int channel)
+//{
+//    
+//}
 
 
 
@@ -68,7 +68,7 @@ int spi_src(int header, int data){
     else{
         temp = spi_rw(header);
         temp = spi_rw(data);
-        temp = 0;
+        temp = 0;       
     }
     SRC_CS_LATCH = 1;
     return temp;
