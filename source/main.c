@@ -18,7 +18,7 @@
 #include "log.h"
 #include "PLL_API.h"
 #include "UART_API.h"
-
+#include "PCM_API.h"
 
 int main(void) {
     LOG("main()\n");
@@ -29,5 +29,4 @@ int main(void) {
 
 
     while(1); 
-    return 0;
 }
