@@ -19,7 +19,7 @@
 #include "PCM_API.h"
 #include "SPI_API.h"
 
-#define pcm_channel_dummy       333 //!!!!!!!!!!!!!!!!!!!!
+#define pcm_channel_dummy       0x01 //!!!!!!!!!!!!!!!!!!!!
 
 /** avalible Register 16 - 23 */
 typedef enum {	PCM_register_16_w = 0x10,   PCM_register_16_r = 0x90,
