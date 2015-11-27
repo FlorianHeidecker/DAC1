@@ -27,7 +27,7 @@
 typedef enum {	PCM_16_bit_standard_format=0,
 				PCM_20_bit_standard_format=1,
 				PCM_24_bit_standard_format=2,
-				PCM_16_bit_MSB_first=3,
+				PCM_24_bit_MSB_first=3,
 				PCM_16_bit_I2S=4,
 				PCM_24_bit_I2S=5} audio_data_format_t;
                 
@@ -80,15 +80,15 @@ void set_audio_data_format(audio_data_format_t);
 
 audio_data_format_t get_audio_data_format(void);
 
-/** DMF: Sampling Frequency Selection for the De-Emphasis Function 
-    read and write */
-//void set_de_emphasis_freq(de_emphasis_freq_t)
-
 /** OS: Delta-Sigma Oversampling Rate Selection 
     read and write */
 void set_oversampling_rate(oversampling_rate_t);
 
 oversampling_rate_t get_oversampling_rate(void);
+
+/** DMF: Sampling Frequency Selection for the De-Emphasis Function 
+    read and write */
+//void set_de_emphasis_freq(de_emphasis_freq_t)
 
 /** DME: Digital De-Emphasis Control 
     read and write */
@@ -133,11 +133,15 @@ uint8_t get_pcm_reset(void);
 //void set_digital_filter_bypass(int);
 
 /** MONO: Monaural Mode Selection */
-//void set_mode(mode_t);
+void set_mode(mode_t);
+
+mode_t get_mode(void);
 
 /** CHSL: Channel Selection for Monaural Mode 
     read and write */
-//void set_used_mono_channel(channel_t)
+void set_used_mono_channel(channel_t);
+
+channel_t get_used_mono_channel(void);
 
 /** DZ: DSD Zero Output Enable 
     read and write */

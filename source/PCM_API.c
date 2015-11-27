@@ -32,34 +32,36 @@ typedef enum {	PCM_register_16_w = 0x10,   PCM_register_16_r = 0x90,
                                             PCM_register_23_r = 0x97} pcm_register_t;
 
 void pcm_init(void){
-    PCM_LOG("PLL init\n");
+    PCM_LOG("PCM init\n");
+    
+    // todo !!!!!!!!!!
 }
 
 uint8_t send_receive(uint8_t address, uint8_t data){
     uint8_t data_send[2] = {address, data};
     uint8_t data_receive[2] = {0, 0};
     
+    PCM_LOG("PCM send: Register: %i || Data: %i\n", *data_send, *(data_send + 1));
     spi_rw_n(data_send, data_receive, 2, pcm_channel_dummy);
+    PCM_LOG("PCM receive: Register: %i || Data: %i\n", *data_receive, *(data_receive + 1));
     
     return *(data_receive + 1);
 }
 
 void set_attunation_level_left(uint8_t value){
-    PCM_LOG("Attenuation Level: %i", ~value);
     send_receive(PCM_register_16_w, ~value);
 }
 
 uint8_t get_attunation_level_left(void){
-    return send_receive(PCM_register_16_r, 0x00);
+    return ~send_receive(PCM_register_16_r, 0x00);
 }
 
 void set_attunation_level_right(uint8_t value){
-    PCM_LOG("Attenuation Level: %i", ~value);
     send_receive(PCM_register_17_w, ~value);
 }
 
 uint8_t get_attunation_level_right(void){
-    return send_receive(PCM_register_17_r, 0x00);
+    return ~send_receive(PCM_register_17_r, 0x00);
 }
 
 void set_attenuation_control(uint8_t value){
@@ -92,7 +94,7 @@ void set_audio_data_format(audio_data_format_t audio_data_format){
             data |= 1 << 5;
             data &= ~(1 << 6);
             break;
-		case PCM_16_bit_MSB_first:
+		case PCM_24_bit_MSB_first:
             data |= 1 << 4;
             data |= 1 << 5;
             data &= ~(1 << 6);
@@ -138,11 +140,11 @@ void set_oversampling_rate(oversampling_rate_t oversampling_rate){
             break;
     }
     
-    send_receive(PCM_register_18_w, data);
+    send_receive(PCM_register_20_w, data);
 }
 
 oversampling_rate_t get_oversampling_rate(void){
-    uint8_t data = send_receive(PCM_register_18_r, 0x00);
+    uint8_t data = send_receive(PCM_register_20_r, 0x00);
     uint8_t bit_0 = (data >> 0) & 1;
     uint8_t bit_1 = (data >> 1) & 1;
     return (2 * bit_1 + bit_0);
@@ -179,6 +181,28 @@ void set_pcm_reset(uint8_t value){
 uint8_t get_pcm_reset(void){
     uint8_t data = send_receive(PCM_register_20_r, 0x00);
     return ((data >> 6) & 1);
+}
+
+void set_mode(mode_t mode){
+    uint8_t data = send_receive(PCM_register_20_r, 0x00);
+    data ^= (-mode ^ data) & (1 << 3);
+    send_receive(PCM_register_20_w, data);
+}
+
+mode_t get_mode(void){
+    uint8_t data = send_receive(PCM_register_20_r, 0x00);
+    return ((data >> 3) & 1);
+}
+
+void set_used_mono_channel(channel_t channel){
+    uint8_t data = send_receive(PCM_register_20_r, 0x00);
+    data ^= (-channel ^ data) & (1 << 2);
+    send_receive(PCM_register_20_w, data);
+}
+
+channel_t get_used_mono_channel(void){
+    uint8_t data = send_receive(PCM_register_20_r, 0x00);
+    return ((data >> 2) & 1);
 }
 
 uint8_t get_left_zero_detection(void){
