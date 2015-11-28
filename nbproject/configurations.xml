@@ -10,7 +10,10 @@
       </logicalFolder>
       <itemPath>source/log.h</itemPath>
       <itemPath>source/global.h</itemPath>
+      <itemPath>source/UART_API.h</itemPath>
       <itemPath>source/PLL_API.h</itemPath>
+      <itemPath>source/SPI_API.h</itemPath>
+      <itemPath>source/DEC_API.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -34,7 +37,10 @@
       </logicalFolder>
       <itemPath>source/log.c</itemPath>
       <itemPath>source/main.c</itemPath>
+      <itemPath>source/UART_API.c</itemPath>
       <itemPath>source/PLL_API.c</itemPath>
+      <itemPath>source/SPI_API.c</itemPath>
+      <itemPath>source/DEC_API.c</itemPath>
     </logicalFolder>
     <logicalFolder name="ExternalFiles"
                    displayName="Important Files"
@@ -264,7 +270,7 @@
         </archiverTool>
         <loading>
           <useAlternateLoadableFile>false</useAlternateLoadableFile>
-          <parseOnProdLoad>false</parseOnProdLoad>
+          <parseOnProdLoad>true</parseOnProdLoad>
           <alternateLoadableFile></alternateLoadableFile>
         </loading>
       </compileType>
@@ -399,6 +405,8 @@
         <property key="periphComp4.gte" value="gt"/>
         <property key="periphComp5.gte" value="gt"/>
         <property key="periphComp6.gte" value="gt"/>
+        <property key="reset.scl" value="false"/>
+        <property key="reset.type" value="MCLR"/>
         <property key="tracecontrol.include.timestamp" value="summarydataenabled"/>
         <property key="tracecontrol.select" value="0"/>
         <property key="tracecontrol.stallontracebufferfull" value="false"/>
@@ -524,6 +532,8 @@
         <property key="warningmessagebreakoptions.W0228_ADC_INVALID_ADCS"
                   value="report"/>
         <property key="warningmessagebreakoptions.W0229_ADC_INVALID_ADCS"
+                  value="report"/>
+        <property key="warningmessagebreakoptions.W0400_PWM_PWM_FASTER_THAN_FOSC"
                   value="report"/>
         <property key="warningmessagebreakoptions.W1201_DATAFLASH_MEM_OUTSIDE_RANGE"
                   value="report"/>
