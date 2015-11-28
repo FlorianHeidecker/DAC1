@@ -10,7 +10,7 @@
  * @author      Philipp Schenk
  * @date        18.11.2015 - initial version
  * 
- * @version     0.1
+ * @version     0.2
  *
  */
 
@@ -21,12 +21,15 @@
 #include "global.h"
 #include "DEC_API.h"
 
+static char dec_last = 0x00;
+
 void DEC_init(){
     LOG("rotencoder init\n");
     AD1PCFGL       |= 0x1800; /*Set AN11, AN12 to Digital Pins*/ 
     DEC_CHA_TRIS    = 1; /* input */
     DEC_CHB_TRIS    = 1; /* input */
     DEC_TASTE_TRIS  = 1; /* input */
+    dec_last        = (!DEC_CHB_PORT <<1) | (!DEC_CHA_PORT);
 }
 
 //unsigned char get_DEC_button(){
@@ -35,29 +38,34 @@ void DEC_init(){
 //}
 
 unsigned char get_DEC_button(){
-    return DEC_TASTE_PORT;
+    return (!DEC_TASTE_PORT);
 }
 
 state_rotation_t get_DEC_status(){
-    static char dec_last = 0x00;
     char dec_inp = 0x00;
     
-    if(DEC_TASTE_PORT){
+    if(!DEC_TASTE_PORT){
         return DEC_BUTTON;
     }
-    if(DEC_CHA_PORT){
-        dec_inp = 0x01;
-    }
-    if(DEC_CHB_PORT){
-        dec_inp ^= 0x03;
-    }
-    dec_inp -= dec_last;
-    if(dec_inp & 0x01){
-        dec_last += dec_inp;
-        return ((dec_inp & 0x02)+1);    /* 1=left turn, 3=right turn */
-    }
     else{
-        return DEC_NO_TURN;
+        dec_inp = (!DEC_CHB_PORT <<1) | (!DEC_CHA_PORT);
+        
+        if(dec_inp == dec_last){
+            return DEC_NO_TURN;
+        }
+        
+        dec_inp  = dec_inp + dec_last;
+        dec_last = dec_inp - dec_last;
+        
+        if(dec_inp == 0x02 | dec_inp == 0x04 ){
+            return DEC_TURN_FORWARD;
+        }
+        else if(dec_inp == 0x01 | dec_inp == 0x05 ){
+            return DEC_TURN_BACKWARD;
+        }
+        else{
+            return DEC_NO_TURN;
+        }
     }  
 }
 

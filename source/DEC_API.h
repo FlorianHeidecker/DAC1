@@ -21,9 +21,9 @@
 
 /** State of rotation */
 typedef enum {DEC_NO_TURN=0,
-              DEC_TURN_LEFT=1,
+              DEC_TURN_FORWARD=1,
               DEC_BUTTON=2,
-              DEC_TURN_RIGHT=3} state_rotation_t;
+              DEC_TURN_BACKWARD=3} state_rotation_t;
 
 /** Rotary Encoder PINS TRIS initialization */
 void DEC_init();
