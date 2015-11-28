@@ -23,6 +23,7 @@
 
 void DEC_init(){
     LOG("rotencoder init\n");
+    AD1PCFGL       |= 0x1800; /*Set AN11, AN12 to Digital Pins*/ 
     DEC_CHA_TRIS    = 1; /* input */
     DEC_CHB_TRIS    = 1; /* input */
     DEC_TASTE_TRIS  = 1; /* input */
