@@ -25,8 +25,8 @@
 typedef enum {	PCM_register_16_w = 0x10,   PCM_register_16_r = 0x90,
                 PCM_register_17_w = 0x11,   PCM_register_17_r = 0x91,
                 PCM_register_18_w = 0x12,   PCM_register_18_r = 0x92,
-				PCM_register_19_w = 0x13,   PCM_register_19_r = 0x93,
-				PCM_register_20_w = 0x14,   PCM_register_20_r = 0x94,
+                PCM_register_19_w = 0x13,   PCM_register_19_r = 0x93,
+                PCM_register_20_w = 0x14,   PCM_register_20_r = 0x94,
                 PCM_register_21_w = 0x15,   PCM_register_21_r = 0x95,
                                             PCM_register_22_r = 0x96,
                                             PCM_register_23_r = 0x97} pcm_register_t;
@@ -116,10 +116,7 @@ void set_audio_data_format(audio_data_format_t audio_data_format){
 
 audio_data_format_t get_audio_data_format(void){
     uint8_t data = send_receive(PCM_register_18_r, 0x00);
-    uint8_t bit_4 = (data >> 4) & 1;
-    uint8_t bit_5 = (data >> 5) & 1;
-    uint8_t bit_6 = (data >> 6) & 1;
-    return (4 * bit_6 + 2 * bit_5 + bit_4);
+    return (data >> 4) & 0x7;
 }
 
 void set_oversampling_rate(oversampling_rate_t oversampling_rate){
@@ -145,9 +142,7 @@ void set_oversampling_rate(oversampling_rate_t oversampling_rate){
 
 oversampling_rate_t get_oversampling_rate(void){
     uint8_t data = send_receive(PCM_register_20_r, 0x00);
-    uint8_t bit_0 = (data >> 0) & 1;
-    uint8_t bit_1 = (data >> 1) & 1;
-    return (2 * bit_1 + bit_0);
+    return (data >> 0) & 0x3;
 }
 
 void set_soft_mute(uint8_t value){
