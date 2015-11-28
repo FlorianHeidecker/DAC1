@@ -57,10 +57,10 @@ state_rotation_t get_DEC_status(){
         dec_inp  = dec_inp + dec_last;
         dec_last = dec_inp - dec_last;
         
-        if(dec_inp == 0x02 | dec_inp == 0x04 ){
+        if((dec_inp == 0x02) || (dec_inp == 0x04) ){
             return DEC_TURN_FORWARD;
         }
-        else if(dec_inp == 0x01 | dec_inp == 0x05 ){
+        else if((dec_inp == 0x01) || (dec_inp == 0x05) ){
             return DEC_TURN_BACKWARD;
         }
         else{
