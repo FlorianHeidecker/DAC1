@@ -34,9 +34,6 @@ int main(void) {
     WriteCmdXLCD(DON & CURSOR_OFF & BLINK_OFF); 
 	
     while(BusyXLCD());
-    WriteCmdXLCD(0b00000010);   // line 1 pos 1
-
-    while(BusyXLCD());
     putrsXLCD("Welcome");
     
     pll_init();
