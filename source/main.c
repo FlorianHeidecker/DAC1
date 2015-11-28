@@ -5,8 +5,7 @@
  * Created on 29. Oktober 2015, 15:31
  */
 
- #define FOSC    (7370000UL)
- #define FCY     (FOSC/2)
+
 
 #include <xc.h>
 #include <stdio.h>
@@ -21,16 +20,23 @@ int main(void) {
     
     OpenXLCD(FOUR_BIT & LINES_5X7);
     
-    while(BusyXLCD() );
+    while(BusyXLCD());
+    WriteCmdXLCD(XLCD_CLR_DISP);
+    
+    while(BusyXLCD());
+    WriteCmdXLCD(XLCD_JUMP_HOME);
+    
+    
+    while(BusyXLCD());
     WriteCmdXLCD(SHIFT_CUR_RIGHT);
 
-    while(BusyXLCD() );
+    while(BusyXLCD());
     WriteCmdXLCD(DON & CURSOR_OFF & BLINK_OFF); 
 	
-    while(BusyXLCD() );
+    while(BusyXLCD());
     WriteCmdXLCD(0b00000010);   // line 1 pos 1
 
-    while( BusyXLCD() );
+    while(BusyXLCD());
     putrsXLCD("Welcome");
     
     pll_init();

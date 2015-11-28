@@ -1,7 +1,12 @@
 #ifndef __DELAYS_H
 #define __DELAYS_H
 
+#include "../global.h"
+
+#ifndef Fcy
 #define Fcy 4000000
+#warning "Fcy not defined delays will not work properly"
+#endif
 
 #define Delay_60nS_Cnt    (Fcy * 0.00000006)
 #define Delay_150nS_Cnt   (Fcy * 0.00000015)

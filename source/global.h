@@ -21,6 +21,8 @@
 /* Device dependend devines*/
 #define CPU_FREQUENCY       7370000UL   /* 7.37 MHz*/
 #define BAUDRATE            115200UL    /* 115,2 k*/
+#define Fosc                (CPU_FREQUENCY)
+#define Fcy                 (FOSC/2)
 
 
 //==============================================================================
