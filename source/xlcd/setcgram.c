@@ -30,8 +30,8 @@ void SetCGRamAddr(unsigned char CGaddr)
         DATA_PORT &= 0x0f;                      // and write upper nibble
         DATA_PORT |= ((CGaddr | 0b01000000) & 0xf0);
 #else                                           // Lower nibble interface
-        TRIS_DATA_PORT &= 0xf0;                 // Make nibble input
-        DATA_PORT &= 0xf0;                      // and write upper nibble
+        TRIS_DATA_PORT &= 0xfff0;                 // Make nibble input
+        DATA_PORT &= 0xfff0;                      // and write upper nibble
         DATA_PORT |= (((CGaddr |0b01000000)>>4) & 0x0f);
 #endif
         RW_PIN = 0;                             // Set control signals
@@ -44,7 +44,7 @@ void SetCGRamAddr(unsigned char CGaddr)
         DATA_PORT &= 0x0f;                      // Write lower nibble
         DATA_PORT |= ((CGaddr<<4)&0xf0);
 #else                                           // Lower nibble interface
-        DATA_PORT &= 0xf0;                      // Write lower nibble
+        DATA_PORT &= 0xfff0;                      // Write lower nibble
         DATA_PORT |= (CGaddr&0x0f);
 #endif
         DelayFor18TCY();
@@ -54,7 +54,7 @@ void SetCGRamAddr(unsigned char CGaddr)
 #ifdef UPPER                                    // Upper nibble interface
         TRIS_DATA_PORT |= 0xf0;                 // Make inputs
 #else                                           // Lower nibble interface
-        TRIS_DATA_PORT |= 0x0f;                 // Make inputs
+        TRIS_DATA_PORT |= 0x000f;                 // Make inputs
 #endif
 #endif
         return;

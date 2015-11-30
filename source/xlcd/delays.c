@@ -5,9 +5,6 @@
  * Created on 23. November 2015, 20:10
  */
 
- #define FOSC    (7370000UL)
- #define FCY     (FOSC/2)
-
 #include <xc.h>
 #include "delays.h"
 
@@ -22,10 +19,11 @@ void DelayFor18TCY (void)
 
    for( k=0; k<18; k++)
    {
-       asm("nop");
+       asm("clrwdt");
       //__nop();
    }
 }
+
 //void DelayPORXLCD (void)
 //{
 //   __delay_ms(15);
@@ -61,7 +59,7 @@ void DelayXLCD(void)  		/* provides delay for atleast 5msec */
 void Delay10KTCYx(unsigned char delay)
 {
     long i;
-    for(i=0;i < delay*10000;i+=TCY_CNT_PER_LOOP)
+    for(i=0;i < (long)delay*10000;i+=TCY_CNT_PER_LOOP)
     {
         asm("clrwdt");
     }

@@ -29,8 +29,8 @@ void WriteCmdXLCD(unsigned char cmd)
         DATA_PORT &= 0x0f;
         DATA_PORT |= cmd&0xf0;
 #else                                   // Lower nibble interface
-        TRIS_DATA_PORT &= 0xf0;
-        DATA_PORT &= 0xf0;
+        TRIS_DATA_PORT &= 0xfff0;
+        DATA_PORT &= 0xfff0;
         DATA_PORT |= (cmd>>4)&0x0f;
 #endif
         RW_PIN = 0;                     // Set control signals for command
@@ -43,7 +43,7 @@ void WriteCmdXLCD(unsigned char cmd)
         DATA_PORT &= 0x0f;
         DATA_PORT |= (cmd<<4)&0xf0;
 #else                                   // Lower nibble interface
-        DATA_PORT &= 0xf0;
+        DATA_PORT &= 0xfff0;
         DATA_PORT |= cmd&0x0f;
 #endif
         DelayFor18TCY();
@@ -53,7 +53,7 @@ void WriteCmdXLCD(unsigned char cmd)
 #ifdef UPPER                            // Make data nibble input
         TRIS_DATA_PORT |= 0xf0;
 #else
-        TRIS_DATA_PORT |= 0x0f;
+        TRIS_DATA_PORT |= 0x000f;
 #endif
 #endif
         return;

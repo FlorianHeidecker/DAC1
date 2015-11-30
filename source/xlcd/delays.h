@@ -18,6 +18,7 @@
 #define Delay_2mS_Cnt     (Fcy * 0.002)
 #define Delay_5mS_Cnt     (Fcy * 0.005)
 #define Delay_15mS_Cnt    (Fcy * 0.015)
+#define Delay_40mS_Cnt    (Fcy * 0.040)
 #define Delay_1S_Cnt      (Fcy * 1)
 
 
@@ -33,9 +34,13 @@
 /* E pulse cycle time */
 #define DelayEPulseWidth_Cnt     Delay_600nS_Cnt
 /* min Power On Reset time */
-#define DelayPORXLCD_Cnt         Delay_15mS_Cnt
+//#define DelayPORXLCD_Cnt         Delay_15mS_Cnt
+/* min Power On Reset time */
+#define DelayPORXLCD_Cnt         Delay_40mS_Cnt
 /* generic delay for LCD */
 #define DelayXLCD_Cnt            Delay_5mS_Cnt
+
+
 
 
 /* C18 cycle-count delay routines. */

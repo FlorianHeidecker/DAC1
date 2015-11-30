@@ -14,14 +14,14 @@
 
 
 #include <xc.h>
-#include <stdio.h>
 
 #include "log.h"
 #include "PLL_API.h"
 #include "xlcd/xlcd.h"
 #include "UART_API.h"
 
-
+#include <libpic30.h>
+#include <stdio.h>
 
 int main(void) {
     LOG("main()\n");

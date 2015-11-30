@@ -32,8 +32,8 @@ void WriteDataXLCD(char data)
         DATA_PORT &= 0x0f;
         DATA_PORT |= data&0xf0;
 #else                                   // Lower nibble interface
-        TRIS_DATA_PORT &= 0xf0;
-        DATA_PORT &= 0xf0;
+        TRIS_DATA_PORT &= 0xfff0;
+        DATA_PORT &= 0xfff0;
         DATA_PORT |= ((data>>4)&0x0f);
 #endif
         RS_PIN = 1;                     // Set control bits
@@ -46,7 +46,7 @@ void WriteDataXLCD(char data)
         DATA_PORT &= 0x0f;
         DATA_PORT |= ((data<<4)&0xf0);
 #else                                   // Lower nibble interface
-        DATA_PORT &= 0xf0;
+        DATA_PORT &= 0xfff0;
         DATA_PORT |= (data&0x0f);
 #endif
         DelayFor18TCY();

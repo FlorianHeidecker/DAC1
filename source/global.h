@@ -21,11 +21,10 @@
 /* Device dependend devines*/
 #define CPU_FREQUENCY           7370000UL   /* 7.37 MHz*/
 #define PERIPHERAL_FREQUENCY    (CPU_FREQUENCY/2)
-#define BAUDRATE                9600UL    /* 9,6 k*/
 #define Fosc                    (CPU_FREQUENCY)
-#define Fcy                     (FOSC/2)
+#define Fcy                     (Fosc/2)
 
-
+#define BAUDRATE                9600UL    /* 9,6 k*/
 
 //==============================================================================
 // Defines of GPIOs

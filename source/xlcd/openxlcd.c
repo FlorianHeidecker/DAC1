@@ -28,8 +28,8 @@ void OpenXLCD(unsigned char lcdtype)
         DATA_PORT &= 0x0f;
         TRIS_DATA_PORT &= 0x0F;
 #else                                   // Lower 4-bits of the port
-        DATA_PORT &= 0xf0;
-        TRIS_DATA_PORT &= 0xF0;
+        DATA_PORT &= 0xfff0;
+        TRIS_DATA_PORT &= 0xfff0;
 #endif
 #endif
         TRIS_RW = 0;                    // All control signals made outputs

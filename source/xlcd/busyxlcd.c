@@ -32,7 +32,7 @@ unsigned char BusyXLCD(void)
 #ifdef UPPER                            // Upper nibble interface
         if(DATA_PORT&0x80)
 #else                                   // Lower nibble interface
-        if(DATA_PORT&0x08)
+        if(DATA_PORT&0x0008)
 #endif
         {
                 E_PIN = 0;              // Reset clock line

@@ -29,8 +29,8 @@ void SetDDRamAddr(unsigned char DDaddr)
         DATA_PORT &= 0x0f;                      // and write upper nibble
         DATA_PORT |= ((DDaddr | 0b10000000) & 0xf0);
 #else                                           // Lower nibble interface
-        TRIS_DATA_PORT &= 0xf0;                 // Make port output
-        DATA_PORT &= 0xf0;                      // and write upper nibble
+        TRIS_DATA_PORT &= 0xfff0;                 // Make port output
+        DATA_PORT &= 0xfff0;                      // and write upper nibble
         DATA_PORT |= (((DDaddr | 0b10000000)>>4) & 0x0f);
 #endif
         RW_PIN = 0;                             // Set control bits
@@ -43,7 +43,7 @@ void SetDDRamAddr(unsigned char DDaddr)
         DATA_PORT &= 0x0f;                      // Write lower nibble
         DATA_PORT |= ((DDaddr<<4)&0xf0);
 #else                                           // Lower nibble interface
-        DATA_PORT &= 0xf0;                      // Write lower nibble
+        DATA_PORT &= 0xfff0;                      // Write lower nibble
         DATA_PORT |= (DDaddr&0x0f);
 #endif
         DelayFor18TCY();
@@ -53,7 +53,7 @@ void SetDDRamAddr(unsigned char DDaddr)
 #ifdef UPPER                                    // Upper nibble interface
         TRIS_DATA_PORT |= 0xf0;                 // Make port input
 #else                                           // Lower nibble interface
-        TRIS_DATA_PORT |= 0x0f;                 // Make port input
+        TRIS_DATA_PORT |= 0x000f;                 // Make port input
 #endif
 #endif
         return;
