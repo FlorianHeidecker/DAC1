@@ -18,12 +18,16 @@
 #include "log.h"
 #include "PLL_API.h"
 #include "UART_API.h"
+#include "menu.h"
 
 
-int main(void) {
-    LOG("main()\n");
+void main(void) {
+    //LOG("main()\n");
+    
     
     pll_init();
+    
+    menu_write_line(0);
 
 
     while(1); 
