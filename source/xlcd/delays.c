@@ -7,6 +7,9 @@
 
 #include <xc.h>
 #include "delays.h"
+#include "../global.h"
+
+#include <libpic30.h>
 
 /* definition of typical duration of loop containg clear watchdog */
 /* given in TCYs */
@@ -63,5 +66,6 @@ void Delay10KTCYx(unsigned char delay)
     {
         asm("clrwdt");
     }
+    __delay_ms(1);
 }
 

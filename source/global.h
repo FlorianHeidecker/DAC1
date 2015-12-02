@@ -21,6 +21,7 @@
 /* Device dependend devines*/
 #define CPU_FREQUENCY           7370000UL   /* 7.37 MHz*/
 #define PERIPHERAL_FREQUENCY    (CPU_FREQUENCY/2)
+#define FCY                     (CPU_FREQUENCY/2)
 #define Fosc                    (CPU_FREQUENCY)
 #define Fcy                     (Fosc/2)
 
