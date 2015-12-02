@@ -34,6 +34,7 @@
         <itemPath>source/xlcd/wcmdxlcd.c</itemPath>
         <itemPath>source/xlcd/writdata.c</itemPath>
         <itemPath>source/xlcd/delays.c</itemPath>
+        <itemPath>source/xlcd/xlcd_goto.c</itemPath>
       </logicalFolder>
       <itemPath>source/log.c</itemPath>
       <itemPath>source/main.c</itemPath>
@@ -216,6 +217,7 @@
         <property key="UART 1" value="true"/>
         <property key="UART 2" value="true"/>
         <property key="debugoptions.useswbreakpoints" value="false"/>
+        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="false"/>

@@ -74,6 +74,11 @@
 #define LINE_5X10  0b00110100  /* 5x10 characters               */
 #define LINES_5X7  0b00111000  /* 5x7 characters, multiple line */
 
+#define XLCD_ROW1        0x80   //0x80 + 0
+#define XLCD_ROW2        0xA8   //0xc0 + 0
+#define XLCD_ROW3        0x94   //0x80 + 20 
+#define XLCD_ROW4        0xD4   //0xC0 + 20
+
 
 #define _OMNI_CODE_
 
@@ -150,5 +155,18 @@ void putrsXLCD(const char *);
 extern void DelayFor18TCY(void);
 extern void DelayPORXLCD(void);
 extern void DelayXLCD(void);
+
+/** Sets cursor to a line and an element
+ * 
+ * @param line  Line to set 0..3
+ * @param elem  Element in line to set 0..19
+ */
+void xlcd_goto(uint16_t line, uint16_t elem);
+
+/** Clears a line on display
+ * 
+ * @param line  Line to clear 0..3
+ */
+void xlcd_clear_line(uint16_t line);
 
 #endif

@@ -80,11 +80,31 @@ int main(void) {
     while(BusyXLCD());
     WriteCmdXLCD(DON & CURSOR_ON & BLINK_ON); 
 	
-    while(BusyXLCD());
-    putrsXLCD("Fuck this shit");
-    putrsXLCD("1111111111111111111111111");
-    putrsXLCD("2222222222222222222222222");
-    putrsXLCD("3333333333333333333333333");
+    
+    //putrsXLCD("Fuck this shit");
+    
+    //while(BusyXLCD());
+    //WriteCmdXLCD(XLCD_ROW1 | 0); 
+    //WriteCmdXLCD(XLCD_ROW1); 
+    
+    xlcd_goto(0,0);
+    putrsXLCD("1111111111111111111");
+
+    xlcd_goto(1,0);
+    putrsXLCD("2222222222222222222");
+
+    
+    xlcd_goto(2,0);
+    putrsXLCD("3333333333333333333");
+    
+    xlcd_goto(3,0);
+    putrsXLCD("4444444444444444444");
+    
+    xlcd_clear_line(0);
+    xlcd_clear_line(1);
+    xlcd_clear_line(2);
+    xlcd_clear_line(3);
+    
     
     
     pll_init();

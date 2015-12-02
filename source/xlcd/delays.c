@@ -66,6 +66,6 @@ void Delay10KTCYx(unsigned char delay)
     {
         asm("clrwdt");
     }
-    __delay_ms(1);
+    //__delay_ms(1);
 }
 
