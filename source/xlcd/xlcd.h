@@ -169,4 +169,10 @@ void xlcd_goto(uint16_t line, uint16_t elem);
  */
 void xlcd_clear_line(uint16_t line);
 
+
+/** Initialzes XLCD
+ * 
+ */
+void xlcd_init(void);
+
 #endif

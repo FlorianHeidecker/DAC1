@@ -34,7 +34,7 @@
         <itemPath>source/xlcd/wcmdxlcd.c</itemPath>
         <itemPath>source/xlcd/writdata.c</itemPath>
         <itemPath>source/xlcd/delays.c</itemPath>
-        <itemPath>source/xlcd/xlcd_goto.c</itemPath>
+        <itemPath>source/xlcd/xlcd_service.c</itemPath>
       </logicalFolder>
       <itemPath>source/log.c</itemPath>
       <itemPath>source/main.c</itemPath>

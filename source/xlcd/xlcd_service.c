@@ -12,6 +12,20 @@
 #include "../global.h"
 
 
+void xlcd_init(void)
+{
+    OpenXLCD(FOUR_BIT & LINES_5X7);
+    
+    while(BusyXLCD());
+    WriteCmdXLCD(XLCD_CLR_DISP);
+    
+    while(BusyXLCD());
+    WriteCmdXLCD(XLCD_JUMP_HOME);
+
+    while(BusyXLCD());
+    WriteCmdXLCD(DON & CURSOR_ON & BLINK_ON); 
+}
+
 
 
 void xlcd_goto(uint16_t line, uint16_t elem)
@@ -63,4 +77,26 @@ void xlcd_clear_line(uint16_t line)
     {
         putsXLCD(" ");
     }
+}
+
+
+void xlcd_test(void)
+{
+    xlcd_goto(0,0);
+    putrsXLCD("1111111111111111111");
+
+    xlcd_goto(1,0);
+    putrsXLCD("2222222222222222222");
+
+    
+    xlcd_goto(2,0);
+    putrsXLCD("3333333333333333333");
+    
+    xlcd_goto(3,0);
+    putrsXLCD("4444444444444444444");
+    
+    xlcd_clear_line(0);
+    xlcd_clear_line(1);
+    xlcd_clear_line(2);
+    xlcd_clear_line(3);
 }
