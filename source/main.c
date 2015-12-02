@@ -24,6 +24,8 @@
 #include <stdio.h>
 
 int main(void) {
+    AD1PCFGL = 0x1fff;
+    log_init();
     LOG("main()\n");
     
     OpenXLCD(FOUR_BIT & LINES_5X7);
