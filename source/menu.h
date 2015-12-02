@@ -26,6 +26,17 @@ typedef enum {
     PARAMETER_MENU    
 }menu_state_t;
 
+typedef enum {
+    INFO_MAIN_MENU = 0,
+    AUDIO_MAIN_MENU,
+    PLL_MAIN_MENU,
+    SRC_MAIN_MENU,
+    PCM_MAIN_MENU
+    
+    
+            
+}menu_index_t;
+
 typedef struct menu_struct{
     const char **text;
     uint16_t num_elements;

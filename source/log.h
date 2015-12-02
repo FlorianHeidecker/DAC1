@@ -51,6 +51,8 @@
 #define NEW_STAGE_LOGGING
 /** Log function for XLCD library and menu */
 #define XLCD_LOGGING
+/** menu log function */ 
+#define MENU_LOGGING
 
 
 #ifdef LOGGING
@@ -71,7 +73,13 @@
 	#define XLCD_LOG(x, args...)   LOG_WRITE_FUNCTION(x, ##args)
 #else
 	#define XLCD_LOG(x, args...)
-#endif /* NEW_STAGE_LOGGING */
+#endif /* XLCD_LOGGING */
+
+#ifdef MENU_LOGGING
+	#define MENU_LOG(x, args...)   LOG_WRITE_FUNCTION(x, ##args)
+#else
+	#define MENU_LOG(x, args...)
+#endif /* MENU_LOGGING */
 
 
 #ifdef NEW_STAGE_LOGGING

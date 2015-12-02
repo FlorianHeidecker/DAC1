@@ -76,13 +76,23 @@ int main(void) {
     log_init();
     
     LOG("\n\nmain()\n");
+
     
     //=======================================
     // initalisation of the modules
     xlcd_init();
     pll_init();
+    menu_init();
     
-    menu_write_line(0);
+    //menu_write_line(0);
+    
+    while(1)
+    {
+        menu_right();
+        asm("nop");
+    }
+    
+    
 
 
 
