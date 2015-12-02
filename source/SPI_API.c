@@ -53,6 +53,7 @@ int spi_rw(int data){
 int spi_rw_n(uint8_t *send, uint8_t *receive, int num_bytes, int channel)
 {
     
+    return 0;
 }
 
 
