@@ -14,13 +14,17 @@
 
 
 #include <xc.h>
+#include <stdio.h>
 
 #include "log.h"
 #include "PLL_API.h"
-#include "xlcd/xlcd.h"
 #include "UART_API.h"
+#include "SPI_API.h"
+#include "DEC_API.h"
+#include "xlcd/xlcd.h"
+
 #include <libpic30.h>
-#include <stdio.h>
+
 
 
 // FBS
@@ -66,14 +70,20 @@
 
 int main(void) {
     AD1PCFGL = 0x1fff;
-    log_init();
-    
-    LOG("\n\nmain()\n");
-    
+
     //=======================================
     // initalisation of the modules
+    log_init();
+    LOG("\n\nLOG: main()\n");
+    
+    LOG("LOG: xlcd_init()\n");
     xlcd_init();
+    LOG("LOG: pll_init()\n");
     pll_init();
+    LOG("LOG: spi_init()\n");
+    spi_init();
+    LOG("LOG: DEC_init()\n");
+    DEC_init();
 
 
 
