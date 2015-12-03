@@ -88,7 +88,7 @@ int main(void) {
     
     while(1)
     {
-        menu_right();
+        menu_up();
         asm("nop");
     }
     

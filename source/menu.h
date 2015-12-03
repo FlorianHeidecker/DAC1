@@ -31,10 +31,11 @@ typedef enum {
     AUDIO_MAIN_MENU,
     PLL_MAIN_MENU,
     SRC_MAIN_MENU,
-    PCM_MAIN_MENU
-    
-    
-            
+    PCM_MAIN_MENU,
+    PLL_FREQ_SEL_MENU,
+    PLL_SCKO_SEL_MENU,
+    PLL_RETURN_MENU,
+          
 }menu_index_t;
 
 typedef struct menu_struct{
@@ -50,6 +51,10 @@ typedef struct menu_struct{
 
 
 
+void menu_init(void);
+void menu_up(void);
+void menu_down(void);
+void menu_set(void);
 
 void menu_write_line(uint16_t line);
 

@@ -19,17 +19,28 @@
 
 const char ARROW[] = "*";
 
-uint16_t menu_index = 0;
-uint16_t menu_param_index = 0;
-menu_state_t menu_state = 0;
-//                                "01234567890123456789"
+struct menu_control{
+    uint16_t index;
+    uint16_t param_index;
+    menu_state_t state;
+}m;
+
+//==============================================================================
+// Definitions of Menu Text
+//==============================================================================
+//                                       "01234567890123456789"
 const char *info_main_menu_text[]     = {"Audio Informationen"};
 const char *audio_main_menu_text[]    = {"Audio Einstellungen"};
 const char *pll_main_menu_text[]      = {"PLL Einstellungen"};
 const char *src_main_menu_text[]      = {"SRC Einstellungen"};
 const char *pcm_main_menu_text[]      = {"PCM Einstellungen"};
+const char *return_menu_text[]        = {"     >>RETURN<<"};
 
 
+// internal function declarations
+void menu_nothing(void);
+void menu_call_sub(void);
+void menu_call_up(void);
 
 
 
@@ -59,21 +70,50 @@ const menu_t menu_arr[] =
     {audio_main_menu_text,      0, INFO_MAIN_MENU,  PLL_MAIN_MENU,      0, 0, 0, 0},
     {pll_main_menu_text,        0, AUDIO_MAIN_MENU, SRC_MAIN_MENU,      0, 0, 0, 0},
     {src_main_menu_text,        0, PCM_MAIN_MENU,   PLL_MAIN_MENU,      0, 0, 0, 0},
-    {pll_sampling_freq_text,    6, 0,0,0,0, get_sampling_freq,  set_sampling_freq},
-    {pll_scko_freq_text,        2, 0,0,0,0, get_scko1_freq,     set_scko1_freq}
+    
+    {   // PLL_FREQ_SEL_MENU
+        .text =  pll_sampling_freq_text,
+        .num_elements = 6,
+        .prev = PLL_RETURN_MENU,
+        .next = PLL_SCKO_SEL_MENU,
+        .up   = PLL_MAIN_MENU,
+        .sub  = 0, 
+        .get  = get_sampling_freq,  
+        .set  = set_sampling_freq
+    },
+    {   // PLL_SCKO_SEL_MENU
+        .text = pll_scko_freq_text,        
+        .num_elements = 2, 
+        .prev = PLL_FREQ_SEL_MENU,
+        .next = PLL_RETURN_MENU,
+        .up   = PLL_MAIN_MENU,
+        .sub  = 0, 
+        .get  = get_scko1_freq,     
+        .set  = set_scko1_freq
+    },
+    {   // PLL_RETURN_MENU
+        .text = return_menu_text,          
+        .num_elements = 0,
+        .prev = PLL_SCKO_SEL_MENU,
+        .next = PLL_FREQ_SEL_MENU,
+        .up = PLL_MAIN_MENU,
+        .sub = 0,
+        .get = menu_nothing,
+        .set = menu_call_up
+    }
 };
 
 void menu_init(void)
 {
-    menu_index = 0;
-    menu_param_index = 0;
-    menu_state = MAIN_MENU;
+    m.index = INFO_MAIN_MENU;
+    m.param_index = 0;
+    m.state = MAIN_MENU;
 }
 
 
-void menu_left(void)
+void menu_down(void)
 {
-    switch(menu_state)
+    switch(m.state)
     {
         case MAIN_MENU:
             break;
@@ -82,23 +122,21 @@ void menu_left(void)
         case PARAMETER_MENU:
             break;
         default:
-            MENU_LOG("MENU: menu_left() ERR: menu_state=%i\n", menu_state);
+            MENU_LOG("MENU: menu_left() ERR: m.state=%i\n", m.state);
             break;
     }
 }
 
-void menu_right(void)
+void menu_up(void)
 {
     int menu_index_temp = 0;
     
-    switch(menu_state)
+    switch(m.state)
     {
         case MAIN_MENU:
-            menu_index_temp = menu_index;
-            menu_index = menu_arr[menu_index].next;
-            
-            
-            
+            menu_index_temp = m.index;
+            m.index = menu_arr[m.index].next;
+             
             WriteCmdXLCD(XLCD_CLR_DISP);
             
             xlcd_goto(0,1);
@@ -106,9 +144,9 @@ void menu_right(void)
             
             xlcd_goto(1,0);
             putrsXLCD(ARROW);
-            putrsXLCD(menu_arr[menu_index].text[0]);
+            putrsXLCD(menu_arr[m.index].text[0]);
             
-            menu_index_temp = menu_arr[menu_index].next;
+            menu_index_temp = menu_arr[m.index].next;
             xlcd_goto(2,1);
             putrsXLCD(menu_arr[menu_index_temp].text[0]);
             
@@ -121,14 +159,14 @@ void menu_right(void)
         case PARAMETER_MENU:
             break;
         default:
-            MENU_LOG("MENU: menu_left() ERR: menu_state=%i\n", menu_state);
+            MENU_LOG("MENU: menu_left() ERR: m.state=%i\n", m.state);
             break;
     }
 }
 
-void menu_pressed(void)
+void menu_set(void)
 {
-    switch(menu_state)
+    switch(m.state)
     {
         case MAIN_MENU:
             break;
@@ -137,7 +175,7 @@ void menu_pressed(void)
         case PARAMETER_MENU:
             break;
         default:
-            MENU_LOG("MENU: menu_left() ERR: menu_state=%i\n", menu_state);
+            MENU_LOG("MENU: menu_left() ERR: m.state=%i\n", m.state);
             break;
     }
 }
@@ -152,21 +190,21 @@ void menu_write_line(uint16_t line)
 {
     //uint16_t menu_index = 0;
     //uint16_t param_index = 2;
-    MENU_LOG("%s", menu_arr[menu_index].text[0]);  // write name
+    MENU_LOG("%s", menu_arr[m.index].text[0]);  // write name
     
     xlcd_goto(line,0);
-    putsXLCD((char*)menu_arr[menu_index].text[0]);
+    putsXLCD((char*)menu_arr[m.index].text[0]);
     
     // set cursor 14
-    menu_param_index = menu_arr[menu_index].get();
+    m.param_index = menu_arr[m.index].get();
     xlcd_goto(line, 13);
-    putsXLCD((char*)menu_arr[menu_index].text[menu_param_index+2]);    // plus 2 to get right indice in array
-    MENU_LOG(" %s", menu_arr[menu_index].text[menu_param_index+2]);
+    putsXLCD((char*)menu_arr[m.index].text[m.param_index+2]);    // plus 2 to get right indice in array
+    MENU_LOG(" %s", menu_arr[m.index].text[m.param_index+2]);
     
     // set cursor 18
     xlcd_goto(line, 17);
-    putsXLCD((char*)menu_arr[menu_index].text[1]);
-    MENU_LOG(" %s", menu_arr[menu_index].text[1]);
+    putsXLCD((char*)menu_arr[m.index].text[1]);
+    MENU_LOG(" %s", menu_arr[m.index].text[1]);
 }
 
 
@@ -175,25 +213,25 @@ void menu_parameter_change(uint16_t rotation)
     switch(rotation)
     {
         case 1: // turn left
-            menu_param_index--;
+            m.param_index--;
             
-            if(menu_param_index >= menu_arr[menu_index].num_elements)
+            if(m.param_index >= menu_arr[m.index].num_elements)
             {
-                menu_param_index = menu_arr[menu_index].num_elements-1;
+                m.param_index = menu_arr[m.index].num_elements-1;
             }
             break;
             
         case 2: // button push
-            menu_arr[menu_index].set(menu_param_index);
-            menu_state = SUB_MENU;
+            menu_arr[m.index].set(m.param_index);
+            m.state = SUB_MENU;
             break;
             
         case 3: // turn right
-            menu_param_index++;
+            m.param_index++;
             
-            if(menu_param_index >= menu_arr[menu_index].num_elements)
+            if(m.param_index >= menu_arr[m.index].num_elements)
             {
-                menu_param_index = 0;
+                m.param_index = 0;
             }
             break;
             
@@ -203,4 +241,19 @@ void menu_parameter_change(uint16_t rotation)
     }
 }
 
+
+void menu_nothing(void)
+{
+    // empty function to do nothing
+}
+
+void menu_call_sub(void)
+{
+    
+}
+
+void menu_call_up(void)
+{
+
+}
 
