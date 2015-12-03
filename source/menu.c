@@ -17,11 +17,15 @@
 #include "xlcd/xlcd.h"
 #include "log.h"
 
-const char ARROW[] = "*";
+//const char ARROW[] = "*";
+
+#define MAX_LINE    (4-1)
+#define ARROW ">"
 
 struct menu_control{
     uint16_t index;
     uint16_t param_index;
+    uint16_t cursor;
     menu_state_t state;
 }m;
 
@@ -92,22 +96,26 @@ const menu_t menu_arr[] =
         .set  = set_scko1_freq
     },
     {   // PLL_RETURN_MENU
-        .text = return_menu_text,          
+        .text   = return_menu_text,          
         .num_elements = 0,
-        .prev = PLL_SCKO_SEL_MENU,
-        .next = PLL_FREQ_SEL_MENU,
-        .up = PLL_MAIN_MENU,
-        .sub = 0,
-        .get = menu_nothing,
-        .set = menu_call_up
+        .prev   = PLL_SCKO_SEL_MENU,
+        .next   = PLL_FREQ_SEL_MENU,
+        .up     = PLL_MAIN_MENU,
+        .sub    = 0,
+        .get    = menu_nothing,
+        .set    = menu_call_up
     }
 };
 
 void menu_init(void)
 {
+    // set param
     m.index = INFO_MAIN_MENU;
     m.param_index = 0;
+    m.cursor = 0;
     m.state = MAIN_MENU;
+    
+    
 }
 
 
@@ -186,25 +194,25 @@ void menu_write_screen(void)
 }
 
 
-void menu_write_line(uint16_t line)
+void menu_write_line(uint16_t line, uint16_t index)
 {
     //uint16_t menu_index = 0;
-    //uint16_t param_index = 2;
-    MENU_LOG("%s", menu_arr[m.index].text[0]);  // write name
+    uint16_t param_index = 0;
+    MENU_LOG("%s", menu_arr[index].text[0]);  // write name
     
     xlcd_goto(line,0);
-    putsXLCD((char*)menu_arr[m.index].text[0]);
+    putrsXLCD(menu_arr[index].text[0]);
     
     // set cursor 14
-    m.param_index = menu_arr[m.index].get();
+    param_index = menu_arr[index].get();
     xlcd_goto(line, 13);
-    putsXLCD((char*)menu_arr[m.index].text[m.param_index+2]);    // plus 2 to get right indice in array
-    MENU_LOG(" %s", menu_arr[m.index].text[m.param_index+2]);
+    putrsXLCD(menu_arr[index].text[param_index+2]);    // plus 2 to get right indice in array
+    MENU_LOG(" %s", menu_arr[index].text[param_index+2]);
     
     // set cursor 18
     xlcd_goto(line, 17);
-    putsXLCD((char*)menu_arr[m.index].text[1]);
-    MENU_LOG(" %s", menu_arr[m.index].text[1]);
+    putrsXLCD(menu_arr[index].text[1]);
+    MENU_LOG(" %s", menu_arr[index].text[1]);
 }
 
 
@@ -257,3 +265,53 @@ void menu_call_up(void)
 
 }
 
+void menu_call_next(void)
+{
+    if(m.cursor < MAX_LINE)
+    {
+        // only move cursor
+        xlcd_goto(m.cursor, 0);
+        putrsXLCD(" ");
+        m.cursor++;
+        xlcd_goto(m.cursor, 0);
+        putrsXLCD(ARROW);
+    }
+    else
+    {
+        // cursor is already at MAX_LINE
+        // refresh screen
+        xlcd_clear_line(1);
+        menu_write_line(1, menu_arr[m.index].prev);
+        xlcd_clear_line(2);
+        menu_write_line(2, m.index);
+        xlcd_clear_line(3);
+        menu_write_line(3, menu_arr[m.index].next);  
+    }
+    
+    m.index = menu_arr[m.index].next;
+}
+
+
+void menu_call_prev(void)
+{
+    if(m.cursor > 1)
+    {
+        // only move cursor
+        xlcd_goto(m.cursor, 0);
+        putrsXLCD(" ");
+        m.cursor--;
+        xlcd_goto(m.cursor, 0);
+        putrsXLCD(ARROW);
+    }
+    else
+    {
+        xlcd_clear_line(1);
+        menu_write_line(1, menu_arr[m.index].prev);
+        xlcd_clear_line(2);
+        menu_write_line(2, m.index);
+        xlcd_clear_line(3);
+        menu_write_line(3, menu_arr[m.index].next);
+    }
+    
+    m.index = menu_arr[m.index].prev;
+}
