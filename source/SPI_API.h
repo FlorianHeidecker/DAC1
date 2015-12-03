@@ -1,4 +1,4 @@
-/* 
+/** 
  * File:   SPI_API.h
  * Author: Marco Jost
  * Comments:

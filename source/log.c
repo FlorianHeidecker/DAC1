@@ -22,8 +22,9 @@
 
 #include "log.h"
 
-#define LTOA_BUFSIZE    12
 
+
+#define LTOA_BUFSIZE    12
 
 char *ltoa(char *str, long N, int base)
 {
@@ -157,7 +158,7 @@ char *ltoa(char *str, long N, int base)
 
  void _format_number(int32_t number, int16_t base, int16_t digits, char padding, char* buffer)
  {
-    char temp[33];
+    char temp[17];
     int16_t  pad = 0;
     int16_t  len = 0;
     int16_t index = 0;    
