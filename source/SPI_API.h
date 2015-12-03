@@ -11,13 +11,8 @@
 #ifndef _SPI_API_H
 #define _SPI_API_H
 
-#define READ_WRITE_DAC 0x8000
-#define READ_WRITE_SRC 0x0080
-
 void spi_init(void);
 int spi_rw(int data);
-int spi_src(int header, int data);
-int spi_dac(int data);
-
+void spi_rw_n(uint8_t *send, uint8_t *receive, int num_bytes, int channel);
 
 #endif 
