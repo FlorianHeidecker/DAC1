@@ -41,10 +41,10 @@ typedef enum {
 typedef struct menu_struct{
     const char **text;
     uint16_t num_elements;
-    uint16_t prev;
-    uint16_t next;
-    uint16_t up;
-    uint16_t sub;    
+    menu_index_t prev;
+    menu_index_t next;
+    menu_index_t up;
+    menu_index_t sub;    
     uint16_t (*get)(void);
     void (*set)(uint16_t);
 }menu_t;
@@ -56,7 +56,7 @@ void menu_up(void);
 void menu_down(void);
 void menu_set(void);
 
-void menu_write_line(uint16_t line);
+void menu_write_line(uint16_t line, uint16_t index);
 
 
 #endif /* _MENU_H */

@@ -84,6 +84,25 @@ int main(void) {
     pll_init();
     menu_init();
     
+    menu_call_next();
+    LOG("\n");
+    menu_call_next();
+    LOG("\n");
+    menu_call_next();
+    LOG("\n");
+    menu_call_next();
+    LOG("\n");
+    menu_call_next();
+    LOG("\n");
+    menu_call_next();
+    LOG("\n");
+    menu_call_next();
+    LOG("\n");
+    menu_call_next();
+    LOG("\n");
+    
+    
+    
     //menu_write_line(0);
     
     while(1)

@@ -70,11 +70,56 @@ const char *pll_scko_freq_text[] =
 
 const menu_t menu_arr[] =
 {
-    {info_main_menu_text,       0, PCM_MAIN_MENU,   AUDIO_MAIN_MENU,    0, 0, 0, 0},
-    {audio_main_menu_text,      0, INFO_MAIN_MENU,  PLL_MAIN_MENU,      0, 0, 0, 0},
-    {pll_main_menu_text,        0, AUDIO_MAIN_MENU, SRC_MAIN_MENU,      0, 0, 0, 0},
-    {src_main_menu_text,        0, PCM_MAIN_MENU,   PLL_MAIN_MENU,      0, 0, 0, 0},
-    
+    {   // INFO_MAIN_MENU
+        .text = info_main_menu_text,
+        .num_elements = 0,
+        .prev   = PCM_MAIN_MENU,
+        .next   = AUDIO_MAIN_MENU,
+        .up     = 0,
+        .sub    = 0,
+        .get    = menu_nothing,
+        .set    = menu_call_sub
+    },
+    {   // AUDIO_MAIN_MENU
+        .text = audio_main_menu_text,
+        .num_elements = 0, 
+        .prev   = INFO_MAIN_MENU,  
+        .next   = PLL_MAIN_MENU,      
+        .up     = 0, 
+        .sub    = 0, 
+        .get    = menu_nothing,
+        .set    = menu_call_sub
+    },
+    {   // PLL_MAIN_MENU
+        .text = pll_main_menu_text,
+        .num_elements = 0, 
+        .prev   = AUDIO_MAIN_MENU, 
+        .next   = SRC_MAIN_MENU,      
+        .up     = 0, 
+        .sub    = 0, 
+        .get    = menu_nothing,
+        .set    = menu_call_sub
+    },
+    {   // SRC_MAIN_MENU
+        .text = src_main_menu_text,
+        .num_elements = 0, 
+        .prev   = PLL_MAIN_MENU,   
+        .next   = PCM_MAIN_MENU,      
+        .up     = 0, 
+        .sub    = 0, 
+        .get    = menu_nothing,
+        .set    = menu_call_sub
+    },
+    {   // PCM_MAIN_MENU
+        .text = pcm_main_menu_text,
+        .num_elements = 0,
+        .prev   = SRC_MAIN_MENU,
+        .next   = INFO_MAIN_MENU,
+        .up     = 0,
+        .sub    = 0,
+        .get    = menu_nothing,
+        .set    = menu_call_sub
+    },
     {   // PLL_FREQ_SEL_MENU
         .text =  pll_sampling_freq_text,
         .num_elements = 6,
@@ -112,10 +157,14 @@ void menu_init(void)
     // set param
     m.index = INFO_MAIN_MENU;
     m.param_index = 0;
-    m.cursor = 0;
+    m.cursor = 1;
     m.state = MAIN_MENU;
     
-    
+    xlcd_clear();
+    putrsXLCD("  ** MAIN MENU **");
+    menu_write_line(1, m.index);
+    menu_write_line(2, menu_arr[m.index].next);
+    menu_write_line(3, menu_arr[menu_arr[m.index].next].next);   
 }
 
 
@@ -188,31 +237,35 @@ void menu_set(void)
     }
 }
 
-void menu_write_screen(void)
-{
-    
-}
-
 
 void menu_write_line(uint16_t line, uint16_t index)
 {
     //uint16_t menu_index = 0;
     uint16_t param_index = 0;
-    MENU_LOG("%s", menu_arr[index].text[0]);  // write name
     
-    xlcd_goto(line,0);
+    xlcd_clear_line(line);
+    xlcd_goto(line,1);
     putrsXLCD(menu_arr[index].text[0]);
+    MENU_LOG("MENU: %s", menu_arr[index].text[0]); 
     
-    // set cursor 14
-    param_index = menu_arr[index].get();
-    xlcd_goto(line, 13);
-    putrsXLCD(menu_arr[index].text[param_index+2]);    // plus 2 to get right indice in array
-    MENU_LOG(" %s", menu_arr[index].text[param_index+2]);
-    
-    // set cursor 18
-    xlcd_goto(line, 17);
-    putrsXLCD(menu_arr[index].text[1]);
-    MENU_LOG(" %s", menu_arr[index].text[1]);
+    if(menu_arr[index].num_elements > 0)
+    {
+        // set cursor 14
+        param_index = menu_arr[index].get();
+        xlcd_goto(line, 13);
+        putrsXLCD(menu_arr[index].text[param_index+2]);    // plus 2 to get right indice in array
+        MENU_LOG(" %s", menu_arr[index].text[param_index+2]);
+
+        // set cursor 18
+        xlcd_goto(line, 17);
+        putrsXLCD(menu_arr[index].text[1]);
+        MENU_LOG(" %s", menu_arr[index].text[1]);
+    }
+    else
+    {
+        // not elements availabe, do nothing
+    }
+    MENU_LOG("\n");
 }
 
 
@@ -305,6 +358,8 @@ void menu_call_prev(void)
     }
     else
     {
+        // cursor is already at line 1 
+        // refres screen
         xlcd_clear_line(1);
         menu_write_line(1, menu_arr[m.index].prev);
         xlcd_clear_line(2);

@@ -175,4 +175,9 @@ void xlcd_clear_line(uint16_t line);
  */
 void xlcd_init(void);
 
+/** Clears complete display
+ * 
+ */
+void xlcd_clear(void);
+
 #endif

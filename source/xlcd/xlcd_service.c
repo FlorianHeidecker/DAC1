@@ -80,6 +80,16 @@ void xlcd_clear_line(uint16_t line)
 }
 
 
+void xlcd_clear(void)
+{
+    while(BusyXLCD());
+    WriteCmdXLCD(XLCD_CLR_DISP);
+    
+    while(BusyXLCD());
+    WriteCmdXLCD(XLCD_JUMP_HOME);
+}
+
+
 void xlcd_test(void)
 {
     xlcd_goto(0,0);
