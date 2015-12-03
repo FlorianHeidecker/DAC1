@@ -49,7 +49,6 @@ void spi_init(void){
     SPI1CON1bits.PPRE = 3;  //primary prescaler
     SPI1CON1bits.SPRE = 7;  //secondary prescaler
 
-
 }
 
 int spi_rw(int data){
