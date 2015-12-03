@@ -1,9 +1,17 @@
-/*
-* File:   SPI_API.c
-* Author: Marco Jost
-* Comments:  This Module implements the SPI API. The Module contains functions for initialization and sending data over SPI
-* Revision history:  1.0
-*/
+/** 
+ * @file	SPI_API.c
+ *
+ * @brief	SPI_API contains the basic functions to use the spi bus
+ *
+ * This module implements the basic functions to work with spi bus. It contains
+ * a init function to startup the spi interface. For communication there a two
+ * functions implemented to send/receive one or more data bytes.
+ * 
+ * @author	Marco Jost
+ * @date	03.12.2015 - initial version
+ *
+ * @version	0.1
+ */
 
 #include <xc.h>
 
@@ -54,14 +62,14 @@ void spi_rw_n(uint8_t *send, uint8_t *receive, int num_bytes, int channel)
 {
     int n;
     switch (channel){
-            case SRC_channel:
+            case SPI_SRC_channel:
                 SRC_CS_LATCH = 0;
                 for (n = 0; n<num_bytes; n++){
                     *receive++ = spi_rw(*send++);
                 }
                 SRC_CS_LATCH = 1;
                 break;
-            case DAC_channel:
+            case SPI_DAC_channel:
                 DAC_CS_LATCH = 0;
                 for (n = 0; n<num_bytes; n++){
                     *receive++ = spi_rw(*send++);
