@@ -17,14 +17,12 @@
 
 #include <xc.h>
 
-#include "log.h"
 #include "global.h"
 #include "DEC_API.h"
 
 static char dec_last = 0x00;
 
-void DEC_init(){
-    LOG("rotencoder init\n");
+void DEC_init(void){
     AD1PCFGL       |= 0x1800; /*Set AN11, AN12 to Digital Pins*/ 
     DEC_CHA_TRIS    = 1; /* input */
     DEC_CHB_TRIS    = 1; /* input */
@@ -37,11 +35,11 @@ void DEC_init(){
 //    else               return 0;
 //}
 
-unsigned char get_DEC_button(){
+unsigned char get_DEC_button(void){
     return (!DEC_TASTE_PORT);
 }
 
-state_rotation_t get_DEC_status(){
+state_rotation_t get_DEC_status(void){
     char dec_inp = 0x00;
     
     if(!DEC_TASTE_PORT){
