@@ -10,17 +10,18 @@
  * @author      Philipp Schenk
  * @date        18.11.2015 - initial version
  * 
- * @version     0.2
+ * @version     0.3
  *
  */
 
 
 #include <xc.h>
-
+#include <stdint.h>
 #include "global.h"
 #include "DEC_API.h"
 
-static char dec_last = 0x00;
+
+static uint16_t dec_last = 0x00;
 
 void DEC_init(void){
     AD1PCFGL       |= 0x1800; /*Set AN11, AN12 to Digital Pins*/ 
@@ -30,17 +31,12 @@ void DEC_init(void){
     dec_last        = (!DEC_CHB_PORT <<1) | (!DEC_CHA_PORT);
 }
 
-//unsigned char get_DEC_button(){
-//    if(DEC_TASTE_PORT) return 1;
-//    else               return 0;
-//}
-
 unsigned char get_DEC_button(void){
     return (!DEC_TASTE_PORT);
 }
 
 state_rotation_t get_DEC_status(void){
-    char dec_inp = 0x00;
+    uint16_t dec_inp = 0x00;
     
     if(!DEC_TASTE_PORT){
         return DEC_BUTTON;
