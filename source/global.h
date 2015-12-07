@@ -14,15 +14,19 @@
 #include <stdint.h>
 
 
+
 #ifndef GLOBAL_H
 #define	GLOBAL_H
 
 
 /* Device dependend devines*/
-#define CPU_FREQUENCY              7370000UL   /* 7.37 MHz*/
+#define CPU_FREQUENCY           7370000UL   /* 7.37 MHz*/
 #define PERIPHERAL_FREQUENCY    (CPU_FREQUENCY/2)
-#define BAUDRATE                 9600UL    /* 9,6 k*/
+#define FCY                     (CPU_FREQUENCY/2)
+#define Fosc                    (CPU_FREQUENCY)
+#define Fcy                     (Fosc/2)
 
+#define BAUDRATE                9600UL    /* 9,6 k*/
 
 //==============================================================================
 // Defines of GPIOs
