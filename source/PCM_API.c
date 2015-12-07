@@ -1,16 +1,13 @@
 /** 
  * @file        PCM_API.c
  *
- * @brief       PCM_API contains the PLL basic functions
- *
- * This Module implements the PLL basis functionalities. The Module contains
- * functions to set the PLL output frequencys.
+ * @brief       PCM_API contains IC basic functions
  * 
  * @author      Florian Heidecker
  * @date        26.11.2015 - initial version
+ *              07.12.2015 - rework/comments
  * 
  * @version     0.1
- *
  */
 
 #include <xc.h>
