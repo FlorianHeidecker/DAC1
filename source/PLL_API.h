@@ -2,15 +2,12 @@
  * @file        PLL_API.h
  *
  * @brief       PLL_API contains the PLL basic functions
- *
- * This Module implements the PLL basis functionalities. The Module contains
- * functions to set the PLL output frequencys.
  * 
  * @author      Florian Heidecker
  * @date        13.11.2015 - initial version
+ *              07.12.2015 - rework/comments
  * 
  * @version     0.1
- *
  */
 
 #ifndef _PLL_API_H
