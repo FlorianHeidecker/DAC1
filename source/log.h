@@ -49,6 +49,8 @@
 #define PLL_API_LOGGING
 /** This is an example for a new stage of loging */
 #define NEW_STAGE_LOGGING
+/** Log function for XLCD library and menu */
+#define XLCD_LOGGING
 
 
 #ifdef LOGGING
@@ -63,6 +65,13 @@
 #else
 	#define PLL_LOG(x, args...)
 #endif /* PLL_LOGGING */
+
+
+#ifdef XLCD_LOGGING
+	#define XLCD_LOG(x, args...)   LOG_WRITE_FUNCTION(x, ##args)
+#else
+	#define XLCD_LOG(x, args...)
+#endif /* NEW_STAGE_LOGGING */
 
 
 #ifdef NEW_STAGE_LOGGING
