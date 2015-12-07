@@ -19,8 +19,9 @@
 
 
 /* Device dependend devines*/
-#define CPU_FREQUENCY       7370000UL   /* 7.37 MHz*/
-#define BAUDRATE            115200UL    /* 115,2 k*/
+#define CPU_FREQUENCY              7370000UL   /* 7.37 MHz*/
+#define PERIPHERAL_FREQUENCY    (CPU_FREQUENCY/2)
+#define BAUDRATE                 9600UL    /* 9,6 k*/
 
 
 //==============================================================================
