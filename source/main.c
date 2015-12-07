@@ -17,7 +17,6 @@
 #include <stdio.h>
 
 #include "log.h"
-#include "PLL_API.h"
 #include "UART_API.h"
 #include "SPI_API.h"
 #include "DEC_API.h"
