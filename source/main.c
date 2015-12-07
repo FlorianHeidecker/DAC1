@@ -80,8 +80,6 @@ int main(void) {
     
     LOG("LOG: xlcd_init()\n");
     xlcd_init();
-    LOG("LOG: pll_init()\n");
-    pll_init();
     LOG("LOG: spi_init()\n");
     spi_init();
     LOG("LOG: DEC_init()\n");
