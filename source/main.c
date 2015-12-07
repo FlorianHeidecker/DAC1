@@ -12,14 +12,19 @@
  */
 
 
+
 #include <xc.h>
 #include <stdio.h>
 
 #include "log.h"
 #include "PLL_API.h"
 #include "UART_API.h"
+#include "SPI_API.h"
+#include "DEC_API.h"
+#include "xlcd/xlcd.h"
+
 #include <libpic30.h>
-#include <stdio.h>
+
 
 
 // FBS
@@ -40,7 +45,6 @@
 #pragma config FNOSC = LPRCDIVN         // Oscillator Mode (Internal Fast RC (FRC) with divide by N)
 #pragma config IESO = ON                // Internal External Switch Over Mode (Start-up device with FRC, then automatically switch to user-selected oscillator source when ready)
 
-// FOSC
 #pragma config POSCMD = NONE            // Primary Oscillator Source (Primary Oscillator Disabled)
 #pragma config OSCIOFNC = ON            // OSC2 Pin Function (OSC2 pin has digital I/O function)
 #pragma config IOL1WAY = ON             // Peripheral Pin Select Configuration (Allow Only One Re-configuration)
@@ -60,21 +64,27 @@
 #pragma config ICS = PGD1               // Comm Channel Select (Communicate on PGC1/EMUC1 and PGD1/EMUD1)
 #pragma config JTAGEN = OFF             // JTAG Port Enable (JTAG is Disabled)
 
+
+
+
+
 int main(void) {
     AD1PCFGL = 0x1fff;
+
+    //=======================================
+    // initalisation of the modules
     log_init();
+    LOG("\n\nLOG: main()\n");
     
-    LOG("main()\n");
-    
-//    uart_init();
-//    while(1)
-//    {
-//     uart_send_char(0x55);
-//    }
-//    
-//    LOG("main()\n");
-    
+    LOG("LOG: xlcd_init()\n");
+    xlcd_init();
+    LOG("LOG: pll_init()\n");
     pll_init();
+    LOG("LOG: spi_init()\n");
+    spi_init();
+    LOG("LOG: DEC_init()\n");
+    DEC_init();
+
 
 
     while(1); 
