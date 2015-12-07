@@ -18,73 +18,174 @@
 
 #include <xc.h>
 
-#define disabled    0
-#define enabled     1
-
 //== typedefs ==================================================================
 
-/** avalible Audio Data Format Selection */
+#define PCM_disabled 0
+#define PCM_enabled  1
+
+/** PCM: avalible audio data format selection */
 typedef enum {	PCM_16_bit_standard_format=0,
 				PCM_20_bit_standard_format=1,
 				PCM_24_bit_standard_format=2,
 				PCM_24_bit_MSB_first=3,
 				PCM_16_bit_I2S=4,
-				PCM_24_bit_I2S=5} audio_data_format_t;
+				PCM_24_bit_I2S=5} PCM_audio_data_format_t;
                 
-/** avalible Delta-Sigma Oversampling Rate Selection */
+/** PCM: avalible delta-sigma oversampling rate selection */
 typedef enum {	PCM_64_times_fs=0,
 				PCM_32_times_fs=1,
-				PCM_128_times_fs=2} oversampling_rate_t;
+				PCM_128_times_fs=2} PCM_oversampling_rate_t;
 
-/** define mode_t */
-typedef enum {stereo = 0, mono = 1} mode_t;
+/** PCM: monaural mode selection */
+typedef enum {PCM_stereo = 0, PCM_mono = 1} PCM_monaural_mode_t;
 
-/** define channel_t */
-typedef enum {L_channel = 0, R_channel = 1} channel_t;
+/** PCM: select data channel for PCM_mono mode */
+typedef enum {PCM_left_channel = 0, PCM_right_channel = 1} PCM_data_channel_t;
 
 //== functions =================================================================
 
-void pcm_init(void);
+/**
+ * @brief           improved send and receive function for pcm
+ * 
+ * @param address   register to write or read
+ * @param data      write data
+ * @return          read data
+ */
+uint8_t PCM_send_receive(uint8_t address, uint8_t data);
 
-// improved send and receive function
-uint8_t send_receive(uint8_t address, uint8_t data);
+/**
+ * @brief           set digital attenuation level, left side
+ *                  ATLD must be set to 1 in order to change the attenuation
+ *                  level.
+ * 
+ * @param value     stepsize = -0,5 dB
+ *                  dec value		attenuation level
+ *                  0 - 240			0 dB - (-120,0) dB
+ *                  241 - 255		mute
+ */
+void PCM_set_attunation_level_left(uint8_t value);
 
-/** ATL/ATR: Digital Attenuation Level Setting 
-    read and write
-	stepsize = -0,5 dB
-	DEC value		Attenuation Level
-	0 - 240			0 dB - (-120,0) dB
-	241 - 255		MUTE
-*/
-void set_attunation_level_left(uint8_t value);
+/**
+ * @brief           get digital attenuation level, left side
+ * 
+ * @return          stepsize = -0,5 dB
+ *                  dec value		attenuation level
+ *                  0 - 240			0 dB - (-120,0) dB
+ *                  241 - 255		mute
+ */
+uint8_t PCM_get_attunation_level_left(void);
 
-uint8_t get_attunation_level_left(void);
+/**
+ * @brief           set digital attenuation level, right side
+ *                  ATLD must be set to 1 in order to change the attenuation
+ *                  level.
+ * 
+ * @param value     stepsize = -0,5 dB
+ *                  dec value		attenuation level
+ *                  0 - 240			0 dB - (-120,0) dB
+ *                  241 - 255		mute
+ */
+void PCM_set_attunation_level_right(uint8_t value);
 
-void set_attunation_level_right(uint8_t value);
-
-uint8_t get_attunation_level_right(void);
+/**
+ * @brief           get digital attenuation level, right side
+ * 
+ * @return          stepsize = -0,5 dB
+ *                  dec value		attenuation level
+ *                  0 - 240			0 dB - (-120,0) dB
+ *                  241 - 255		mute
+ */
+uint8_t PCM_get_attunation_level_right(void);
 
 /** ATS: Attenuation Rate Select 
     read and write */
 //void set_????
 
-/** ATLD: Attenuation Load Control 
-    read and write */
-void set_attenuation_control(uint8_t value);
+/**
+ * @brief           soft mute control
+ * 
+ * @param value     disabled/enabeld
+ */
+void set_soft_mute(uint8_t value);
 
-uint8_t get_attenuation_control(void);
+/**
+ * @brief           soft mute control
+ * 
+ * @return          disabled/enabeld
+ */
+uint8_t get_soft_mute(void);
 
-/** FMT: Audio Interface Data Format 
-    read and write */
-void set_audio_data_format(audio_data_format_t);
+/**
+ * @brief           set ATLD: attenuation load control
+ *                  ATLD must be set to 1 in order to change the attenuation
+ *                  level.
+ *                  If ATLD = 0 attenuation level remain at the previously
+ *                  programmed levels, ignoring new data.
+ * 
+ * @param value     disabled/enabeld
+ */
+void PCM_set_attenuation_control(uint8_t value);
 
-audio_data_format_t get_audio_data_format(void);
+/**
+ * @brief           get ATLD: attenuation load control
+ *                  ATLD must be set to 1 in order to change the attenuation
+ *                  level.
+ *                  If ATLD = 0 attenuation level remain at the previously
+ *                  programmed levels, ignoring new data.
+ * 
+ * @return          disabled/enabeld
+ */
+uint8_t PCM_get_attenuation_control(void);
 
-/** OS: Delta-Sigma Oversampling Rate Selection 
-    read and write */
-void set_oversampling_rate(oversampling_rate_t);
+/**
+ * @brief           set audio interface data format
+ * 
+ * @param PCM_audio_data_format     see
+ *                                  PCM: avalible audio data format selection
+ *                                  -> PCM_audio_data_format_t
+ */
+void PCM_set_audio_data_format(PCM_audio_data_format_t PCM_audio_data_format);
 
-oversampling_rate_t get_oversampling_rate(void);
+/**
+ * @brief           get audio interface data format
+ * 
+ * @return          see
+ *                  PCM: avalible audio data format selection
+ *                  -> PCM_audio_data_format_t
+ */
+PCM_audio_data_format_t PCM_get_audio_data_format(void);
+
+/**
+ * @brief           set delta-sigma oversampling rate selection
+ *                  allows the use of only a single type (cutoff frequency)
+ *                  of post low-pass filter. If the 128-fS oversampling rate
+ *                  is selected, a system clock of more than 256 fS is required.
+ * 
+ * @param PCM_oversampling_rate     see
+ *                                  PCM: avalible delta-sigma oversampling
+ *                                  rate selection
+ *                                  -> PCM_oversampling_rate_t
+ *                                  set 128 times in 44.1-kHz operation,
+ *                                  64 times in 96-kHz operation,
+ *                                  32 times in 192-kHz operation
+ */
+void PCM_set_oversampling_rate(PCM_oversampling_rate_t PCM_oversampling_rate);
+
+/**
+ * @brief           get delta-sigma oversampling rate selection
+ *                  allows the use of only a single type (cutoff frequency)
+ *                  of post low-pass filter. If the 128-fS oversampling rate
+ *                  is selected, a system clock of more than 256 fS is required.
+ * 
+ * @return          see
+ *                  PCM: avalible delta-sigma oversampling
+ *                  rate selection
+ *                  -> PCM_oversampling_rate_t
+ *                  set 128 times in 44.1-kHz operation,
+ *                  64 times in 96-kHz operation,
+ *                  32 times in 192-kHz operation
+ */
+PCM_oversampling_rate_t PCM_get_oversampling_rate(void);
 
 /** DMF: Sampling Frequency Selection for the De-Emphasis Function 
     read and write */
@@ -93,12 +194,6 @@ oversampling_rate_t get_oversampling_rate(void);
 /** DME: Digital De-Emphasis Control 
     read and write */
 //void set_de_emphasis_control(int);
-
-/** MUTE: Soft Mute Control 
-    read and write */
-void set_soft_mute(uint8_t value);
-
-uint8_t get_soft_mute(void);
 
 /** REV: Output Phase Reversal 
     read and write */
@@ -112,17 +207,34 @@ uint8_t get_soft_mute(void);
     read and write */
 //void set_filter_rolloff(filter_rolloff_t);
 
-/** INZD: Infinite Zero Detect Mute Control 
-    read and write */
-void set_zero_detect_mute(uint8_t value);
+/**
+ * @brief           set infinite zero detect mute control
+ *                  if 1, forces muted analog outputs to hold a bipolar zero
+ *                  level when the PCM1791A detects a zero condition in both
+ *                  channels.
+ * 
+ * @param value     disabled/enabeld
+ */
+void PCM_set_zero_detect_mute(uint8_t value);
 
-uint8_t get_zero_detect_mute(void);
+/**
+ * @brief           get infinite zero detect mute control
+ *                  if 1, forces muted analog outputs to hold a bipolar zero
+ *                  level when the PCM1791A detects a zero condition in both
+ *                  channels.
+ * 
+ * @return          disabled/enabeld
+ */
+uint8_t PCM_get_zero_detect_mute(void);
 
-/** SRST: System Reset Control 
-    read and write */
-void set_pcm_reset(uint8_t value);
-
-uint8_t get_pcm_reset(void);
+/**
+ * @brief           system reset control 
+ *                  resets the PCM1791A to the initial system condition.
+ * 
+ * @param value     Normal operation = 0,
+ *                  System reset operation = 1 (generate one reset pulse)
+ */
+void PCM_pcm_reset(uint8_t value);
 
 /** DSD: DSD Interface Mode Control 
     read and write */
@@ -132,16 +244,43 @@ uint8_t get_pcm_reset(void);
     read and write */
 //void set_digital_filter_bypass(int);
 
-/** MONO: Monaural Mode Selection */
-void set_mode(mode_t);
+/**
+ * @brief           set monaural mode selection
+ * 
+ * @param PCM_acoustics_mode    see
+ *                              PCM: monaural mode selection
+ *                              -> PCM_monaural_mode_t
+ */
+void PCM_set_monaural_mode(PCM_monaural_mode_t PCM_monaural_mode);
 
-mode_t get_mode(void);
+/**
+ * @brief           get monaural mode selection
+ * 
+ * @return          see
+ *                  PCM: monaural mode selection
+ *                  -> PCM_monaural_mode_t
+ */
+PCM_monaural_mode_t PCM_get_monaural_mode(void);
 
-/** CHSL: Channel Selection for Monaural Mode 
-    read and write */
-void set_used_mono_channel(channel_t);
+/**
+ * @brief           set channel selection for monaural mode, select data input
+ *                  channel
+ * 
+ * @param PCM_data_channel      see
+ *                              PCM: select data channel for PCM_mono mode
+ *                              -> PCM_data_channel_t
+ */
+void PCM_set_data_channel(PCM_data_channel_t PCM_data_channel);
 
-channel_t get_used_mono_channel(void);
+/**
+ * @brief           get channel selection for monaural mode, select data input
+ *                  channel
+ * 
+ * @return          see
+ *                  PCM: select data channel for PCM_mono mode
+ *                  -> PCM_data_channel_t
+ */
+PCM_data_channel_t PCM_get_data_channel(void);
 
 /** DZ: DSD Zero Output Enable 
     read and write */
@@ -153,9 +292,20 @@ channel_t get_used_mono_channel(void);
 
 /** ZFGL/ZFGR: Zero-Detection Flag 
     read pmly */
-uint8_t get_left_zero_detection(void);
 
-uint8_t get_rigth_zero_detection(void);
+/**
+ * @brief           zero detect in output channel, left
+ * 
+ * @return          not zero = 0, zero detect = 1
+ */
+uint8_t PCM_get_left_zero_detection(void);
+
+/**
+ * @brief           zero detect in output channel, right
+ * 
+ * @return          not zero = 0, zero detect = 1
+ */
+uint8_t PCM_get_rigth_zero_detection(void);
 
 /** ID: Device ID 
     read only */
