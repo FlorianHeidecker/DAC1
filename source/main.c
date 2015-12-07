@@ -23,8 +23,6 @@
 int main(void) {
     LOG("main()\n");
     pll_init();
-    pcm_init();
-    
 
     while(1); 
 }
