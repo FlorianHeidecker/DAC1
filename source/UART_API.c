@@ -29,9 +29,12 @@ void uart_init(void) {
 	U1MODEbits.PDSEL1 = 0;
 	U1MODEbits.STSEL = 0;
 
-	U1STAbits.UTXEN = 1; //Enable Transmit
+    
+    U1MODEbits.UARTEN = 1; //Enable Uart1 
+    while(U1MODEbits.UARTEN == 0); 
+    U1STAbits.UTXEN = 1; //Enable Transmit
+    while(U1STAbits.UTXEN == 0);
 
-	U1MODEbits.UARTEN = 1; //Enable Uart1
 }
 
 void uart_send_char(char data){

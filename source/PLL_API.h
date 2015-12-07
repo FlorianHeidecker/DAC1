@@ -19,7 +19,7 @@
 #include <xc.h>
 
 /** avalible frequenz output on SCKO1 in MHz */
-typedef enum {PLL_SCKO1_16MHz = 0, PLL_SCKO1_33MHz = 1} scko1_freq_t;
+typedef enum {PLL_SCKO1_16MHz = 1, PLL_SCKO1_33MHz = 0} scko1_freq_t;
 
 /** avalible sampling frequency in kHz */
 typedef enum {PLL_SAMPLING_FREQ_48kHz=0,

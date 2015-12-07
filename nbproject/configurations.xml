@@ -4,6 +4,10 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <logicalFolder name="f1" displayName="xlcd" projectFiles="true">
+        <itemPath>source/xlcd/xlcd.h</itemPath>
+        <itemPath>source/xlcd/delays.h</itemPath>
+      </logicalFolder>
       <itemPath>source/log.h</itemPath>
       <itemPath>source/global.h</itemPath>
       <itemPath>source/UART_API.h</itemPath>
@@ -19,6 +23,20 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <logicalFolder name="f1" displayName="xlcd" projectFiles="true">
+        <itemPath>source/xlcd/busyxlcd.c</itemPath>
+        <itemPath>source/xlcd/openxlcd.c</itemPath>
+        <itemPath>source/xlcd/putrxlcd.c</itemPath>
+        <itemPath>source/xlcd/putsxlcd.c</itemPath>
+        <itemPath>source/xlcd/readaddr.c</itemPath>
+        <itemPath>source/xlcd/readdata.c</itemPath>
+        <itemPath>source/xlcd/setcgram.c</itemPath>
+        <itemPath>source/xlcd/setddram.c</itemPath>
+        <itemPath>source/xlcd/wcmdxlcd.c</itemPath>
+        <itemPath>source/xlcd/writdata.c</itemPath>
+        <itemPath>source/xlcd/delays.c</itemPath>
+        <itemPath>source/xlcd/xlcd_service.c</itemPath>
+      </logicalFolder>
       <itemPath>source/log.c</itemPath>
       <itemPath>source/main.c</itemPath>
       <itemPath>source/UART_API.c</itemPath>
@@ -201,6 +219,7 @@
         <property key="UART 1" value="true"/>
         <property key="UART 2" value="true"/>
         <property key="debugoptions.useswbreakpoints" value="false"/>
+        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="false"/>
