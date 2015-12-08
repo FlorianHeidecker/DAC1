@@ -103,14 +103,14 @@ uint8_t PCM_get_attunation_level_right(void);
  * 
  * @param value     disabled/enabeld
  */
-void set_soft_mute(uint8_t value);
+void PCM_set_soft_mute(uint8_t value);
 
 /**
  * @brief           soft mute control
  * 
  * @return          disabled/enabeld
  */
-uint8_t get_soft_mute(void);
+uint8_t PCM_get_soft_mute(void);
 
 /**
  * @brief           set ATLD: attenuation load control
