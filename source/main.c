@@ -17,7 +17,6 @@
 #include <stdio.h>
 
 #include "log.h"
-#include "PLL_API.h"
 #include "UART_API.h"
 #include "SPI_API.h"
 #include "DEC_API.h"
@@ -69,6 +68,8 @@
 
 
 int main(void) {
+    LOG("main()\n");
+
     AD1PCFGL = 0x1fff;
 
     //=======================================
@@ -78,14 +79,10 @@ int main(void) {
     
     LOG("LOG: xlcd_init()\n");
     xlcd_init();
-    LOG("LOG: pll_init()\n");
-    pll_init();
     LOG("LOG: spi_init()\n");
     spi_init();
     LOG("LOG: DEC_init()\n");
     DEC_init();
-
-
 
     while(1); 
 }
