@@ -57,8 +57,8 @@ uint8_t PCM_send_receive(uint8_t address, uint8_t data);
  * 
  * @param value     stepsize = -0,5 dB
  *                  dec value		attenuation level
- *                  0 - 240			0 dB - (-120,0) dB
- *                  241 - 255		mute
+ *                  15 - 255		(-120,0) - dB 0 dB
+ *                  0 - 14          mute
  */
 void PCM_set_attunation_level_left(uint8_t value);
 
@@ -67,8 +67,8 @@ void PCM_set_attunation_level_left(uint8_t value);
  * 
  * @return          stepsize = -0,5 dB
  *                  dec value		attenuation level
- *                  0 - 240			0 dB - (-120,0) dB
- *                  241 - 255		mute
+ *                  15 - 255		(-120,0) - dB 0 dB
+ *                  0 - 14          mute
  */
 uint8_t PCM_get_attunation_level_left(void);
 
@@ -79,8 +79,8 @@ uint8_t PCM_get_attunation_level_left(void);
  * 
  * @param value     stepsize = -0,5 dB
  *                  dec value		attenuation level
- *                  0 - 240			0 dB - (-120,0) dB
- *                  241 - 255		mute
+ *                  15 - 255		(-120,0) - dB 0 dB
+ *                  0 - 14          mute
  */
 void PCM_set_attunation_level_right(uint8_t value);
 
@@ -89,8 +89,8 @@ void PCM_set_attunation_level_right(uint8_t value);
  * 
  * @return          stepsize = -0,5 dB
  *                  dec value		attenuation level
- *                  0 - 240			0 dB - (-120,0) dB
- *                  241 - 255		mute
+ *                  15 - 255		(-120,0) - dB 0 dB
+ *                  0 - 14          mute
  */
 uint8_t PCM_get_attunation_level_right(void);
 
