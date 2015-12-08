@@ -19,7 +19,7 @@
 #ifndef _SPI_API_H
 #define _SPI_API_H
 
-enum{SPI_SRC_channel, SPI_DAC_channel};
+typedef enum {SPI_SRC_channel = 0, SPI_DAC_channel = 1} SPI_channel_select_t;
 
 
 
@@ -50,6 +50,6 @@ int spi_rw(int data);
  * @param num_btes  number of data bytes 
  * @param channel   Channel to select betwenn SRC and DAC chip select
  */
-void spi_rw_n(uint8_t *send, uint8_t *receive, int num_bytes, int channel);
+void spi_rw_n(uint8_t *send, uint8_t *receive, int num_bytes, SPI_channel_select_t SPI_channel);
 
 #endif 

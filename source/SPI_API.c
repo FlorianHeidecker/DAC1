@@ -57,10 +57,10 @@ int spi_rw(int data){
     return SPI1BUF;
 }
 
-void spi_rw_n(uint8_t *send, uint8_t *receive, int num_bytes, int channel)
+void spi_rw_n(uint8_t *send, uint8_t *receive, int num_bytes, SPI_channel_select_t SPI_channel)
 {
     int n;
-    switch (channel){
+    switch (SPI_channel){
             case SPI_SRC_channel:
                 SRC_CS_LATCH = 0;
                 for (n = 0; n<num_bytes; n++){
