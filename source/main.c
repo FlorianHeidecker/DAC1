@@ -19,6 +19,7 @@
 #include "UART_API.h"
 #include "DEC_API.h"
 #include "xlcd/xlcd.h"
+#include "CONTROL.h"
 
 #include <libpic30.h>
 
@@ -79,7 +80,9 @@ int main(void) {
     xlcd_init();
     LOG("LOG: DEC_init()\n");
     DEC_init();
-
+    
+    LOG("LOG: CONTROL_init()\n");
+    CONTROL_init();
 
     while(1); 
 }
