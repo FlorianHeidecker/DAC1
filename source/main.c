@@ -70,6 +70,9 @@
 
 int main(void) {
     AD1PCFGL = 0x1fff;
+    char dec_record[10];
+    uint16_t record_pos = 0x00;
+    state_rotation_t dec_test = DEC_NO_TURN;
 
     //=======================================
     // initalisation of the modules
@@ -84,6 +87,37 @@ int main(void) {
     spi_init();
     LOG("LOG: DEC_init()\n");
     DEC_init();
+    
+    while(1){
+    	dec_test = get_DEC_status();
+    	switch (dec_test){
+            case DEC_TURN_LEFT:     dec_record[record_pos]='L';
+                                    record_pos++;
+                                    LOG("L\n");
+                                    break;
+            case DEC_TURN_RIGHT:    dec_record[record_pos]='R';
+                                    record_pos++;
+                                    LOG("R\n");
+                                    break;
+            case DEC_BUTTON:        dec_record[record_pos]='B';
+                                    record_pos++;
+                                    LOG("B\n");
+                                    break;
+            default:                break;
+    	}
+//    	if(record_pos == 0x09){
+//        	for(record_pos=0x00;record_pos<0x0A;record_pos++){
+//            		LOG("%c\n",dec_record[record_pos]);
+//        	}
+//            for(record_pos=0x00;record_pos<0x0A;record_pos++){
+//            		dec_record[record_pos]=0x00;
+//        	}
+//            
+//        	
+//    	}
+        record_pos = 0x00;
+        
+    }
 
 
 
