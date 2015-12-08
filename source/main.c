@@ -17,7 +17,6 @@
 
 #include "log.h"
 #include "UART_API.h"
-#include "SPI_API.h"
 #include "DEC_API.h"
 #include "xlcd/xlcd.h"
 
@@ -78,8 +77,6 @@ int main(void) {
     
     LOG("LOG: xlcd_init()\n");
     xlcd_init();
-    LOG("LOG: spi_init()\n");
-    spi_init();
     LOG("LOG: DEC_init()\n");
     DEC_init();
 
