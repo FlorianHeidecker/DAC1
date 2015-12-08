@@ -17,6 +17,7 @@
 
 #include "log.h"
 #include "UART_API.h"
+#include "SPI_API.h"
 #include "DEC_API.h"
 #include "xlcd/xlcd.h"
 
