@@ -20,9 +20,13 @@
 #include "SPI_API.h"
 
 void CONTROL_init(void){
+    CONTROL_LOG("CONTROL_LOG: spi_init()\n");
     spi_init();
+    CONTROL_LOG("CONTROL_LOG: CONTROL_set_attunation_level = 100\n");
     CONTROL_set_attunation_level(100);
+    CONTROL_LOG("CONTROL_LOG: CONTROL_set_zero_detect_mute = enabled\n");
     CONTROL_set_zero_detect_mute(PCM_enabled);
+    CONTROL_LOG("CONTROL_LOG: CONTROL_set_monaural_mode = stereo\n");
     CONTROL_set_monaural_mode(PCM_stereo);
 }
 
@@ -38,8 +42,10 @@ void CONTROL_set_attunation_level(uint8_t percent){
     // attenuation control must be set to 1
     PCM_set_attenuation_control(PCM_enabled);
     
+    CONTROL_LOG("CONTROL_LOG: CONTROL_set_attunation_level,  input percent = %i\n", percent);
     // input value is proportional to attunation level
     uint8_t level = (uint8_t)(((uint16_t)((255 - 14) * percent ) / 100) + 14);
+    CONTROL_LOG("CONTROL_LOG: CONTROL_set_attunation_level, output level = %i\n", level);
     
     PCM_set_attunation_level_left(level);
     PCM_set_attunation_level_right(level);
@@ -55,8 +61,11 @@ void CONTROL_set_attunation_level(uint8_t percent){
 
 uint8_t CONTROL_get_attunation_level(void){
     uint8_t level = PCM_get_attunation_level_left();
+    CONTROL_LOG("CONTROL_LOG: CONTROL_get_attunation_level, input level = %i\n", level);
+    
     // output value is proportional to attunation level
     uint8_t percent = (uint8_t)((uint16_t)(100 * (level - 14)) / (255 - 14));
+    CONTROL_LOG("CONTROL_LOG: CONTROL_get_attunation_level,  output percent = %i\n", percent);
     return percent;
 }
 
