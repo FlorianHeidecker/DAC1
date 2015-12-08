@@ -22,11 +22,8 @@
 void CONTROL_init(void){
     CONTROL_LOG("CONTROL_LOG: spi_init()\n");
     spi_init();
-    CONTROL_LOG("CONTROL_LOG: CONTROL_set_attunation_level = 100\n");
     CONTROL_set_attunation_level(100);
-    CONTROL_LOG("CONTROL_LOG: CONTROL_set_zero_detect_mute = enabled\n");
     CONTROL_set_zero_detect_mute(PCM_enabled);
-    CONTROL_LOG("CONTROL_LOG: CONTROL_set_monaural_mode = stereo\n");
     CONTROL_set_monaural_mode(PCM_stereo);
 }
 
@@ -40,9 +37,10 @@ void CONTROL_init(void){
 
 void CONTROL_set_attunation_level(uint8_t percent){
     // attenuation control must be set to 1
+    CONTROL_LOG("CONTROL_LOG: PCM_set_attenuation_control = enabled\n");
     PCM_set_attenuation_control(PCM_enabled);
     
-    CONTROL_LOG("CONTROL_LOG: CONTROL_set_attunation_level,  input percent = %i\n", percent);
+    CONTROL_LOG("CONTROL_LOG: CONTROL_set_attunation_level, input percent = %i\n", percent);
     // input value is proportional to attunation level
     uint8_t level = (uint8_t)(((uint16_t)((255 - 14) * percent ) / 100) + 14);
     CONTROL_LOG("CONTROL_LOG: CONTROL_set_attunation_level, output level = %i\n", level);
@@ -65,11 +63,17 @@ uint8_t CONTROL_get_attunation_level(void){
     
     // output value is proportional to attunation level
     uint8_t percent = (uint8_t)((uint16_t)(100 * (level - 14)) / (255 - 14));
-    CONTROL_LOG("CONTROL_LOG: CONTROL_get_attunation_level,  output percent = %i\n", percent);
+    CONTROL_LOG("CONTROL_LOG: CONTROL_get_attunation_level, output percent = %i\n", percent);
     return percent;
 }
 
 void CONTROL_set_soft_mute(uint8_t value){
+    if(value == PCM_enabled){
+        CONTROL_LOG("CONTROL_LOG: PCM_set_soft_mute = enabled");
+    }
+    else{
+        CONTROL_LOG("CONTROL_LOG: PCM_set_soft_mute = disabled");
+    }
     PCM_set_soft_mute(value);
 }
 
@@ -78,6 +82,12 @@ uint8_t CONTROL_get_soft_mute(void){
 }
 
 void CONTROL_set_zero_detect_mute(uint8_t value){
+    if(value == PCM_enabled){
+        CONTROL_LOG("CONTROL_LOG: PCM_set_zero_detect_mute = enabled");
+    }
+    else{
+        CONTROL_LOG("CONTROL_LOG: PCM_set_zero_detect_mute = disabled");
+    }
     PCM_set_zero_detect_mute(value);
 }
 
@@ -86,8 +96,16 @@ uint8_t CONTROL_get_zero_detect_mute(void){
 }
 
 void CONTROL_set_monaural_mode(PCM_monaural_mode_t PCM_monaural_mode){
-    PCM_set_data_channel(PCM_left_channel);
-    PCM_set_monaural_mode(PCM_monaural_mode);
+    if(PCM_monaural_mode == PCM_stereo){
+        CONTROL_LOG("CONTROL_LOG: PCM_set_monaural_mode = stereo");
+        PCM_set_monaural_mode(PCM_monaural_mode);
+    }
+    else{
+        CONTROL_LOG("CONTROL_LOG: PCM_set_data_channel = PCM_left_channel");
+        PCM_set_data_channel(PCM_left_channel);
+        CONTROL_LOG("CONTROL_LOG: PCM_set_monaural_mode = mono");
+        PCM_set_monaural_mode(PCM_monaural_mode);
+    }
 }
 
 PCM_monaural_mode_t CONTROL_get_monaural_mode(void){
