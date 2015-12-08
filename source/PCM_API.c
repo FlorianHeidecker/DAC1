@@ -34,7 +34,7 @@ uint8_t PCM_send_receive(uint8_t address, uint8_t data){
     
     PCM_LOG("PCM send: Register: 0x%x || Data: 0x%x\n", *data_send, *(data_send + 1));
     spi_rw_n(data_send, data_receive, 2, pcm_channel_dummy);
-    PCM_LOG("PCM receive: Register: %i || Data: %i\n", *data_receive, *(data_receive + 1));
+    PCM_LOG("PCM receive: Register: 0x%x || Data: 0x%x\n", *data_receive, *(data_receive + 1));
     
     return *(data_receive + 1);
 }
