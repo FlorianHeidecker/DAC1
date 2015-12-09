@@ -22,6 +22,7 @@
 #include "SPI_API.h"
 #include "DEC_API.h"
 #include "xlcd/xlcd.h"
+#include "SRC_API.h"
 
 #include <libpic30.h>
 
@@ -84,5 +85,9 @@ int main(void) {
     LOG("LOG: DEC_init()\n");
     DEC_init();
 
+    
+    SRC_set_master_clock_divider(SRC_Divide384);
+    SRC_get_master_clock_divider();
+    
     while(1); 
 }

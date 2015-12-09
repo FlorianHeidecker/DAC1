@@ -30,14 +30,14 @@ typedef enum {	SRC_24_bit_left_justified=0,
 				SRC_24_bit_right_justified = 7} SRC_audio_output_data_format_t;
  
 /** SRC: possible clock sources selection */               
-typedef enum {	MCLK=0,
-				RXCKI=1 } SRC_master_clock_sources_t;                
+typedef enum {	SRC_MCLK=0,
+				SRC_RXCKI=1 } SRC_master_clock_sources_t;                
                 
 /** SRC: possible clock sources divider */               
-typedef enum {	Divide128 = 0,
-				Divide256 = 1,
-                Divide384 = 2,
-                Divide512 = 3} SRC_master_clock_divider_t;           
+typedef enum {	SRC_Divide128 = 0,
+				SRC_Divide256 = 1,
+                SRC_Divide384 = 2,
+                SRC_Divide512 = 3} SRC_master_clock_divider_t;           
                 
 
 //== functions =================================================================

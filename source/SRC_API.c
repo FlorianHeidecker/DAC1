@@ -28,11 +28,11 @@ uint8_t SRC_send_receive(uint8_t address, uint8_t data){
     uint8_t data_send[3] = {address, 0, data};
     uint8_t data_receive[3] = {0, 0, 0};
     
-    SRC_LOG("SRC send: Register: 0x%x || Data: 0x%x\n", *data_send, *(data_send + 1));
-    spi_rw_n(data_send, data_receive, 2, pcm_channel_dummy);
-    SRC_LOG("SRC receive: Register: 0x%x || Data: 0x%x\n", *data_receive, *(data_receive + 1));
+    SRC_LOG("SRC send: Register: 0x%x || Data: 0x%x\n", address, *(data_send + 2));
+    spi_rw_n(data_send, data_receive, 3, SPI_SRC_channel);
+    SRC_LOG("SRC receive: Register: 0x%x || Data: 0x%x\n", address, *(data_receive + 2));
     
-    return *(data_receive + 1);
+    return *(data_receive + 2);
 }
 
 void SRC_init (void){    
@@ -116,19 +116,19 @@ void SRC_set_master_clock_divider(SRC_master_clock_divider_t SRC_master_clock_di
     uint8_t data = SRC_send_receive(address, 0x00);
 
     switch(SRC_master_clock_divider){
-        case Divide128:
+        case SRC_Divide128:
             data &= ~(1 << 0);
             data &= ~(1 << 1);
             break;
-        case Divide256:
+        case SRC_Divide256:
             data |= 1 << 0;
             data &= ~(1 << 1);
             break;
-		case Divide384:
+		case SRC_Divide384:
             data &= ~(1 << 0);
             data |= 1 << 1;
             break;
-		case Divide512:
+		case SRC_Divide512:
             data |= 1 << 0;
             data |= 1 << 1;
             break;
@@ -148,11 +148,11 @@ void SRC_set_master_clock_source(SRC_master_clock_sources_t SRC_master_clock_sou
     uint8_t data = SRC_send_receive(address, 0x00);
 
     switch(SRC_master_clock_sources){
-        case MCLK:
+        case SRC_MCLK:
             data &= ~(1 << 0);
             data &= ~(1 << 1);
             break;
-        case RXCKI:
+        case SRC_RXCKI:
             data |= 1 << 0;
             data &= ~(1 << 1);
             break;
