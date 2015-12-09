@@ -75,5 +75,23 @@ void spi_rw_n(uint8_t *send, uint8_t *receive, int num_bytes, SPI_channel_select
                 }
                 DAC_CS_LATCH = 1;
                 break;
+    
+    return 0;
+}
+
+
+
+int spi_src(int header, int data){
+    int temp;
+    
+    SRC_CS_LATCH = 0;
+    if(header & READ_WRITE_SRC){
+        temp = spi_rw(header);
+        temp = spi_rw(0);
+    }
+    else{
+        temp = spi_rw(header);
+        temp = spi_rw(data);
+        temp = 0;
     }
 }    
