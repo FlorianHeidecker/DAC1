@@ -16,8 +16,6 @@
 #include "PCM_API.h"
 #include "SPI_API.h"
 
-#define pcm_channel_dummy       0x01 //!!!!!!!!!!!!!!!!!!!!
-
 /** PCM: avalible Register 16 - 23 */
 typedef enum {	PCM_register_16_w = 0x10,   PCM_register_16_r = 0x90,
                 PCM_register_17_w = 0x11,   PCM_register_17_r = 0x91,
@@ -33,8 +31,8 @@ uint8_t PCM_send_receive(uint8_t address, uint8_t data){
     uint8_t data_receive[2] = {0, 0};
     
     PCM_LOG("PCM send: Register: 0x%x || Data: 0x%x\n", *data_send, *(data_send + 1));
-    spi_rw_n(data_send, data_receive, 2, pcm_channel_dummy);
-    PCM_LOG("PCM receive: Register: 0x%x || Data: 0x%x\n", *data_receive, *(data_receive + 1));
+    spi_rw_n(data_send, data_receive, 2, SPI_DAC_channel);
+    PCM_LOG("PCM receive: Data[0]: 0x%x || Data[1]: 0x%x\n", *data_receive, *(data_receive + 1));
     
     return *(data_receive + 1);
 }
