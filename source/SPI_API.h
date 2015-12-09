@@ -39,12 +39,6 @@ void spi_init(void);
  * @return      return the received data
  */
 int spi_rw(int data);
-<<<<<<< HEAD
-int spi_rw_n(uint8_t *send, uint8_t *receive, int num_bytes, int channel);
-int spi_src(int header, int data);
-int spi_dac(int data);
-=======
->>>>>>> refs/remotes/origin/SPI_API
 
 
 /** @brief Read/write function for spi
