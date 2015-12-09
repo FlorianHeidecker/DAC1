@@ -80,7 +80,7 @@
 
 #define LCD_EN_TRIS         TRISCbits.TRISC0
 #define LCD_EN_LATCH        LATCbits.LATC0
-#define LCD_EN_PORT         PORTCbtis.RB0
+#define LCD_EN_PORT         PORTCbits.RC0
 
 #define LCD_RS_TRIS         TRISBbits.TRISB2
 #define LCD_RS_LATCH        LATBbits.LATB2
