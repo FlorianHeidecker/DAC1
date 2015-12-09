@@ -21,15 +21,22 @@
 
 void spi_init(void){
     SCLK_TRIS = 0;
-    MOSI_TRIS = 0;
+    //MOSI_TRIS = 0;
     SRC_CS_TRIS = 0;
     DAC_CS_TRIS = 0;
-    MISO_TRIS = 1;  
+    //MISO_TRIS = 1;  
     SRC_CS_LATCH = 1;
     DAC_CS_LATCH = 1;
     
-    RPINR20bits.SDI1R = 6;  //Map MISO to Port 6 (Input)
-    RPOR2bits.RP5R = 7;     //Map MOSI to Port 5 (Output)
+    // MOSI <-> MISO swop, attantion no name changes made !!
+    MOSI_TRIS = 1;
+    MISO_TRIS = 0;
+    RPINR20bits.SDI1R = 5;  //Map MISO to Port 5 (Input)
+    RPOR3bits.RP6R = 7;     //Map MOSI to Port 6 (Output)
+    
+    
+    //RPINR20bits.SDI1R = 6;  //Map MISO to Port 6 (Input)
+    //RPOR2bits.RP5R = 7;     //Map MOSI to Port 5 (Output)
     RPOR3bits.RP7R = 8;     //Map CLK to Port 7 (Output)
 
     
