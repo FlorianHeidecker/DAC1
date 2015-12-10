@@ -18,7 +18,10 @@
 #ifndef _MENU_H
 #define _MENU_H
 
-
+typedef enum {
+    MENU_NORMAL = 1,
+    MENU_OPTION
+}menu_type_t;
 
 typedef enum {
     MAIN_MENU = 1,
@@ -40,6 +43,7 @@ typedef enum {
 
 typedef struct menu_struct{
     const char **text;
+    menu_type_t type;
     uint16_t num_elements;
     menu_index_t prev;
     menu_index_t next;
@@ -50,12 +54,13 @@ typedef struct menu_struct{
 }menu_t;
 
 
-
+// externe funktionen
 void menu_init(void);
-void menu_up(void);
-void menu_down(void);
-void menu_set(void);
+void menu_btn_up(void);
+void menu_btn_down(void);
+void menu_btn_set(void);
 
+// interne funktionen
 void menu_write_line(uint16_t line, uint16_t index);
 
 

@@ -107,7 +107,7 @@ int main(void) {
     
     while(1)
     {
-        menu_up();
+        //menu_up();
         asm("nop");
     }
     

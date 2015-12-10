@@ -72,6 +72,7 @@ const menu_t menu_arr[] =
 {
     {   // INFO_MAIN_MENU
         .text = info_main_menu_text,
+        .type = MENU_NORMAL,
         .num_elements = 0,
         .prev   = PCM_MAIN_MENU,
         .next   = AUDIO_MAIN_MENU,
@@ -82,6 +83,7 @@ const menu_t menu_arr[] =
     },
     {   // AUDIO_MAIN_MENU
         .text = audio_main_menu_text,
+        .type = MENU_NORMAL,
         .num_elements = 0, 
         .prev   = INFO_MAIN_MENU,  
         .next   = PLL_MAIN_MENU,      
@@ -92,6 +94,7 @@ const menu_t menu_arr[] =
     },
     {   // PLL_MAIN_MENU
         .text = pll_main_menu_text,
+        .type = MENU_NORMAL,
         .num_elements = 0, 
         .prev   = AUDIO_MAIN_MENU, 
         .next   = SRC_MAIN_MENU,      
@@ -102,6 +105,7 @@ const menu_t menu_arr[] =
     },
     {   // SRC_MAIN_MENU
         .text = src_main_menu_text,
+        .type = MENU_NORMAL,
         .num_elements = 0, 
         .prev   = PLL_MAIN_MENU,   
         .next   = PCM_MAIN_MENU,      
@@ -112,6 +116,7 @@ const menu_t menu_arr[] =
     },
     {   // PCM_MAIN_MENU
         .text = pcm_main_menu_text,
+        .type = MENU_NORMAL,
         .num_elements = 0,
         .prev   = SRC_MAIN_MENU,
         .next   = INFO_MAIN_MENU,
@@ -122,6 +127,7 @@ const menu_t menu_arr[] =
     },
     {   // PLL_FREQ_SEL_MENU
         .text =  pll_sampling_freq_text,
+        .type = MENU_OPTION,
         .num_elements = 6,
         .prev = PLL_RETURN_MENU,
         .next = PLL_SCKO_SEL_MENU,
@@ -131,7 +137,8 @@ const menu_t menu_arr[] =
         .set  = set_sampling_freq
     },
     {   // PLL_SCKO_SEL_MENU
-        .text = pll_scko_freq_text,        
+        .text = pll_scko_freq_text,     
+        .type = MENU_OPTION,
         .num_elements = 2, 
         .prev = PLL_FREQ_SEL_MENU,
         .next = PLL_RETURN_MENU,
@@ -141,7 +148,8 @@ const menu_t menu_arr[] =
         .set  = set_scko1_freq
     },
     {   // PLL_RETURN_MENU
-        .text   = return_menu_text,          
+        .text   = return_menu_text,      
+        .type = MENU_NORMAL,
         .num_elements = 0,
         .prev   = PLL_SCKO_SEL_MENU,
         .next   = PLL_FREQ_SEL_MENU,
@@ -165,6 +173,18 @@ void menu_init(void)
     menu_write_line(1, m.index);
     menu_write_line(2, menu_arr[m.index].next);
     menu_write_line(3, menu_arr[menu_arr[m.index].next].next);   
+}
+
+
+void menu_btn_set(void)
+{
+    switch(menu_arr[m.index].type)
+    {
+        case MENU_NORMAL:
+            break;
+        case MENU_OPTION:
+            break;
+    }
 }
 
 
