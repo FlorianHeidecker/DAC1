@@ -29,13 +29,9 @@ void spi_init(void){
     SRC_CS_LATCH = 1;
     DAC_CS_LATCH = 1;
     
-    // MOSI <-> MISO swop, attantion global also changed
+
     RPINR20bits.SDI1R = 5;  //Map MISO to Port 5 (Input)
     RPOR3bits.RP6R = 7;     //Map MOSI to Port 6 (Output)
-    
-    
-    //RPINR20bits.SDI1R = 6;  //Map MISO to Port 6 (Input)
-    //RPOR2bits.RP5R = 7;     //Map MOSI to Port 5 (Output)
     RPOR3bits.RP7R = 8;     //Map CLK to Port 7 (Output)
 
     
