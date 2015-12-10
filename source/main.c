@@ -68,8 +68,6 @@
 
 
 int main(void) {
-    LOG("main()\n");
-
     AD1PCFGL = 0x1fff;
     state_rotation_t dec_test = DEC_NO_TURN;
 
@@ -77,7 +75,6 @@ int main(void) {
     // initalisation of the modules
     log_init();
     LOG("\n\nLOG: main()\n");
-    
     LOG("LOG: xlcd_init()\n");
     xlcd_init();
     LOG("LOG: spi_init()\n");
@@ -88,13 +85,15 @@ int main(void) {
     while(1){
     	dec_test = get_DEC_status();
     	switch (dec_test){
-            case DEC_TURN_LEFT:     LOG("L\n");
-                                    break;
-            case DEC_TURN_RIGHT:    LOG("R\n");
-                                    break;
-            case DEC_BUTTON:        LOG("B\n");
-                                    break;
-            default:                break;
+            case DEC_TURN_LEFT:
+                LOG("L\n");
+                break;
+            case DEC_TURN_RIGHT:
+                LOG("R\n");
+                break;
+            case DEC_BUTTON:
+                LOG("B\n");
+                break;
     	}
     }
 
