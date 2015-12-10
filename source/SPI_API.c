@@ -18,6 +18,7 @@
 #include "log.h"
 #include "global.h"
 #include "SPI_API.h"
+#include <libpic30.h>
 
 void spi_init(void){
     SCLK_TRIS = 0;
@@ -28,8 +29,13 @@ void spi_init(void){
     SRC_CS_LATCH = 1;
     DAC_CS_LATCH = 1;
     
-    RPINR20bits.SDI1R = 6;  //Map MISO to Port 6 (Input)
-    RPOR2bits.RP5R = 7;     //Map MOSI to Port 5 (Output)
+    // MOSI <-> MISO swop, attantion global also changed
+    RPINR20bits.SDI1R = 5;  //Map MISO to Port 5 (Input)
+    RPOR3bits.RP6R = 7;     //Map MOSI to Port 6 (Output)
+    
+    
+    //RPINR20bits.SDI1R = 6;  //Map MISO to Port 6 (Input)
+    //RPOR2bits.RP5R = 7;     //Map MOSI to Port 5 (Output)
     RPOR3bits.RP7R = 8;     //Map CLK to Port 7 (Output)
 
     
@@ -43,9 +49,11 @@ void spi_init(void){
     SPI1CON1bits.CKP = 0; // Idle state for clock is a low level; 
     // active state is a high level
     SPI1STATbits.SPIROV = 0; //clear the receive overflow flag, refer to master mode setup procedure
-    SPI1STATbits.SPIEN = 1; // Enable SPI module
-    SPI1CON1bits.PPRE = 3;  //primary prescaler
+    SPI1CON1bits.PPRE = 2;  //primary prescaler
     SPI1CON1bits.SPRE = 7;  //secondary prescaler
+    
+    SPI1STATbits.SPIEN = 1; // Enable SPI module
+
 }
 
 int spi_rw(int data){
@@ -69,6 +77,7 @@ void spi_rw_n(uint8_t *send, uint8_t *receive, int num_bytes, SPI_channel_select
                 DAC_CS_LATCH = 0;
                 for (n = 0; n<num_bytes; n++){
                     *receive++ = spi_rw(*send++);
+                 //   __delay_ms(10);
                 }
                 DAC_CS_LATCH = 1;
                 break;
