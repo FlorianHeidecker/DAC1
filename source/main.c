@@ -85,13 +85,6 @@ int main(void) {
     LOG("LOG: DEC_init()\n");
     DEC_init();
 
-    PCM_set_attenuation_control(PCM_enabled);
-    uint8_t test, test2, test3;
-    test = PCM_get_attenuation_control();
-    LOG("-----------------\n");
-    PCM_set_attunation_level_left(50);
-    uint8_t level;
-    level = PCM_get_attunation_level_left();
     
     while(1); 
 }
