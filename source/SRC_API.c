@@ -80,7 +80,7 @@ void SRC_set_reset(uint8_t enable){
 
 }
 
-void SRC_set_audio_data_format(SRC_audio_output_data_format_t SRC_audio_output_data_format){
+void SRC_set_audio_output_data_format(SRC_audio_output_data_format_t SRC_audio_output_data_format){
     uint8_t address = SRC_register_portA_1 | (1 << 7);
     uint8_t data = SRC_send_receive(address, 0x00);
     
