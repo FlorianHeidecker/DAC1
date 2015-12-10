@@ -81,6 +81,14 @@ int main(void) {
     LOG("LOG: DEC_init()\n");
     DEC_init();
     
+    SRC_init();
+    SRC_set_audio_output_data_format(SRC_24_bit_I2S);
+    SRC_set_output_mute(0);
+    SRC_set_master_clock_source(SRC_MCLK);
+    SRC_set_master_clock_divider(SRC_Divide128);
+    
+    PLL_set_scko1_freq(PLL_SCKO1_16MHz);
+    
     while(1){
     	dec_test = get_DEC_status();
     	switch (dec_test){
