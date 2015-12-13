@@ -21,6 +21,7 @@
 #define SRC_MASTER_CLK_DIV 0x03
 #define SRC_DATA_SOURCE 0x30
 #define SRC_MASTER_CLK_SRC 0x0C
+#define SRC_WORD_LENGTH 0xC0
 
 /** SRC: possible audio output data format selection */
 typedef enum {	SRC_24_bit_left_justified=0,
@@ -42,7 +43,13 @@ typedef enum {	SRC_DIR=2,
 typedef enum {	SRC_Divide128 = 0,
 				SRC_Divide256 = 1,
                 SRC_Divide384 = 2,
-                SRC_Divide512 = 3} SRC_master_clock_divider_t;           
+                SRC_Divide512 = 3} SRC_master_clock_divider_t;    
+                
+/** SRC: possible output word length */               
+typedef enum {	SRC_WORD_LENGTH24 = 0,
+				SRC_WORD_LENGTH20 = 1,
+                SRC_WORD_LENGTH18 = 2,
+                SRC_WORD_LENGTH16 = 3} SRC_word_length_t;                 
                 
 /** SRC: available register */
 typedef enum {	SRC_register_power = 0x01,
@@ -53,7 +60,9 @@ typedef enum {	SRC_register_power = 0x01,
                 SRC_receiver_PLL1_config_1 = 0x0F,
                 SRC_receiver_PLL1_config_2 = 0x10,
                 SRC_receiver_PLL1_config_3 = 0x11,
-                SRC_register_control_1 = 0x2D } SRC_register_t;                
+                SRC_register_control_1 = 0x2D,
+                SRC_register_control_2 = 0x2E,
+                SRC_register_control_3 = 0x2F} SRC_register_t;                
                 
 
 //== functions =================================================================
@@ -162,7 +171,7 @@ SRC_master_clock_sources_t SRC_get_master_clock_source(void);
 void SRC_set_data_source(SRC_data_sources_t SRC_data_sources);
 
 /**
- * @brief           set data source for port a
+ * @brief           get data source for port a
  * 
  * @return          see
  *                  SRC: possible master clock sources
@@ -181,6 +190,24 @@ SRC_data_sources_t SRC_get_data_source(void);
  */
 void SRC_set_output_mute(uint8_t enable);
 
+/*
+ * @brief           set output word length
+ *                  
+ * 
+ * @param SRC_word_length             see
+ *                                      SRC: possible output word length
+ *                                      -> SRC_word_length_t
+ */
+void SRC_set_word_length(SRC_word_length_t SRC_word_length);
+
+/**
+ * @brief           get output word length
+ * 
+ * @return          see
+ *                  SRC: possible output word length
+ *                  -> SRC_word_length_t
+ */
+SRC_word_length_t SRC_get_word_length(void);
 
 
 

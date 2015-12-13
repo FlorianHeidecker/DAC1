@@ -52,7 +52,7 @@ void SRC_init (void){
     
  
     data = SRC_receive(SRC_register_control_1);
-    
+  
     data &= ~(1 << 0);     //set SRC input source to DIR
     data |= 1 << 1;   
     SRC_send(SRC_register_control_1, data);
@@ -172,7 +172,6 @@ SRC_master_clock_sources_t SRC_get_master_clock_source(void){
     
 }
 
-
 void SRC_set_data_source(SRC_data_sources_t SRC_data_sources){
     uint8_t data = SRC_receive(SRC_register_portA_1);
 
@@ -202,5 +201,33 @@ void SRC_set_output_mute(uint8_t enable){
     else if (enable == 0) data &= ~(enable << 6);
     
     SRC_send(SRC_register_portA_1, data);   
+}
 
+void SRC_set_word_length(SRC_word_length_t SRC_word_length){
+    uint8_t data = SRC_receive(SRC_register_control_3);
+
+    switch(SRC_word_length){
+        case SRC_WORD_LENGTH24:
+            data &= ~(1 << 7);
+            data &= ~(1 << 6);
+            break;
+        case SRC_WORD_LENGTH20:
+            data &= ~(1 << 7);
+            data |= 1 << 6;
+            break;
+        case SRC_WORD_LENGTH18:
+            data |= 1 << 7;            
+            data &= ~(1 << 6);
+            break;
+        case SRC_WORD_LENGTH16:
+            data |= 1 << 7;
+            data |= 1 << 6;
+            break;            
+    }
+    SRC_send(SRC_register_control_3, data); 
+}
+
+SRC_word_length_t SRC_get_word_length(void){
+    uint8_t data = SRC_receive(SRC_register_control_3);
+    return (data & SRC_WORD_LENGTH);
 }
