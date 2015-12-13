@@ -24,9 +24,8 @@ typedef enum {
 }menu_type_t;
 
 typedef enum {
-    MAIN_MENU = 1,
-    SUB_MENU,
-    PARAMETER_MENU    
+    MENU_STATE_NORMAL = 1,
+    MENU_STATE_PARAM_CHANGE
 }menu_state_t;
 
 typedef enum {

@@ -17,10 +17,17 @@
 #include "xlcd/xlcd.h"
 #include "log.h"
 
-//const char ARROW[] = "*";
+/** Maximum Number of Lines for the Menu */
+#define MAX_LINE    (4-1)      
 
-#define MAX_LINE    (4-1)
-#define ARROW ">"
+#define TEXT_CURSOR_INDEX      0
+#define TEXT_INDEX             1 
+#define PARAM_CURSOR_INDEX     12
+#define PARAM_INDEX            13
+#define PARAM_UNIT_INDEX       17 
+
+
+#define CURSOR_SIGN ">"
 
 struct menu_control{
     uint16_t index;
@@ -33,12 +40,13 @@ struct menu_control{
 // Definitions of Menu Text
 //==============================================================================
 //                                       "01234567890123456789"
+const char *main_menu_text[]          = {"Main Menu"};
 const char *info_main_menu_text[]     = {"Audio Informationen"};
 const char *audio_main_menu_text[]    = {"Audio Einstellungen"};
 const char *pll_main_menu_text[]      = {"PLL Einstellungen"};
 const char *src_main_menu_text[]      = {"SRC Einstellungen"};
 const char *pcm_main_menu_text[]      = {"PCM Einstellungen"};
-const char *return_menu_text[]        = {"     >>RETURN<<"};
+const char *return_menu_text[]        = {">> RETURN <<"};
 
 
 // internal function declarations
@@ -70,13 +78,25 @@ const char *pll_scko_freq_text[] =
 
 const menu_t menu_arr[] =
 {
+    {
+        // MAIN_MENU
+        .text = main_menu_text,
+        .type = MENU_NORMAL,
+        .num_elements = 0,
+        .prev = 0,
+        .next = 0,
+        .up = 0,
+        .sub = 0,
+        .get = menu_nothing,
+        .set = menu_nothing
+    },
     {   // INFO_MAIN_MENU
         .text = info_main_menu_text,
         .type = MENU_NORMAL,
         .num_elements = 0,
         .prev   = PCM_MAIN_MENU,
         .next   = AUDIO_MAIN_MENU,
-        .up     = 0,
+        .up     = MAIN_MENU_DUMMY,
         .sub    = 0,
         .get    = menu_nothing,
         .set    = menu_call_sub
@@ -87,7 +107,7 @@ const menu_t menu_arr[] =
         .num_elements = 0, 
         .prev   = INFO_MAIN_MENU,  
         .next   = PLL_MAIN_MENU,      
-        .up     = 0, 
+        .up     = MAIN_MENU_DUMMY, 
         .sub    = 0, 
         .get    = menu_nothing,
         .set    = menu_call_sub
@@ -98,7 +118,7 @@ const menu_t menu_arr[] =
         .num_elements = 0, 
         .prev   = AUDIO_MAIN_MENU, 
         .next   = SRC_MAIN_MENU,      
-        .up     = 0, 
+        .up     = MAIN_MENU_DUMMY, 
         .sub    = 0, 
         .get    = menu_nothing,
         .set    = menu_call_sub
@@ -109,7 +129,7 @@ const menu_t menu_arr[] =
         .num_elements = 0, 
         .prev   = PLL_MAIN_MENU,   
         .next   = PCM_MAIN_MENU,      
-        .up     = 0, 
+        .up     = MAIN_MENU_DUMMY, 
         .sub    = 0, 
         .get    = menu_nothing,
         .set    = menu_call_sub
@@ -120,7 +140,7 @@ const menu_t menu_arr[] =
         .num_elements = 0,
         .prev   = SRC_MAIN_MENU,
         .next   = INFO_MAIN_MENU,
-        .up     = 0,
+        .up     = MAIN_MENU_DUMMY,
         .sub    = 0,
         .get    = menu_nothing,
         .set    = menu_call_sub
@@ -166,13 +186,17 @@ void menu_init(void)
     m.index = INFO_MAIN_MENU;
     m.param_index = 0;
     m.cursor = 1;
-    m.state = MAIN_MENU;
+    m.state = MENU_NORMAL;
     
-    xlcd_clear();
-    putrsXLCD("  ** MAIN MENU **");
-    menu_write_line(1, m.index);
-    menu_write_line(2, menu_arr[m.index].next);
-    menu_write_line(3, menu_arr[menu_arr[m.index].next].next);   
+    menu_write_headline();
+    menu_refresh_lines();
+    
+    
+//    xlcd_clear();
+//    putrsXLCD("  ** MAIN MENU **");
+//    menu_write_line(1, m.index);
+//    menu_write_line(2, menu_arr[m.index].next);
+//    menu_write_line(3, menu_arr[menu_arr[m.index].next].next);   
 }
 
 
@@ -181,78 +205,50 @@ void menu_btn_set(void)
     switch(menu_arr[m.index].type)
     {
         case MENU_NORMAL:
+            // call set functions
+            menu_arr[m.index].set();
             break;
+            
+        case MENU_OPTION:
+            switch(m.state)
+            {
+                case MENU_STATE_NORMAL:
+                    m.state = MENU_STATE_PARAM_CHANGE;
+                    break;
+                    
+                case MENU_STATE_PARAM_CHANGE:
+                    m.state = MENU_STATE_NORMAL;
+                    break;
+            }
+            break;
+    }
+}
+
+
+void menu_btn_down(void)
+{
+    switch(menu_arr[m.index].type)
+    {
+        case MENU_NORMAL:
+            // loads next menu entries
+            menu_call_next();     
+            break;
+            
         case MENU_OPTION:
             break;
     }
 }
 
-
-void menu_down(void)
-{
-    switch(m.state)
+void menu_btn_up(void)
+{    
+    switch(menu_arr[m.index].type)
     {
-        case MAIN_MENU:
+        case MENU_NORMAL:
+            // loads previous menu entries
+            menu_call_prev();
             break;
-        case SUB_MENU:
-            break;
-        case PARAMETER_MENU:
-            break;
-        default:
-            MENU_LOG("MENU: menu_left() ERR: m.state=%i\n", m.state);
-            break;
-    }
-}
-
-void menu_up(void)
-{
-    int menu_index_temp = 0;
-    
-    switch(m.state)
-    {
-        case MAIN_MENU:
-            menu_index_temp = m.index;
-            m.index = menu_arr[m.index].next;
-             
-            WriteCmdXLCD(XLCD_CLR_DISP);
             
-            xlcd_goto(0,1);
-            putrsXLCD(menu_arr[menu_index_temp].text[0]);
-            
-            xlcd_goto(1,0);
-            putrsXLCD(ARROW);
-            putrsXLCD(menu_arr[m.index].text[0]);
-            
-            menu_index_temp = menu_arr[m.index].next;
-            xlcd_goto(2,1);
-            putrsXLCD(menu_arr[menu_index_temp].text[0]);
-            
-            menu_index_temp = menu_arr[menu_index_temp].next;
-            xlcd_goto(3,1);
-            putrsXLCD(menu_arr[menu_index_temp].text[0]);                 
-            break;
-        case SUB_MENU:
-            break;
-        case PARAMETER_MENU:
-            break;
-        default:
-            MENU_LOG("MENU: menu_left() ERR: m.state=%i\n", m.state);
-            break;
-    }
-}
-
-void menu_set(void)
-{
-    switch(m.state)
-    {
-        case MAIN_MENU:
-            break;
-        case SUB_MENU:
-            break;
-        case PARAMETER_MENU:
-            break;
-        default:
-            MENU_LOG("MENU: menu_left() ERR: m.state=%i\n", m.state);
+        case MENU_OPTION:
             break;
     }
 }
@@ -264,7 +260,7 @@ void menu_write_line(uint16_t line, uint16_t index)
     uint16_t param_index = 0;
     
     xlcd_clear_line(line);
-    xlcd_goto(line,1);
+    xlcd_goto(line, TEXT_INDEX);
     putrsXLCD(menu_arr[index].text[0]);
     MENU_LOG("MENU: %s", menu_arr[index].text[0]); 
     
@@ -272,12 +268,12 @@ void menu_write_line(uint16_t line, uint16_t index)
     {
         // set cursor 14
         param_index = menu_arr[index].get();
-        xlcd_goto(line, 13);
+        xlcd_goto(line, PARAM_INDEX);
         putrsXLCD(menu_arr[index].text[param_index+2]);    // plus 2 to get right indice in array
         MENU_LOG(" %s", menu_arr[index].text[param_index+2]);
 
         // set cursor 18
-        xlcd_goto(line, 17);
+        xlcd_goto(line, PARAM_UNIT_INDEX);
         putrsXLCD(menu_arr[index].text[1]);
         MENU_LOG(" %s", menu_arr[index].text[1]);
     }
@@ -323,31 +319,36 @@ void menu_parameter_change(uint16_t rotation)
 }
 
 
-void menu_nothing(void)
-{
-    // empty function to do nothing
-}
 
 void menu_call_sub(void)
 {
+    m.index = menu_arr[m.index].sub;
+    
+    menu_write_headline();
+    menu_refresh_lines();
     
 }
 
+
 void menu_call_up(void)
 {
-
+    m.index = menu_arr[m.index].up;
+    
+    menu_write_headline();
+    menu_refresh_lines();
 }
+
 
 void menu_call_next(void)
 {
     if(m.cursor < MAX_LINE)
     {
         // only move cursor
-        xlcd_goto(m.cursor, 0);
+        xlcd_goto(m.cursor, TEXT_CURSOR_INDEX);
         putrsXLCD(" ");
         m.cursor++;
-        xlcd_goto(m.cursor, 0);
-        putrsXLCD(ARROW);
+        xlcd_goto(m.cursor, TEXT_CURSOR_INDEX);
+        putrsXLCD(CURSOR_SIGN);
     }
     else
     {
@@ -370,16 +371,16 @@ void menu_call_prev(void)
     if(m.cursor > 1)
     {
         // only move cursor
-        xlcd_goto(m.cursor, 0);
+        xlcd_goto(m.cursor, TEXT_CURSOR_INDEX);
         putrsXLCD(" ");
         m.cursor--;
-        xlcd_goto(m.cursor, 0);
-        putrsXLCD(ARROW);
+        xlcd_goto(m.cursor, TEXT_CURSOR_INDEX);
+        putrsXLCD(CURSOR_SIGN);
     }
     else
     {
         // cursor is already at line 1 
-        // refres screen
+        // refresh screen
         xlcd_clear_line(1);
         menu_write_line(1, menu_arr[m.index].prev);
         xlcd_clear_line(2);
@@ -389,4 +390,35 @@ void menu_call_prev(void)
     }
     
     m.index = menu_arr[m.index].prev;
+}
+
+
+void menu_refresh_lines(void)
+{
+    xlcd_clear_line(1);
+    menu_write_line(1, menu_arr[m.index].prev);
+    xlcd_clear_line(2);
+    menu_write_line(2, m.index);
+    xlcd_clear_line(3);
+    menu_write_line(3, menu_arr[m.index].next);   
+}
+
+void menu_write_headline(void)
+{
+    uint16_t up_index = menu_arr[m.index].up;
+    
+    xlcd_clear_line(0);
+    xlcd_goto(0,2);
+    putrsXLCD("** ");
+    putrsXLCD(menu_arr[up_index].text[0]);
+    putrsXLCD(" **");
+}
+
+
+
+void menu_nothing(void)
+{
+    // empty function to do nothing
+    // this function is used for "empty" functions pointers, to prevent 
+    // programm from crashing
 }
