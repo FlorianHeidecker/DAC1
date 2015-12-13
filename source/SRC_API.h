@@ -53,6 +53,26 @@ typedef enum {	SRC_register_power = 0x01,
 
 //== functions =================================================================
 
+                
+/*
+ * @brief           send function for src
+ * 
+ * @param address   register to write 
+ * @param data      write data
+ * 
+ */
+                
+ void SRC_send (uint8_t address, uint8_t data);    
+ 
+ /*
+ * @brief           receive function for src
+ * 
+ * @param address   register to read 
+ * @return          requested data
+ * 
+ */
+ uint8_t SRC_receive (uint8_t address);   
+                                                  
 /*
  * @brief   set some init params, e.g. I2SMaster
  *
