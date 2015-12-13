@@ -29,7 +29,8 @@ typedef enum {
 }menu_state_t;
 
 typedef enum {
-    INFO_MAIN_MENU = 0,
+    MAIN_MENU_DUMMY = 0,
+    INFO_MAIN_MENU,
     AUDIO_MAIN_MENU,
     PLL_MAIN_MENU,
     SRC_MAIN_MENU,
@@ -58,9 +59,5 @@ void menu_init(void);
 void menu_btn_up(void);
 void menu_btn_down(void);
 void menu_btn_set(void);
-
-// interne funktionen
-void menu_write_line(uint16_t line, uint16_t index);
-
 
 #endif /* _MENU_H */
