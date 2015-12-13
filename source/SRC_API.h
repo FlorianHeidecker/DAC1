@@ -39,6 +39,17 @@ typedef enum {	SRC_Divide128 = 0,
                 SRC_Divide384 = 2,
                 SRC_Divide512 = 3} SRC_master_clock_divider_t;           
                 
+/** SRC: available register */
+typedef enum {	SRC_register_power = 0x01,
+                SRC_register_portA_1 = 0x03,   
+                SRC_register_portA_2 = 0x04,
+                SRC_receiver_control_register_1 = 0x0D,
+                SRC_receiver_control_register_2 = 0x0E,
+                SRC_receiver_PLL1_config_1 = 0x0F,
+                SRC_receiver_PLL1_config_2 = 0x10,
+                SRC_receiver_PLL1_config_3 = 0x11,
+                SRC_register_control_1 = 0x2D } SRC_register_t;                
+                
 
 //== functions =================================================================
 

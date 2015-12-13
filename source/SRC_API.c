@@ -17,15 +17,6 @@
 #include "SPI_API.h"
 
 
-/** SRC: available register */
-typedef enum {	SRC_register_power = 0x01,
-                SRC_register_portA_1 = 0x03,   
-                SRC_register_portA_2 = 0x04,
-                SRC_receiver_control_register_1 = 0x0D,
-                SRC_register_control_1 = 0x2D,
-                SRC_receiver_PLL1_config_1 = 0x0F,
-                SRC_receiver_PLL1_config_2 = 0x10,
-                SRC_receiver_PLL1_config_3 = 0x11} SRC_register_t;
 
 uint8_t SRC_send_receive(uint8_t address, uint8_t data){
     uint8_t data_send[3] = {address, 0, data};
@@ -53,6 +44,9 @@ void SRC_init (void){
     data = 0x00; // Register 0D: Receiver Control Register 1
     SRC_send_receive(SRC_receiver_control_register_1, data);
     
+    data = 0x00; // Register 0E: Receiver Control Register 2
+    SRC_send_receive(SRC_receiver_control_register_2, data);
+    
     address = SRC_register_control_1 | (1 << 7); 
     data = SRC_send_receive(address, 0x00);
     
@@ -61,11 +55,11 @@ void SRC_init (void){
     SRC_send_receive(SRC_register_control_1, data);
     
     // PLL1 configuration
-    // (input) RCLK = 16,9344
+    // (input) RXCKI = 16,9344
     // P = 1, J = 5, D = 8050
     SRC_send_receive(SRC_receiver_PLL1_config_1, 0x11);
-    SRC_send_receive(SRC_receiver_PLL1_config_1, 0x5F);
-    SRC_send_receive(SRC_receiver_PLL1_config_1, 0x72);
+    SRC_send_receive(SRC_receiver_PLL1_config_2, 0x5F);
+    SRC_send_receive(SRC_receiver_PLL1_config_3, 0x72);
     
 }
 
