@@ -42,8 +42,6 @@ void SRC_init (void){
             
     data = SRC_receive(SRC_register_portA_1);
     data |= 1 << 3;    //set SRC as Master
-    //data |= 3 << 4;   // portA Output Data Source = SRC
-    data |= 2 << 4;   // portA Output Data Source = DIR
     SRC_send(SRC_register_portA_1, data);
     
     data = 0x00; // Register 0D: Receiver Control Register 1
@@ -171,7 +169,31 @@ void SRC_set_master_clock_source(SRC_master_clock_sources_t SRC_master_clock_sou
 SRC_master_clock_sources_t SRC_get_master_clock_source(void){
     uint8_t data = SRC_receive(SRC_register_portA_2);
     return (data & SRC_MASTER_CLK_SRC);
+    
 }
+
+
+void SRC_set_data_source(SRC_data_sources_t SRC_data_sources){
+    uint8_t data = SRC_receive(SRC_register_portA_1);
+
+    switch(SRC_data_sources){
+        case SRC_DIR:
+            data &= ~(1 << 4);
+            data |= 1 << 5;
+            break;
+        case SRC_SRC:
+            data |= 1 << 4;
+            data |= 1 << 5;
+            break;
+    }
+    SRC_send(SRC_register_portA_1, data); 
+}
+
+SRC_data_sources_t SRC_get_data_source(void){
+    uint8_t data = SRC_receive(SRC_register_portA_1);
+    return (data & SRC_DATA_SOURCE);
+}
+
 
 void SRC_set_output_mute(uint8_t enable){
     uint8_t data = SRC_receive(SRC_register_portA_1);

@@ -87,6 +87,7 @@ int main(void) {
     SRC_set_output_mute(0);
     SRC_set_master_clock_source(SRC_MCLK);
     SRC_set_master_clock_divider(SRC_Divide128);
+    SRC_set_data_source(SRC_DIR);
     
     PLL_set_scko1_freq(PLL_SCKO1_16MHz);
     

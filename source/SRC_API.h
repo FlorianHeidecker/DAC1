@@ -19,6 +19,7 @@
 
 #define SRC_AUDIO_FORMAT 0x07
 #define SRC_MASTER_CLK_DIV 0x03
+#define SRC_DATA_SOURCE 0x30
 #define SRC_MASTER_CLK_SRC 0x0C
 
 /** SRC: possible audio output data format selection */
@@ -31,7 +32,11 @@ typedef enum {	SRC_24_bit_left_justified=0,
  
 /** SRC: possible clock sources selection */               
 typedef enum {	SRC_MCLK=0,
-				SRC_RXCKI=1 } SRC_master_clock_sources_t;                
+				SRC_RXCKI=1 } SRC_master_clock_sources_t;    
+                
+/** SRC: possible data sources port a */               
+typedef enum {	SRC_DIR=2,
+				SRC_SRC=3 } SRC_data_sources_t;                  
                 
 /** SRC: possible clock sources divider */               
 typedef enum {	SRC_Divide128 = 0,
@@ -147,6 +152,26 @@ void SRC_set_master_clock_source(SRC_master_clock_sources_t SRC_master_clock_sou
 SRC_master_clock_sources_t SRC_get_master_clock_source(void);
 
 /*
+ * @brief           set data source for port a
+ *                  
+ * 
+ * @param SRC_data_sources_             see
+ *                                      SRC: possible data sources
+ *                                      -> SRC_porta_data_sources_t
+ */
+void SRC_set_data_source(SRC_data_sources_t SRC_data_sources);
+
+/**
+ * @brief           set data source for port a
+ * 
+ * @return          see
+ *                  SRC: possible master clock sources
+ *                  -> SRC_master_clock_sources_t
+ */
+SRC_data_sources_t SRC_get_data_source(void);
+
+
+/*
  * @brief   This bit is used to mute the Port A audio data output. 
  *                  
  * 
@@ -155,6 +180,8 @@ SRC_master_clock_sources_t SRC_get_master_clock_source(void);
  *                1 Enabled; SDOUTA is forced low.
  */
 void SRC_set_output_mute(uint8_t enable);
+
+
 
 
 #endif /* _SRC_API_H */
