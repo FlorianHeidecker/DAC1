@@ -43,19 +43,19 @@ uint8_t PCM_send_receive(uint8_t address, uint8_t data, uint8_t read_write){
     return *(data_receive + 1);
 }
 
-void PCM_set_attunation_level_left(uint8_t value){
+void PCM_set_attenuation_level_left(uint8_t value){
     PCM_send_receive(PCM_register_16, value, WRITE);
 }
 
-uint8_t PCM_get_attunation_level_left(void){
+uint8_t PCM_get_attenuation_level_left(void){
     return PCM_send_receive(PCM_register_16, 0x00, READ);
 }
 
-void PCM_set_attunation_level_right(uint8_t value){
+void PCM_set_attenuation_level_right(uint8_t value){
     PCM_send_receive(PCM_register_17, value, WRITE);
 }
 
-uint8_t PCM_get_attunation_level_right(void){
+uint8_t PCM_get_attenuation_level_right(void){
     return PCM_send_receive(PCM_register_17, 0x00, READ);
 }
 
