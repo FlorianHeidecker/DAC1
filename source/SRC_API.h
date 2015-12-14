@@ -331,7 +331,7 @@ uint8_t SRC_get_qchannel_register9(void);
  *                  
  */
 uint8_t SRC_get_qchannel_register10(void);
-=======
+/*
  * @brief          
  * 
  * @return          
@@ -348,8 +348,6 @@ uint8_t SRC_get_receiver_status1(void);
  *                 
  */
 uint8_t SRC_get_receiver_status2(void);
->>>>>>> origin/SRC_API
-
 
 
 #endif /* _SRC_API_H */
