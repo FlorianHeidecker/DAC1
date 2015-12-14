@@ -231,3 +231,32 @@ SRC_word_length_t SRC_get_word_length(void){
     uint8_t data = SRC_receive(SRC_register_control_3);
     return (data & SRC_WORD_LENGTH);
 }
+
+void SRC_set_page(SRC_page_selection_t SRC_page_selection){
+    uint8_t data = SRC_receive(SRC_page_selection_register);
+
+    switch(SRC_page_selection){
+        case SRC_PAGE0:
+            data &= ~(1 << 0);
+            data &= ~(1 << 1);
+            break;
+        case SRC_PAGE1:
+            data |= 1 << 0;
+            data &= ~(1 << 1);
+            break;
+        case SRC_PAGE2:
+            data &= ~(1 << 0);            
+            data |= 1 << 1;            
+            break;
+        case SRC_PAGE3:
+            data |= 1 << 0;
+            data |= 1 << 1;
+            break;            
+    }
+    SRC_send(SRC_page_selection_register, data); 
+}
+
+SRC_page_selection_t SRC_get_page(void){
+    uint8_t data = SRC_receive(SRC_page_selection_register);
+    return (data);
+}

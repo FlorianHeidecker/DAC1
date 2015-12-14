@@ -49,7 +49,14 @@ typedef enum {	SRC_Divide128 = 0,
 typedef enum {	SRC_WORD_LENGTH24 = 0,
 				SRC_WORD_LENGTH20 = 1,
                 SRC_WORD_LENGTH18 = 2,
-                SRC_WORD_LENGTH16 = 3} SRC_word_length_t;                 
+                SRC_WORD_LENGTH16 = 3} SRC_word_length_t;  
+                
+/** SRC: Page selection */               
+typedef enum {	SRC_PAGE0 = 0,
+				SRC_PAGE1 = 1,
+                SRC_PAGE2 = 2,
+                SRC_PAGE3 = 3} SRC_page_selection_t; 
+                
                 
 /** SRC: available register */
 typedef enum {	SRC_register_power = 0x01,
@@ -62,7 +69,8 @@ typedef enum {	SRC_register_power = 0x01,
                 SRC_receiver_PLL1_config_3 = 0x11,
                 SRC_register_control_1 = 0x2D,
                 SRC_register_control_2 = 0x2E,
-                SRC_register_control_3 = 0x2F} SRC_register_t;                
+                SRC_register_control_3 = 0x2F,
+                SRC_page_selection_register = 0x7F} SRC_register_t;                
                 
 
 //== functions =================================================================
@@ -208,6 +216,27 @@ void SRC_set_word_length(SRC_word_length_t SRC_word_length);
  *                  -> SRC_word_length_t
  */
 SRC_word_length_t SRC_get_word_length(void);
+
+/*
+ * @brief           These bits are utilized to select one of three register pages for write and/or read. 
+ *                  The Page Selection Register is present on every register page at
+ *                  address 0x7F, allowing movement between pages as necessary.
+ *                  
+ * 
+ * @param SRC_page_slection           see
+ *                                    SRC: set page 
+ *                                    -> SRC_page_selection_t
+ */
+void SRC_set_page(SRC_page_selection_t SRC_page_selection);
+
+/**
+ * @brief           get the current page
+ * 
+ * @return          see
+ *                  SRC: get page
+ *                  -> SRC_page_selection_t
+ */
+SRC_page_selection_t SRC_get_page(void);
 
 
 
