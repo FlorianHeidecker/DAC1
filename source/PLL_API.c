@@ -16,6 +16,18 @@
 #include "global.h"
 #include "PLL_API.h"
 
+void PLL_init(void){
+    PLL_SR_TRIS = 0;
+    PLL_FS1_TRIS = 0;
+    PLL_FS2_TRIS = 0;
+    PLL_CSEL_TRIS = 0;
+    PLL_CSEL_LATCH = 0;
+    
+    
+    PLL_set_scko1_freq(PLL_SCKO1_16MHz);
+    PLL_set_sampling_freq(PLL_SAMPLING_FREQ_44_1kHz);
+}
+
 void PLL_set_scko1_freq(PLL_scko1_freq_t PLL_scko1_freq){
     if(PLL_scko1_freq == PLL_SCKO1_16MHz) PLL_LOG("PLL_LOG: set SCKO1 FREQUENCY = PLL_SCKO1_16MHz\n");
     if(PLL_scko1_freq == PLL_SCKO1_33MHz) PLL_LOG("PLL_LOG: set SCKO1 FREQUENCY = PLL_SCKO1_33MHz\n");

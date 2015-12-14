@@ -29,7 +29,12 @@ typedef enum {PLL_SAMPLING_FREQ_48kHz=0,
               PLL_SAMPLING_FREQ_64kHz=6} PLL_sampling_freq_t;
 
 //== functions =================================================================
-              
+
+/**
+ * @brief       set TRIS, PLL default output frequenzies
+ */
+void PLL_init(void);
+
 /**
  * @brief       set SCKO1 output frequency
  * 

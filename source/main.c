@@ -23,6 +23,7 @@
 #include "DEC_API.h"
 #include "xlcd/xlcd.h"
 #include "SRC_API.h"
+#include "PCM_API.h"
 
 #include <libpic30.h>
 
@@ -54,7 +55,7 @@
 #pragma config WDTPOST = PS32768        // Watchdog Timer Postscaler (1:32,768)
 #pragma config WDTPRE = PR128           // WDT Prescaler (1:128)
 #pragma config WINDIS = OFF             // Watchdog Timer Window (Watchdog Timer in Non-Window mode)
-#pragma config FWDTEN = ON              // Watchdog Timer Enable (Watchdog timer always enabled)
+#pragma config FWDTEN = OFF              // Watchdog Timer Enable (Watchdog timer always enabled)
 
 // FPOR
 #pragma config FPWRT = PWR128           // POR Timer Value (128ms)
@@ -70,6 +71,7 @@
 
 int main(void) {
     AD1PCFGL = 0x1fff;
+    uint8_t level = 0x15;
     state_rotation_t dec_test = DEC_NO_TURN;
 
     // initalisation of the modules
@@ -81,25 +83,44 @@ int main(void) {
     spi_init();
     LOG("LOG: DEC_init()\n");
     DEC_init();
-    
+        
+    PLL_init();
+    LOG("LOG: PLL_init()\n");
+            
     SRC_init();
     SRC_set_audio_output_data_format(SRC_24_bit_I2S);
     SRC_set_output_mute(0);
     SRC_set_master_clock_source(SRC_MCLK);
     SRC_set_master_clock_divider(SRC_Divide128);
-    SRC_set_data_source(SRC_DIR);
+    SRC_set_data_source(SRC_SRC);
     SRC_set_word_length(SRC_WORD_LENGTH24);
     
     PLL_set_scko1_freq(PLL_SCKO1_16MHz);
+    PLL_set_sampling_freq(PLL_SAMPLING_FREQ_96kHz);  
+    
+    PCM_set_audio_data_format(PCM_24_bit_I2S);
+    PCM_set_oversampling_rate(PCM_64_times_fs);
+    PCM_set_monaural_mode(PCM_stereo);
+    PCM_set_attenuation_control(1);
     
     while(1){
     	dec_test = get_DEC_status();
     	switch (dec_test){
             case DEC_TURN_LEFT:
-                LOG("L\n");
+                if(level > 0){
+                    level--;
+                    PCM_set_attunation_level_left(level);
+                    PCM_set_attunation_level_right(level);
+                }
+                LOG("%i\n",level);
                 break;
             case DEC_TURN_RIGHT:
-                LOG("R\n");
+                if(level <255){
+                    level++;
+                    PCM_set_attunation_level_left(level);
+                    PCM_set_attunation_level_right(level);
+                }
+                LOG("%i\n",level);;
                 break;
             case DEC_BUTTON:
                 LOG("B\n");
