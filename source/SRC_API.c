@@ -39,52 +39,43 @@ void SRC_send (uint8_t address, uint8_t data){
 void SRC_init (void){
     uint8_t data = 0x3F; // enable all fuction blocks on SRC
     SRC_send(SRC_register_power, data);
-    SRC_receive(SRC_register_power);
+
             
     data = SRC_receive(SRC_register_portA_1);
     data |= 1 << 3;    //set SRC as Master
     SRC_send(SRC_register_portA_1, data);
-    SRC_receive(SRC_register_portA_1);
+
     
     data = 0x00; // Register 0D: Receiver Control Register 1
     SRC_send(SRC_receiver_control_register_1, data);
-    SRC_receive(SRC_receiver_control_register_1);
+
     
     data = 0x00; // Register 0E: Receiver Control Register 2
-    data |= (1 << 4); // PLL2 output clock runs free when lose look
-    data |= (1 << 0); // Enable PLL2 output at RXCKO (pins 12))
     SRC_send(SRC_receiver_control_register_2, data);
-    SRC_receive(SRC_receiver_control_register_2);
+
  
-    data = SRC_receive(SRC_register_control_1);
-  
+    data = SRC_receive(SRC_register_control_1);  
     data &= ~(1 << 0);     //set SRC input source to DIR
     data |= 1 << 1;   
     SRC_send(SRC_register_control_1, data);
-    SRC_receive(SRC_register_control_1);
+
     
     LOG("\n= SRC PLL=\n");
     // PLL1 configuration
     // (input) RXCKI = 16,9344
     // P = 1, J = 5, D = 8050
-    SRC_receive(SRC_receiver_PLL1_config_1);
-    SRC_receive(SRC_receiver_PLL1_config_2);
-    SRC_receive(SRC_receiver_PLL1_config_3);
-    
     SRC_send(SRC_receiver_PLL1_config_1, 0x11);
-    SRC_receive(SRC_receiver_PLL1_config_1);
     SRC_send(SRC_receiver_PLL1_config_2, 0x5F);
-    SRC_receive(SRC_receiver_PLL1_config_2);
     SRC_send(SRC_receiver_PLL1_config_3, 0x72);
-    SRC_receive(SRC_receiver_PLL1_config_3);
+
     
 }
 
 void SRC_set_reset(uint8_t enable){
     uint8_t data = SRC_receive(SRC_register_power);
     
-    if (enable == 1) data |= (enable << 7);
-    else if (enable == 0) data &= ~(enable << 7);
+    if (enable == 1) data |= (1 << 7);
+    else if (enable == 0) data &= ~(1 << 7);
     
     SRC_send(SRC_register_power, data);  
 
@@ -286,6 +277,11 @@ uint8_t SRC_get_receiver_status2(void){
     return (data);
 }
 
+uint8_t SRC_get_receiver_status3(void){
+    uint8_t data = SRC_receive(SRC_receiver_status_control3);
+    return (data);
+}
+
 uint8_t SRC_get_qchannel_register1(void){
     uint8_t data = SRC_receive(SRC_qchannel_register_1);
     return (data);
@@ -334,4 +330,85 @@ uint8_t SRC_get_qchannel_register9(void){
 uint8_t SRC_get_qchannel_register10(void){
     uint8_t data = SRC_receive(SRC_qchannel_register_10);
     return (data);
+}
+
+uint8_t SRC_get_interrupt_status(void){
+    uint8_t data = SRC_receive(SRC_interrupt_status);
+    return (data);
+}
+
+uint8_t SRC_get_src_dit_status(void){
+    uint8_t data = SRC_receive(SRC_src_dit_status_register);
+    return (data);
+}
+
+void SRC_set_mute_pll_error(uint8_t enable){
+    uint8_t data = SRC_receive(SRC_receiver_control_register_2);
+    
+    if (enable == 1) data |= (1 << 3);
+    else if (enable == 0) data &= ~(1 << 3);
+    
+    SRC_send(SRC_receiver_control_register_2, data);  
+}
+
+uint8_t SRC_get_non_pcm_audio_detection(void){
+    uint8_t data = SRC_receive(SRC_non_pcm_audio_detection_register);
+    return (data);
+}
+
+void SRC_set_interpolation_filter(SRC_interpolation_filter_t SRC_interpolation_filter){
+    uint8_t data = SRC_receive(SRC_receiver_status_control2);
+
+    switch(SRC_interpolation_filter){
+        case SRC_INTERPOLATION_FILTER64:
+            data &= ~(1 << 0);
+            data &= ~(1 << 1);
+            break;
+        case SRC_INTERPOLATION_FILTER32:
+            data |= 1 << 0;
+            data &= ~(1 << 1);
+            break;
+        case SRC_INTERPOLATION_FILTER16:
+            data &= ~(1 << 0);            
+            data |= 1 << 1;            
+            break;
+        case SRC_INTERPOLATION_FILTER8:
+            data |= 1 << 0;
+            data |= 1 << 1;
+            break;            
+    }
+    SRC_send(SRC_receiver_status_control2, data);     
+}
+
+SRC_interpolation_filter_t SRC_get_interpolation_filter(void){
+    uint8_t data = SRC_receive(SRC_receiver_status_control2);
+    return (data & SRC_INTERPOLATION_FILTER);   
+}
+
+void SRC_set_automatic_deemphasis(uint8_t enable){
+    uint8_t data = SRC_receive(SRC_register_control_2);
+    
+    if (enable == 1) data |= (1 << 5);
+    else if (enable == 0) data &= ~(1 << 5);
+    
+    SRC_send(SRC_register_control_2, data);  
+}
+
+void SRC_set_decimation_filter(SRC_decimation_filter_t SRC_decimation_filter){
+    uint8_t data = SRC_receive(SRC_register_control_2);
+
+    switch(SRC_decimation_filter){
+        case SRC_DECIMATION_FILTER:
+            data &= ~(1 << 0);
+            break;
+        case SRC_DIRECT_DOWN_SAMPLING:
+            data |= 1 << 0;
+            break;       
+    }
+    SRC_send(SRC_register_control_2, data);     
+}
+
+SRC_decimation_filter_t SRC_get_decimation_filter(void){
+    uint8_t data = SRC_receive(SRC_register_control_2);
+    return (data & SRC_DECIMATION);   
 }
