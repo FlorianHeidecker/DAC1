@@ -31,7 +31,7 @@ void SRC_send (uint8_t address, uint8_t data){
     uint8_t data_receive[3] = {0, 0, 0};
     
     spi_rw_n(data_send, data_receive, 3, SPI_SRC_channel);
-    SRC_LOG("SRC receive: Register: 0x%x || Data: 0x%x\n", address, *(data_receive + 2));
+    SRC_LOG("SRC rece: Register: 0x%x || Data: 0x%x\n", address, *(data_receive + 2));
     
     return *(data_receive + 2);
  }
@@ -39,30 +39,44 @@ void SRC_send (uint8_t address, uint8_t data){
 void SRC_init (void){
     uint8_t data = 0x3F; // enable all fuction blocks on SRC
     SRC_send(SRC_register_power, data);
+    SRC_receive(SRC_register_power);
             
     data = SRC_receive(SRC_register_portA_1);
     data |= 1 << 3;    //set SRC as Master
     SRC_send(SRC_register_portA_1, data);
+    SRC_receive(SRC_register_portA_1);
     
     data = 0x00; // Register 0D: Receiver Control Register 1
     SRC_send(SRC_receiver_control_register_1, data);
+    SRC_receive(SRC_receiver_control_register_1);
     
     data = 0x00; // Register 0E: Receiver Control Register 2
+    data |= (1 << 4); // PLL2 output clock runs free when lose look
+    data |= (1 << 0); // Enable PLL2 output at RXCKO (pins 12))
     SRC_send(SRC_receiver_control_register_2, data);
-    
+    SRC_receive(SRC_receiver_control_register_2);
  
     data = SRC_receive(SRC_register_control_1);
   
     data &= ~(1 << 0);     //set SRC input source to DIR
     data |= 1 << 1;   
     SRC_send(SRC_register_control_1, data);
+    SRC_receive(SRC_register_control_1);
     
+    LOG("\n= SRC PLL=\n");
     // PLL1 configuration
     // (input) RXCKI = 16,9344
     // P = 1, J = 5, D = 8050
+    SRC_receive(SRC_receiver_PLL1_config_1);
+    SRC_receive(SRC_receiver_PLL1_config_2);
+    SRC_receive(SRC_receiver_PLL1_config_3);
+    
     SRC_send(SRC_receiver_PLL1_config_1, 0x11);
+    SRC_receive(SRC_receiver_PLL1_config_1);
     SRC_send(SRC_receiver_PLL1_config_2, 0x5F);
+    SRC_receive(SRC_receiver_PLL1_config_2);
     SRC_send(SRC_receiver_PLL1_config_3, 0x72);
+    SRC_receive(SRC_receiver_PLL1_config_3);
     
 }
 
@@ -86,7 +100,7 @@ void SRC_set_audio_output_data_format(SRC_audio_output_data_format_t SRC_audio_o
             data &= ~(1 << 2);
             break;
         case SRC_24_bit_I2S:
-            data |= 1 << 0;
+            data |= (1 << 0);
             data &= ~(1 << 1);
             data &= ~(1 << 2);
             break;
@@ -197,8 +211,8 @@ SRC_data_sources_t SRC_get_data_source(void){
 void SRC_set_output_mute(uint8_t enable){
     uint8_t data = SRC_receive(SRC_register_portA_1);
     
-    if (enable == 1) data |= (enable << 6);
-    else if (enable == 0) data &= ~(enable << 6);
+    if (enable == 1) data |= (1 << 6);
+    else if (enable == 0) data &= ~(1 << 6);
     
     SRC_send(SRC_register_portA_1, data);   
 }
@@ -258,5 +272,16 @@ void SRC_set_page(SRC_page_selection_t SRC_page_selection){
 
 SRC_page_selection_t SRC_get_page(void){
     uint8_t data = SRC_receive(SRC_page_selection_register);
+    return (data);
+}
+
+uint8_t SRC_get_receiver_status1(void){
+    uint8_t data = SRC_receive(SRC_receiver_status_control1);
+    return (data);
+}
+        
+
+uint8_t SRC_get_receiver_status2(void){
+    uint8_t data = SRC_receive(SRC_receiver_status_control2);
     return (data);
 }

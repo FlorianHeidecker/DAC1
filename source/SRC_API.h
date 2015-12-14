@@ -70,7 +70,9 @@ typedef enum {	SRC_register_power = 0x01,
                 SRC_register_control_1 = 0x2D,
                 SRC_register_control_2 = 0x2E,
                 SRC_register_control_3 = 0x2F,
-                SRC_page_selection_register = 0x7F} SRC_register_t;                
+                SRC_page_selection_register = 0x7F,
+                SRC_receiver_status_control1 = 0x13,  
+                SRC_receiver_status_control2 = 0x14} SRC_register_t;                
                 
 
 //== functions =================================================================
@@ -237,6 +239,24 @@ void SRC_set_page(SRC_page_selection_t SRC_page_selection);
  *                  -> SRC_page_selection_t
  */
 SRC_page_selection_t SRC_get_page(void);
+
+/**
+ * @brief          
+ * 
+ * @return          
+ *                  
+ *                  
+ */
+uint8_t SRC_get_receiver_status1(void);
+
+/**
+ * @brief         
+ * 
+ * @return          
+ *                
+ *                 
+ */
+uint8_t SRC_get_receiver_status2(void);
 
 
 

@@ -40,7 +40,7 @@ void spi_init(void){
     SPI1CON1bits.MODE16 = 0; // Communication is byte-wide (8 bits)
     SPI1CON1bits.MSTEN = 1; // Master mode enabled
     SPI1CON1bits.SMP = 0; // Input data is sampled at the middle of data output time
-    SPI1CON1bits.CKE = 0; // Serial output data changes on transition from
+    SPI1CON1bits.CKE = 1; // Serial output data changes on transition from
     // Idle clock state to active clock state
     SPI1CON1bits.CKP = 0; // Idle state for clock is a low level; 
     // active state is a high level
