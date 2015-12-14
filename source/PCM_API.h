@@ -46,9 +46,10 @@ typedef enum {PCM_left_channel = 0, PCM_right_channel = 1} PCM_data_channel_t;
  * 
  * @param address   register to write or read
  * @param data      write data
+ * @param           read_write (write = 0, read = 1)
  * @return          read data
  */
-uint8_t PCM_send_receive(uint8_t address, uint8_t data);
+uint8_t PCM_send_receive(uint8_t address, uint8_t data, uint8_t read_write);
 
 /**
  * @brief           set digital attenuation level, left side
