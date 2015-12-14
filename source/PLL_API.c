@@ -17,10 +17,12 @@
 #include "PLL_API.h"
 
 void PLL_init(void){
-    PLL_CSEL_LATCH = 0;
     PLL_SR_TRIS = 0;
     PLL_FS1_TRIS = 0;
     PLL_FS2_TRIS = 0;
+    PLL_CSEL_TRIS = 0;
+    PLL_CSEL_LATCH = 0;
+    
     
     PLL_set_scko1_freq(PLL_SCKO1_16MHz);
     PLL_set_sampling_freq(PLL_SAMPLING_FREQ_44_1kHz);

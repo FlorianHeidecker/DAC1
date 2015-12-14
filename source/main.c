@@ -23,6 +23,7 @@
 #include "DEC_API.h"
 #include "xlcd/xlcd.h"
 #include "SRC_API.h"
+#include "PCM_API.h"
 
 #include <libpic30.h>
 
@@ -70,10 +71,7 @@
 
 int main(void) {
     AD1PCFGL = 0x1fff;
-    PLL_CSEL_TRIS = 0; // set to Output;
-    PLL_SR_TRIS = 0;
-    PLL_FS1_TRIS = 0;
-    PLL_FS2_TRIS = 0;
+    uint8_t level = 0x15;
     state_rotation_t dec_test = DEC_NO_TURN;
 
     // initalisation of the modules
@@ -85,7 +83,10 @@ int main(void) {
     spi_init();
     LOG("LOG: DEC_init()\n");
     DEC_init();
-    
+        
+    PLL_init();
+    LOG("LOG: PLL_init()\n");
+            
     SRC_init();
     SRC_set_audio_output_data_format(SRC_24_bit_I2S);
     SRC_set_output_mute(0);
@@ -95,16 +96,31 @@ int main(void) {
     SRC_set_word_length(SRC_WORD_LENGTH24);
     
     PLL_set_scko1_freq(PLL_SCKO1_16MHz);
-    PLL_set_sampling_freq(PLL_SAMPLING_FREQ_96kHz);
+    PLL_set_sampling_freq(PLL_SAMPLING_FREQ_96kHz);  
+    
+    PCM_set_audio_data_format(PCM_24_bit_I2S);
+    PCM_set_oversampling_rate(PCM_64_times_fs);
+    PCM_set_monaural_mode(PCM_stereo);
+    PCM_set_attenuation_control(1);
     
     while(1){
     	dec_test = get_DEC_status();
     	switch (dec_test){
             case DEC_TURN_LEFT:
-                LOG("L\n");
+                if(level > 0){
+                    level--;
+                    PCM_set_attunation_level_left(level);
+                    PCM_set_attunation_level_right(level);
+                }
+                LOG("%i\n",level);
                 break;
             case DEC_TURN_RIGHT:
-                LOG("R\n");
+                if(level <255){
+                    level++;
+                    PCM_set_attunation_level_left(level);
+                    PCM_set_attunation_level_right(level);
+                }
+                LOG("%i\n",level);;
                 break;
             case DEC_BUTTON:
                 LOG("B\n");
