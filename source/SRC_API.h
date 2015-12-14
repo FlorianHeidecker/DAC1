@@ -67,6 +67,16 @@ typedef enum {	SRC_register_power = 0x01,
                 SRC_receiver_PLL1_config_1 = 0x0F,
                 SRC_receiver_PLL1_config_2 = 0x10,
                 SRC_receiver_PLL1_config_3 = 0x11,
+                SRC_qchannel_register_1 = 0x1F,
+                SRC_qchannel_register_2 = 0x20,
+                SRC_qchannel_register_3 = 0x21,
+                SRC_qchannel_register_4 = 0x22,
+                SRC_qchannel_register_5 = 0x23,
+                SRC_qchannel_register_6 = 0x24,
+                SRC_qchannel_register_7 = 0x25,
+                SRC_qchannel_register_8 = 0x26,
+                SRC_qchannel_register_9 = 0x27,
+                SRC_qchannel_register_10 = 0x28,        
                 SRC_register_control_1 = 0x2D,
                 SRC_register_control_2 = 0x2E,
                 SRC_register_control_3 = 0x2F,
@@ -237,6 +247,87 @@ void SRC_set_page(SRC_page_selection_t SRC_page_selection);
  *                  -> SRC_page_selection_t
  */
 SRC_page_selection_t SRC_get_page(void);
+
+/**
+ * @brief           get information of qchannel register 1
+ * 
+ * @return          infos about control and address
+ *                  
+ */
+uint8_t SRC_get_qchannel_register1(void);
+
+
+/**
+ * @brief           get information of qchannel register 2
+ * 
+ * @return          infos about track
+ *                  
+ */
+uint8_t SRC_get_qchannel_register2(void);
+
+/**
+ * @brief           get information of qchannel register 3
+ * 
+ * @return          infos about index
+ *                  
+ */
+uint8_t SRC_get_qchannel_register3(void);
+
+/**
+ * @brief           get information of qchannel register 4
+ * 
+ * @return          infos about minutes
+ *                  
+ */
+uint8_t SRC_get_qchannel_register4(void);
+
+/**
+ * @brief           get information of qchannel register 5
+ * 
+ * @return          infos about seconds
+ *                  
+ */
+uint8_t SRC_get_qchannel_register5(void);
+
+/**
+ * @brief           get information of qchannel register 6
+ * 
+ * @return          infos about frame
+ *                  
+ */
+uint8_t SRC_get_qchannel_register6(void);
+
+/**
+ * @brief           get information of qchannel register 7
+ * 
+ * @return          8 bit zeros to differ between register 4-6 and 8-10
+ *                  
+ */
+uint8_t SRC_get_qchannel_register7(void);
+
+/**
+ * @brief           get information of qchannel register 8
+ * 
+ * @return          infos about absolut min
+ *                  
+ */
+uint8_t SRC_get_qchannel_register8(void);
+
+/**
+ * @brief           get information of qchannel register 9
+ * 
+ * @return          infos about absolut sec 
+ *                  
+ */
+uint8_t SRC_get_qchannel_register9(void);
+
+/**
+ * @brief           get information of qchannel register 10
+ * 
+ * @return          infos about absolut frame
+ *                  
+ */
+uint8_t SRC_get_qchannel_register10(void);
 
 
 

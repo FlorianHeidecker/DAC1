@@ -197,8 +197,8 @@ SRC_data_sources_t SRC_get_data_source(void){
 void SRC_set_output_mute(uint8_t enable){
     uint8_t data = SRC_receive(SRC_register_portA_1);
     
-    if (enable == 1) data |= (enable << 6);
-    else if (enable == 0) data &= ~(enable << 6);
+    if (enable == 1) data |= (1 << 6);
+    else if (enable == 0) data &= ~(1 << 6);
     
     SRC_send(SRC_register_portA_1, data);   
 }
