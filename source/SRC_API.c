@@ -285,3 +285,53 @@ uint8_t SRC_get_receiver_status2(void){
     uint8_t data = SRC_receive(SRC_receiver_status_control2);
     return (data);
 }
+
+uint8_t SRC_get_qchannel_register1(void){
+    uint8_t data = SRC_receive(SRC_qchannel_register_1);
+    return (data);
+}
+
+uint8_t SRC_get_qchannel_register2(void){
+    uint8_t data = SRC_receive(SRC_qchannel_register_2);
+    return (data);
+}
+
+uint8_t SRC_get_qchannel_register3(void){
+    uint8_t data = SRC_receive(SRC_qchannel_register_3);
+    return (data);
+}
+
+uint8_t SRC_get_qchannel_register4(void){
+    uint8_t data = SRC_receive(SRC_qchannel_register_4);
+    return (data);
+}
+
+uint8_t SRC_get_qchannel_register5(void){
+    uint8_t data = SRC_receive(SRC_qchannel_register_5);
+    return (data);
+}
+
+uint8_t SRC_get_qchannel_register6(void){
+    uint8_t data = SRC_receive(SRC_qchannel_register_6);
+    return (data);
+}
+
+uint8_t SRC_get_qchannel_register7(void){
+    uint8_t data = SRC_receive(SRC_qchannel_register_7);
+    return (data);
+}
+
+uint8_t SRC_get_qchannel_register8(void){
+    uint8_t data = SRC_receive(SRC_qchannel_register_8);
+    return (data);
+}
+
+uint8_t SRC_get_qchannel_register9(void){
+    uint8_t data = SRC_receive(SRC_qchannel_register_9);
+    return (data);
+}
+
+uint8_t SRC_get_qchannel_register10(void){
+    uint8_t data = SRC_receive(SRC_qchannel_register_10);
+    return (data);
+}
