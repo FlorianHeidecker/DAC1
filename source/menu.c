@@ -45,7 +45,7 @@ uint16_t menu_get_nothing(void);
 void menu_call_prev(void);
 void menu_call_next(void);
 void menu_call_sub(uint16_t dummy);
-void menu_call_up(void);
+void menu_call_up(uint16_t dummy);
 void menu_write_line(uint16_t line, uint16_t index);
 void menu_refresh_lines(void);
 void menu_write_headline(void);
@@ -327,12 +327,6 @@ void menu_init(void)
     m.state = MENU_NORMAL;
     
     menu_write_headline();
-    //menu_refresh_lines();
-    
-    
-    xlcd_clear();
-    //putrsXLCD("  ** MAIN MENU **");
-    menu_write_headline();
     menu_write_line(1, m.index);
     menu_write_line(2, menu_arr[m.index].next);
     menu_write_line(3, menu_arr[menu_arr[m.index].next].next);   
@@ -387,7 +381,6 @@ void menu_btn_set(void)
 
 void menu_btn_down(void)
 {
-    
     switch(menu_arr[m.index].type)
     {
         case MENU_NORMAL:
@@ -524,7 +517,7 @@ void menu_call_sub(uint16_t dummy)
 }
 
 
-void menu_call_up(void)
+void menu_call_up(uint16_t dummy)
 {
     m.index = menu_arr[m.index].up;
     m.cursor = 1;
@@ -630,37 +623,3 @@ uint16_t menu_get_nothing(void)
     return 0;
 }
 
-
-
-//void menu_parameter_change(uint16_t rotation)
-//{
-//    switch(rotation)
-//    {
-//        case 1: // turn left
-//            m.param_index--;
-//            
-//            if(m.param_index >= menu_arr[m.index].num_elements)
-//            {
-//                m.param_index = menu_arr[m.index].num_elements-1;
-//            }
-//            break;
-//            
-//        case 2: // button push
-//            menu_arr[m.index].set(m.param_index);
-//            m.state = SUB_MENU;
-//            break;
-//            
-//        case 3: // turn right
-//            m.param_index++;
-//            
-//            if(m.param_index >= menu_arr[m.index].num_elements)
-//            {
-//                m.param_index = 0;
-//            }
-//            break;
-//            
-//        default:
-//            break;
-//            
-//    }
-//}
