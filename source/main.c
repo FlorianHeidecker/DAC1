@@ -69,11 +69,9 @@ int main(void) {
     AD1PCFGL = 0x1fff;
     state_rotation_t dec_test = DEC_NO_TURN;
     
-    
     log_init();
     LOG("\n\nmain()\n");
 
-  
     //=======================================
     // initalisation of the modules
     log_init();
@@ -88,91 +86,6 @@ int main(void) {
     spi_init();
     LOG("LOG: DEC_init()\n");
     DEC_init();
-    
-    LOG("\n=================\n\n");
-    
-    LOG("LOG: PCM_set_soft_mute: %i\n",PCM_enabled);
-    PCM_set_soft_mute(PCM_enabled);
-    LOG("LOG: PCM_get_soft_mute: %i\n",PCM_get_soft_mute());
-    
-    LOG("LOG: PCM_set_soft_mute: %i\n",PCM_disabled);
-    PCM_set_soft_mute(PCM_disabled);
-    LOG("LOG: PCM_get_soft_mute: %i\n",PCM_get_soft_mute());
-    
-    LOG("\n=================\n\n");
-    
-    LOG("LOG: PCM_set_audio_data_format: %i\n",PCM_16_bit_standard_format);
-    PCM_set_audio_data_format(PCM_16_bit_standard_format);
-    LOG("LOG: PCM_get_audio_data_format: %i\n",PCM_get_audio_data_format());
-    
-    LOG("LOG: PCM_set_audio_data_format: %i\n",PCM_20_bit_standard_format);
-    PCM_set_audio_data_format(PCM_20_bit_standard_format);
-    LOG("LOG: PCM_get_audio_data_format: %i\n",PCM_get_audio_data_format());
-    
-    LOG("LOG: PCM_set_audio_data_format: %i\n",PCM_24_bit_standard_format);
-    PCM_set_audio_data_format(PCM_24_bit_standard_format);
-    LOG("LOG: PCM_get_audio_data_format: %i\n",PCM_get_audio_data_format());
-    
-    LOG("LOG: PCM_set_audio_data_format: %i\n",PCM_24_bit_MSB_first);
-    PCM_set_audio_data_format(PCM_24_bit_MSB_first);
-    LOG("LOG: PCM_get_audio_data_format: %i\n",PCM_get_audio_data_format());
-    
-    LOG("LOG: PCM_set_audio_data_format: %i\n",PCM_16_bit_I2S);
-    PCM_set_audio_data_format(PCM_16_bit_I2S);
-    LOG("LOG: PCM_get_audio_data_format: %i\n",PCM_get_audio_data_format());
-    
-    LOG("LOG: PCM_set_audio_data_format: %i\n",PCM_24_bit_I2S);
-    PCM_set_audio_data_format(PCM_24_bit_I2S);
-    LOG("LOG: PCM_get_audio_data_format: %i\n",PCM_get_audio_data_format());
-    
-    LOG("\n=================\n\n");
-    
-    LOG("LOG: PCM_set_oversampling_rate: %i\n",PCM_64_times_fs);
-    PCM_set_oversampling_rate(PCM_64_times_fs);
-    LOG("LOG: PCM_get_oversampling_rate: %i\n",PCM_get_oversampling_rate());
-    
-    LOG("LOG: PCM_set_oversampling_rate: %i\n",PCM_32_times_fs);
-    PCM_set_oversampling_rate(PCM_32_times_fs);
-    LOG("LOG: PCM_get_oversampling_rate: %i\n",PCM_get_oversampling_rate());
-    
-    LOG("LOG: PCM_set_oversampling_rate: %i\n",PCM_128_times_fs);
-    PCM_set_oversampling_rate(PCM_128_times_fs);
-    LOG("LOG: PCM_get_oversampling_rate: %i\n",PCM_get_oversampling_rate());
-    
-    LOG("\n=================\n\n");
-    
-    LOG("LOG: PCM_set_zero_detect_mute: %i\n",PCM_enabled);
-    PCM_set_zero_detect_mute(PCM_enabled);
-    LOG("LOG: PCM_get_zero_detect_mute: %i\n",PCM_get_zero_detect_mute());
-    
-    LOG("LOG: PCM_set_zero_detect_mute: %i\n",PCM_disabled);
-    PCM_set_zero_detect_mute(PCM_disabled);
-    LOG("LOG: PCM_get_zero_detect_mute: %i\n",PCM_get_zero_detect_mute());
-    
-    LOG("\n=================\n\n");
-    
-    LOG("LOG: PCM_set_monaural_mode: %i\n",PCM_mono);
-    PCM_set_monaural_mode(PCM_mono);
-    LOG("LOG: PCM_get_monaural_mode: %i\n",PCM_get_monaural_mode());
-    
-    LOG("LOG: PCM_set_monaural_mode: %i\n",PCM_stereo);
-    PCM_set_monaural_mode(PCM_stereo);
-    LOG("LOG: PCM_get_monaural_mode: %i\n",PCM_get_monaural_mode());
-    
-    LOG("\n=================\n\n");
-    
-    LOG("LOG: PCM_set_data_channel: %i\n",PCM_left_channel);
-    PCM_set_data_channel(PCM_left_channel);
-    LOG("LOG: PCM_get_data_channel: %i\n",PCM_get_data_channel());
-    
-    LOG("LOG: PCM_set_data_channel: %i\n",PCM_right_channel);
-    PCM_set_data_channel(PCM_right_channel);
-    LOG("LOG: PCM_get_data_channel: %i\n",PCM_get_data_channel());
-    
-    LOG("\n=================\n\n");
-    
-    LOG("LOG: PCM_get_left_zero_detection: %i\n",PCM_get_left_zero_detection());
-    LOG("LOG: PCM_get_rigth_zero_detection: %i\n",PCM_get_rigth_zero_detection());
     
     while(1){
     	dec_test = get_DEC_status();
