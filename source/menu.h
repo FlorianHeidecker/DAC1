@@ -41,7 +41,8 @@ typedef enum {
         PCM_MONAURAL_MENU,
         PCM_ATTUNATION_MENU,
         PCM_SOFT_MUTE_MENU,
-        PCM_DATA_FORMAT_MENU,
+            PCM_ZERO_DETECT_MUTE,
+        PCM_AUDIO_DATA_FORMAT_MENU,
         PCM_DELTA_SIGMA_MENU,
         PCM_RETURN_MENU
              

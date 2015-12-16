@@ -87,42 +87,49 @@ const char *pll_scko_freq_text[] =
 
 const char *pcm_attunation_text[] =
 {
-    "Dämpfung",
-    "xxdB",
-    "xxdB"
+    "Attunation",
+    "   xxdB",
+    "   xxdB"
 };
 
 const char *pcm_soft_mute_text[] = 
 {
     "SoftMute",
-    "On",
-    "Off"
+    "    On",
+    "   Off"
 };
 
 const char *pcm_audio_data_format_text[] =
 {
     "I2S Format",
-    "16 LSB",
-    "20 LSB",
-    "24 LSB",
-    "24 MSB",
-    "16 I2S",
-    "24 I2S"
+    " 16 LSB",
+    " 20 LSB",
+    " 24 LSB",
+    " 24 MSB",
+    " 16 I2S",
+    " 24 I2S"
 };
 
 const char *pcm_delta_sigma_text[] = 
 {
     "DeltaSigma",
-    " 64fs",
-    " 32fs",
-    "128fs"
+    "   64fs",
+    "   32fs",
+    "  128fs"
 };
 
 const char *pcm_monaural_text[] =
 {
     "Monaural",
-    "  Mono",
-    "Stereo"
+    "   Mono",
+    " Stereo"
+};
+
+const char *pcm_zero_detect_text[] =
+{
+    "ZeroDetect"
+    "     On",
+    "    Off"
 };
 
 //==============================================================================
@@ -193,7 +200,7 @@ const menu_t menu_arr[] =
         .prev   = SRC_MAIN_MENU,
         .next   = INFO_MAIN_MENU,
         .up     = MAIN_MENU_DUMMY,
-        .sub    = 0,
+        .sub    = PCM_MONAURAL_MENU,
         .get    = menu_get_nothing,
         .set    = menu_call_sub
     },
@@ -240,7 +247,78 @@ const menu_t menu_arr[] =
         .sub    = 0,
         .get    = PCM_get_monaural_mode,
         .set    = PCM_set_monaural_mode,
+    },
+    {   // PCM_ATTUNATION_MENU
+        .text   = pcm_attunation_text,
+        .type   = MENU_OPTION,
+        .num_elements = 2,
+        .prev   = PCM_MONAURAL_MENU,
+        //.next   = PCM_SOFT_MUTE_MENU,
+        .next   = PCM_ZERO_DETECT_MUTE,
+        .up     = PCM_MAIN_MENU,
+        .sub    = 0,
+        .get    = PCM_get_monaural_mode,
+        .set    = PCM_set_monaural_mode,  
+    },
+    {   // PCM_SOFT_MUTE_MENU
+        .text   = pcm_soft_mute_text,
+        .type   = MENU_OPTION,
+        .num_elements = 2,
+        .prev   = PCM_ATTUNATION_MENU,
+        .next   = PCM_AUDIO_DATA_FORMAT_MENU,
+        .up     = PCM_MAIN_MENU,
+        .sub    = 0,
+        .get    = PCM_get_soft_mute,
+        .set    = PCM_set_soft_mute,  
+    },
+    {   // PCM_ZERO_DETECT_MUTE
+        .text   = pcm_zero_detect_text,
+        .type   = MENU_OPTION,
+        .num_elements = 2,
+        //.prev   = PCM_SOFT_MUTE_MENU,
+        .prev   = PCM_ATTUNATION_MENU,
+        .next   = PCM_AUDIO_DATA_FORMAT_MENU,
+        .up     = PCM_MAIN_MENU,
+        .sub    = 0,
+        .get    = PCM_get_zero_detect_mute,
+        .set    = PCM_set_zero_detect_mute,
+    },
+    {   // PCM_AUDIO_DATA_FORMAT_MENU
+        .text   = pcm_audio_data_format_text,
+        .type   = MENU_OPTION,
+        .num_elements = 2,
+        .prev   = PCM_ZERO_DETECT_MUTE,
+        .next   = PCM_DELTA_SIGMA_MENU,
+        .up     = PCM_MAIN_MENU,
+        .sub    = 0,
+        .get    = PCM_get_audio_data_format,
+        .set    = PCM_set_audio_data_format,  
+    },
+    {   // PCM_DELTA_SIGMA_MENU
+        .text   = pcm_delta_sigma_text,
+        .type   = MENU_OPTION,
+        .num_elements = 3,
+        .prev   = PCM_AUDIO_DATA_FORMAT_MENU,
+        .next   = PCM_RETURN_MENU,
+        .up     = PCM_MAIN_MENU,
+        .sub    = 0,
+        .get    = PCM_get_oversampling_rate,
+        .set    = PCM_set_oversampling_rate,  
+    },
+        {   // PCM_RETURN_MENU
+        .text   = return_menu_text,      
+        .type   = MENU_NORMAL,
+        .num_elements = 0,
+        .prev   = PCM_DELTA_SIGMA_MENU,
+        .next   = PCM_MONAURAL_MENU,
+        .up     = PCM_MAIN_MENU,
+        .sub    = 0,
+        .get    = menu_get_nothing,
+        .set    = menu_call_up
     }
+    
+    
+    
 };
 
 void menu_init(void)
@@ -525,7 +603,7 @@ void menu_write_headline(void)
     uint16_t up_index = menu_arr[m.index].up;
     
     xlcd_clear_line(0);
-    xlcd_goto(0,2);
+    xlcd_goto(0,0);
     putrsXLCD("*");
     putrsXLCD(menu_arr[up_index].text[0]);
     //putrsXLCD(" **");
