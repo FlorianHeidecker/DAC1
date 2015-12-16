@@ -17,6 +17,9 @@
 
 #include "log.h"
 #include "UART_API.h"
+#include "menu.h"
+
+#include <libpic30.h>
 #include "SPI_API.h"
 #include "DEC_API.h"
 #include "xlcd/xlcd.h"
@@ -65,19 +68,26 @@
 int main(void) {
     AD1PCFGL = 0x1fff;
     state_rotation_t dec_test = DEC_NO_TURN;
+    
+    
+    log_init();
+    LOG("\n\nmain()\n");
 
+  
     //=======================================
     // initalisation of the modules
     log_init();
     LOG("\n\nLOG: main()\n");
     LOG("LOG: xlcd_init()\n");
     xlcd_init();
+    LOG("LOG: pll_init()\n");
+    PLL_init();
+    LOG("LOG: menu_init()\n");
+    menu_init();
     LOG("LOG: spi_init()\n");
     spi_init();
     LOG("LOG: DEC_init()\n");
     DEC_init();
-    LOG("LOG: PLL_init()\n");
-    PLL_init();
     
     LOG("\n=================\n\n");
     
@@ -166,15 +176,21 @@ int main(void) {
     
     while(1){
     	dec_test = get_DEC_status();
-    	switch (dec_test){
-            case DEC_TURN_LEFT:
+    	switch (dec_test)
+        {
+            case DEC_TURN_LEFT:     
                 LOG("L\n");
+                menu_btn_down();
                 break;
-            case DEC_TURN_RIGHT:
+                
+            case DEC_TURN_RIGHT:    
                 LOG("R\n");
+                menu_btn_up();
                 break;
-            case DEC_BUTTON:
+                
+            case DEC_BUTTON:        
                 LOG("B\n");
+                menu_btn_set();
                 break;
     	}
     }
