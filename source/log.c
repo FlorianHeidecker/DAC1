@@ -24,43 +24,43 @@
 
 
 
-#define LTOA_BUFSIZE    12
-
-char *ltoa(char *str, long N, int base)
-{
-      register int i = 2;
-      long uarg;
-      char *tail, *head = str, buf[LTOA_BUFSIZE];
-
-      if (36 < base || 2 > base)
-            base = 10;                    /* can only use 0-9, A-Z        */
-      tail = &buf[LTOA_BUFSIZE - 1];           /* last character position      */
-      *tail-- = '\0';
-
-      if (10 == base && N < 0L)
-      {
-            *head++ = '-';
-            uarg    = -N;
-      }
-      else  uarg = N;
-
-      if (uarg)
-      {
-            for (i = 1; uarg; ++i)
-            {
-                  register ldiv_t r;
-
-                  r       = ldiv(uarg, base);
-                  *tail-- = (char)(r.rem + ((9L < r.rem) ?
-                                  ('A' - 10L) : '0'));
-                  uarg    = r.quot;
-            }
-      }
-      else  *tail-- = '0';
-
-      memcpy(head, ++tail, i);
-      return str;
-}
+//#define LTOA_BUFSIZE    12
+//
+//char *ltoa(char *str, long N, int base)
+//{
+//      register int i = 2;
+//      long uarg;
+//      char *tail, *head = str, buf[LTOA_BUFSIZE];
+//
+//      if (36 < base || 2 > base)
+//            base = 10;                    /* can only use 0-9, A-Z        */
+//      tail = &buf[LTOA_BUFSIZE - 1];           /* last character position      */
+//      *tail-- = '\0';
+//
+//      if (10 == base && N < 0L)
+//      {
+//            *head++ = '-';
+//            uarg    = -N;
+//      }
+//      else  uarg = N;
+//
+//      if (uarg)
+//      {
+//            for (i = 1; uarg; ++i)
+//            {
+//                  register ldiv_t r;
+//
+//                  r       = ldiv(uarg, base);
+//                  *tail-- = (char)(r.rem + ((9L < r.rem) ?
+//                                  ('A' - 10L) : '0'));
+//                  uarg    = r.quot;
+//            }
+//      }
+//      else  *tail-- = '0';
+//
+//      memcpy(head, ++tail, i);
+//      return str;
+//}
  
 
 
