@@ -58,7 +58,27 @@ void SRC_init (void){
     data &= ~(1 << 0);     //set SRC input source to DIR
     data |= 1 << 1;   
     SRC_send(SRC_register_control_1, data);
-
+    
+    data = 0x33;    
+    SRC_send(SRC_receiver_interrupt_mask, data); //set interrupts aktiv 
+    
+    data = 0x00;
+    SRC_send(SRC_src_dit_interrupt_mode, data);
+    
+    data = 0xFF;
+    SRC_send(SRC_receiver_interrupt_mask, data); //set interrupts aktiv 
+    
+    data = 0x01;
+    SRC_send(SRC_receiver_interrupt_mask2, data); //set interrupts aktiv 
+    
+    data = 0x00;
+    SRC_send(SRC_receiver_interrupt_mode, data);
+    
+    data = 0x00;
+    SRC_send(SRC_receiver_interrupt_mode2, data);
+    
+    data = 0x00;
+    SRC_send(SRC_receiver_interrupt_mode3, data);
     
     LOG("\n= SRC PLL=\n");
     // PLL1 configuration
@@ -364,6 +384,11 @@ void SRC_set_mute_pll_error(uint8_t enable){
     SRC_send(SRC_receiver_control_register_2, data);  
 }
 
+uint8_t SRC_get_mute_pll_error(void){
+    uint8_t data = SRC_receive(SRC_receiver_control_register_2);
+    return (data & SRC_PLLLOCKERROR);   
+}
+
 uint8_t SRC_get_non_pcm_audio_detection(void){
     uint8_t data = SRC_receive(SRC_non_pcm_audio_detection_register);
     return (data);
@@ -405,6 +430,11 @@ void SRC_set_automatic_deemphasis(uint8_t enable){
     else if (enable == 0) data &= ~(1 << 5);
     
     SRC_send(SRC_register_control_2, data);  
+}
+
+uint8_t SRC_get_automatic_deemphasis(void){
+    uint8_t data = SRC_receive(SRC_register_control_2);
+    return (data & SRC_DEEMPHASIS);   
 }
 
 void SRC_set_decimation_filter(SRC_decimation_filter_t SRC_decimation_filter){

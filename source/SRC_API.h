@@ -24,6 +24,8 @@
 #define SRC_WORD_LENGTH 0xC0
 #define SRC_INTERPOLATION_FILTER 0x03
 #define SRC_DECIMATION 0x04
+#define SRC_DEEMPHASIS 0x20
+#define SRC_PLLLOCKERROR 0x10
 
 /** SRC: possible audio output data format selection */
 typedef enum {	SRC_24_bit_left_justified=0,
@@ -98,9 +100,15 @@ typedef enum {	SRC_register_power = 0x01,
                 SRC_receiver_status_control1 = 0x13,  
                 SRC_receiver_status_control2 = 0x14,
                 SRC_receiver_status_control3 = 0x15,
-                SRC_src_dit_status_register = 0x0A  } SRC_register_t;                
-                
-
+                SRC_src_dit_status_register = 0x0A,
+                SRC_src_dit_interrupt_mask = 0x0B,                                                    
+                SRC_src_dit_interrupt_mode = 0x0C,
+                SRC_receiver_interrupt_mask = 0x16,            
+                SRC_receiver_interrupt_mask2 = 0x17,
+                SRC_receiver_interrupt_mode = 0x18,
+                SRC_receiver_interrupt_mode2 = 0x19,
+                SRC_receiver_interrupt_mode3 = 0x1A} SRC_register_t;                      
+                        
 //== functions =================================================================
 
                 
@@ -428,12 +436,22 @@ uint8_t SRC_get_src_dit_status(void);
  * @brief    This bit is used to set the automatic mute function for the DIR 
  *          block when a loss of lock is indicated by both the AES3 decoder and PLL2.    
  * 
- * @return  
+ * @param  
  *              0 Disabled (Default)
  *               1 Enabled; audio data output from the DIR block is forced low for a loss of
  *               lock condition   
  */
 void SRC_set_mute_pll_error(uint8_t enable);
+
+/**
+ * @brief          get status of setting pll loos of lock mute
+ *  
+ * @return       0 Disabled (Default)
+ *               1 Enabled; audio data output from the DIR block is forced low for a loss of
+ *               lock condition   
+ *                  
+ */
+uint8_t SRC_get_mute_pll_error(void);
 
 /**
  * @brief     Non-PCM Audio Detection Status Register; This bit is utilized to 
@@ -479,6 +497,14 @@ SRC_interpolation_filter_t SRC_get_interpolation_filter(void);
  */
 void SRC_set_automatic_deemphasis(uint8_t enable);
 
+/**
+ * @brief           get status of setting automatic deemphasis
+ *  
+ * @return         0 Disabled (Default)
+ *                 1 Enabled                                
+ */
+uint8_t SRC_get_automatic_deemphasis(void);
+
 /*
  * @brief           This bit selects the mode of the decimation function,
  *                  either true decimation filter or direct down-
@@ -487,6 +513,7 @@ void SRC_set_automatic_deemphasis(uint8_t enable);
  * 
  * @param           see
  *                  SRC: SRC_decimation_filter_t
+ * 
  *                                      
  */
 void SRC_set_decimation_filter(SRC_decimation_filter_t SRC_decimation_filter);
