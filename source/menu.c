@@ -316,9 +316,6 @@ const menu_t menu_arr[] =
         .get    = menu_get_nothing,
         .set    = menu_call_up
     }
-    
-    
-    
 };
 
 void menu_init(void)

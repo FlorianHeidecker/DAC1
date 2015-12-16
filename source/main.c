@@ -12,10 +12,12 @@
  */
 
 
+
 #include <xc.h>
 #include <stdio.h>
 
 #include "log.h"
+#include "PLL_API.h"
 #include "UART_API.h"
 #include "menu.h"
 
@@ -23,11 +25,11 @@
 #include "SPI_API.h"
 #include "DEC_API.h"
 #include "xlcd/xlcd.h"
+#include "SRC_API.h"
+#include "PCM_API.h"
 #include "PLL_API.h"
 
 #include <libpic30.h>
-
-
 
 // FBS
 #pragma config BWRP = WRPROTECT_OFF     // Boot Segment Write Protect (Boot Segment may be written)
@@ -56,7 +58,7 @@
 #pragma config WDTPOST = PS32768        // Watchdog Timer Postscaler (1:32,768)
 #pragma config WDTPRE = PR128           // WDT Prescaler (1:128)
 #pragma config WINDIS = OFF             // Watchdog Timer Window (Watchdog Timer in Non-Window mode)
-#pragma config FWDTEN = ON              // Watchdog Timer Enable (Watchdog timer always enabled)
+#pragma config FWDTEN = OFF              // Watchdog Timer Enable (Watchdog timer always enabled)
 
 // FPOR
 #pragma config FPWRT = PWR128           // POR Timer Value (128ms)
@@ -66,22 +68,15 @@
 #pragma config ICS = PGD1               // Comm Channel Select (Communicate on PGC1/EMUC1 and PGD1/EMUD1)
 #pragma config JTAGEN = OFF             // JTAG Port Enable (JTAG is Disabled)
 
-
-
-
 int main(void) {
     AD1PCFGL = 0x1fff;
     state_rotation_t dec_test = DEC_NO_TURN;
     
-    
-    log_init();
-    LOG("\n\nmain()\n");
-
-  
     //=======================================
     // initalisation of the modules
     log_init();
     LOG("\n\nLOG: main()\n");
+
     LOG("LOG: xlcd_init()\n");
     xlcd_init();
     LOG("LOG: pll_init()\n");
@@ -92,10 +87,18 @@ int main(void) {
     spi_init();
     LOG("LOG: DEC_init()\n");
     DEC_init();
-
+        
+    PLL_init();
+    LOG("LOG: PLL_init()\n");
+            
+    //SRC_init();
+    //SRC_set_audio_output_data_format(SRC_24_bit_I2S);
+    //SRC_set_output_mute(0);
+    //SRC_set_master_clock_source(SRC_MCLK);
+    //SRC_set_master_clock_divider(SRC_Divide128);
+    //SRC_set_data_source(SRC_SRC);
+    //SRC_set_word_length(SRC_WORD_LENGTH24);  
     
-    
-
     
     while(1){
     	dec_test = get_DEC_status();
@@ -104,7 +107,6 @@ int main(void) {
             case DEC_TURN_LEFT:     
                 LOG("L\n");
                 menu_btn_down();
-                
                 break;
                 
             case DEC_TURN_RIGHT:    
@@ -117,7 +119,7 @@ int main(void) {
                 menu_btn_set();
                 break;
                 
-            default:                
+            default:
                 break;
     	}
     }
