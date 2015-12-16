@@ -23,11 +23,10 @@
 #include "SPI_API.h"
 #include "DEC_API.h"
 #include "xlcd/xlcd.h"
+#include "PCM_API.h"
 #include "PLL_API.h"
 
 #include <libpic30.h>
-
-
 
 // FBS
 #pragma config BWRP = WRPROTECT_OFF     // Boot Segment Write Protect (Boot Segment may be written)
@@ -66,18 +65,13 @@
 #pragma config ICS = PGD1               // Comm Channel Select (Communicate on PGC1/EMUC1 and PGD1/EMUD1)
 #pragma config JTAGEN = OFF             // JTAG Port Enable (JTAG is Disabled)
 
-
-
-
 int main(void) {
     AD1PCFGL = 0x1fff;
     state_rotation_t dec_test = DEC_NO_TURN;
     
-    
     log_init();
     LOG("\n\nmain()\n");
 
-  
     //=======================================
     // initalisation of the modules
     log_init();
@@ -92,10 +86,6 @@ int main(void) {
     spi_init();
     LOG("LOG: DEC_init()\n");
     DEC_init();
-
-    
-    
-
     
     while(1){
     	dec_test = get_DEC_status();
@@ -104,7 +94,6 @@ int main(void) {
             case DEC_TURN_LEFT:     
                 LOG("L\n");
                 menu_btn_down();
-                
                 break;
                 
             case DEC_TURN_RIGHT:    
@@ -115,9 +104,6 @@ int main(void) {
             case DEC_BUTTON:        
                 LOG("B\n");
                 menu_btn_set();
-                break;
-                
-            default:                
                 break;
     	}
     }
