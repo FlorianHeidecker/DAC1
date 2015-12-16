@@ -47,7 +47,7 @@ void PCM_set_attenuation_level_left(uint8_t value){
     PCM_send_receive(PCM_register_16, value, WRITE);
 }
 
-uint8_t PCM_get_attenuation_level_left(void){
+uint16_t PCM_get_attenuation_level_left(void){
     return PCM_send_receive(PCM_register_16, 0x00, READ);
 }
 
@@ -55,7 +55,7 @@ void PCM_set_attenuation_level_right(uint8_t value){
     PCM_send_receive(PCM_register_17, value, WRITE);
 }
 
-uint8_t PCM_get_attenuation_level_right(void){
+uint16_t PCM_get_attenuation_level_right(void){
     return PCM_send_receive(PCM_register_17, 0x00, READ);
 }
 
@@ -65,7 +65,7 @@ void PCM_set_soft_mute(uint8_t value){
     PCM_send_receive(PCM_register_18, data, WRITE);
 }
 
-uint8_t PCM_get_soft_mute(void){
+uint16_t PCM_get_soft_mute(void){
     uint8_t data = PCM_send_receive(PCM_register_18, 0x00, READ);
     return ((data >> 0) & 1);
 }
@@ -76,7 +76,7 @@ void PCM_set_attenuation_control(uint8_t value){
     PCM_send_receive(PCM_register_18, data, WRITE);
 }
 
-uint8_t PCM_get_attenuation_control(void){
+uint16_t PCM_get_attenuation_control(void){
     uint8_t data = PCM_send_receive(PCM_register_18, 0x00, READ);
     return (data >> 7) & 1;
 }
@@ -157,7 +157,7 @@ void PCM_set_zero_detect_mute(uint8_t value){
     PCM_send_receive(PCM_register_19, data, WRITE);
 }
 
-uint8_t PCM_get_zero_detect_mute(void){
+uint16_t PCM_get_zero_detect_mute(void){
     uint8_t data = PCM_send_receive(PCM_register_19, 0x00, READ);
     return ((data >> 0) & 1);
 }
@@ -190,12 +190,12 @@ PCM_data_channel_t PCM_get_data_channel(void){
     return ((data >> 2) & 1);
 }
 
-uint8_t PCM_get_left_zero_detection(void){
+uint16_t PCM_get_left_zero_detection(void){
     uint8_t data = PCM_send_receive(PCM_register_22, 0x00, READ);
     return ((data >> 0) & 1);
 }
 
-uint8_t PCM_get_rigth_zero_detection(void){
+uint16_t PCM_get_rigth_zero_detection(void){
     uint8_t data = PCM_send_receive(PCM_register_22, 0x00, READ);
     return ((data >> 1) & 1);
 }
