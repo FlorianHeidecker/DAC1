@@ -20,6 +20,7 @@
 #include "SPI_API.h"
 #include "DEC_API.h"
 #include "xlcd/xlcd.h"
+#include "PLL_API.h"
 
 #include <libpic30.h>
 
@@ -80,7 +81,8 @@ int main(void) {
     spi_init();
     LOG("LOG: DEC_init()\n");
     DEC_init();
-
+    LOG("LOG: PLL_init()\n");
+    PLL_init();
     
     while(1){
     	dec_test = get_DEC_status();
