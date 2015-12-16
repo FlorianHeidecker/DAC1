@@ -178,18 +178,18 @@ const menu_t menu_arr[] =
         .sub  = 0, 
         .get  = PLL_get_scko1_freq,     
         .set  = PLL_set_scko1_freq
-    },
-    {   // PLL_RETURN_MENU
-        .text   = return_menu_text,      
-        .type   = MENU_NORMAL,
-        .num_elements = 0,
-        .prev   = PLL_SCKO_SEL_MENU,
-        .next   = PLL_FREQ_SEL_MENU,
-        .up     = PLL_MAIN_MENU,
-        .sub    = 0,
-        .get    = menu_get_nothing,
-        .set    = menu_call_up
-    }
+    }//,
+//    {   // PLL_RETURN_MENU
+//        .text   = return_menu_text,      
+//        .type   = MENU_NORMAL,
+//        .num_elements = 0,
+//        .prev   = PLL_SCKO_SEL_MENU,
+//        .next   = PLL_FREQ_SEL_MENU,
+//        .up     = PLL_MAIN_MENU,
+//        .sub    = 0,
+//        .get    = menu_get_nothing,
+//        .set    = menu_call_up
+//    }
 };
 
 void menu_init(void)

@@ -15,6 +15,7 @@
       <itemPath>source/SPI_API.h</itemPath>
       <itemPath>source/DEC_API.h</itemPath>
       <itemPath>source/CONTROL.h</itemPath>
+      <itemPath>source/SRC_API.h</itemPath>
       <itemPath>source/menu.h</itemPath>
       <itemPath>source/PCM_API.h</itemPath>
     </logicalFolder>
@@ -46,6 +47,7 @@
       <itemPath>source/SPI_API.c</itemPath>
       <itemPath>source/DEC_API.c</itemPath>
       <itemPath>source/CONTROL.c</itemPath>
+      <itemPath>source/SRC_API.c</itemPath>
       <itemPath>source/menu.c</itemPath>
       <itemPath>source/PCM_API.c</itemPath>
     </logicalFolder>

@@ -12,10 +12,12 @@
  */
 
 
+
 #include <xc.h>
 #include <stdio.h>
 
 #include "log.h"
+#include "PLL_API.h"
 #include "UART_API.h"
 #include "DEC_API.h"
 #include "xlcd/xlcd.h"
@@ -53,7 +55,7 @@
 #pragma config WDTPOST = PS32768        // Watchdog Timer Postscaler (1:32,768)
 #pragma config WDTPRE = PR128           // WDT Prescaler (1:128)
 #pragma config WINDIS = OFF             // Watchdog Timer Window (Watchdog Timer in Non-Window mode)
-#pragma config FWDTEN = ON              // Watchdog Timer Enable (Watchdog timer always enabled)
+#pragma config FWDTEN = OFF              // Watchdog Timer Enable (Watchdog timer always enabled)
 
 // FPOR
 #pragma config FPWRT = PWR128           // POR Timer Value (128ms)
@@ -67,7 +69,6 @@ int main(void) {
     AD1PCFGL = 0x1fff;
     state_rotation_t dec_test = DEC_NO_TURN;
 
-    //=======================================
     // initalisation of the modules
     log_init();
     LOG("\n\nLOG: main()\n");
@@ -86,6 +87,18 @@ int main(void) {
 
     LOG("LOG: DEC_init()\n");
     DEC_init();
+        
+    PLL_init();
+    LOG("LOG: PLL_init()\n");
+            
+    //SRC_init();
+    //SRC_set_audio_output_data_format(SRC_24_bit_I2S);
+    //SRC_set_output_mute(0);
+    //SRC_set_master_clock_source(SRC_MCLK);
+    //SRC_set_master_clock_divider(SRC_Divide128);
+    //SRC_set_data_source(SRC_SRC);
+    //SRC_set_word_length(SRC_WORD_LENGTH24);  
+    
     
     while(1){
     	dec_test = get_DEC_status();
@@ -104,6 +117,9 @@ int main(void) {
             case DEC_BUTTON:        
                 LOG("B\n");
                 menu_btn_set();
+                break;
+                
+            default:
                 break;
     	}
     }

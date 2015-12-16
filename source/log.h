@@ -45,14 +45,22 @@
 
 /** Enables basic log output on UART1 */
 #define LOGGING
+
 /** PLL API log output on UART1 */
 #define PLL_API_LOGGING
+
 /** Log function for PCM */
 #define PCM_API_LOGGING
+
 /** Log function for XLCD library and menu */
 #define XLCD_LOGGING
+
 /** Log function for CONTROL */
 #define CONTROL_LOGGING
+
+/** Log function for SRC */
+#define SRC_LOGGING
+
 /** menu log function */ 
 #define MENU_LOGGING
 
@@ -90,6 +98,13 @@
 #else
 	#define CONTROL_LOG(x, args...)
 #endif /* CONTROL_LOGGING */
+
+
+#ifdef SRC_LOGGING
+	#define SRC_LOG(x, args...)   LOG_WRITE_FUNCTION(x, ##args)
+#else
+	#define SRC_LOG(x, args...)
+#endif /* SRC_LOG */
 
 
 #ifdef MENU_LOGGING
