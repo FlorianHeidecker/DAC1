@@ -21,7 +21,6 @@ void PLL_init(void){
     PLL_FS1_TRIS = 0;
     PLL_FS2_TRIS = 0;
     PLL_CSEL_TRIS = 0;
-    PLL_CSEL_LATCH = 0;
     
     
     PLL_set_scko1_freq(PLL_SCKO1_16MHz);

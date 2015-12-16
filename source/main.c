@@ -19,11 +19,15 @@
 #include "log.h"
 #include "PLL_API.h"
 #include "UART_API.h"
+#include "menu.h"
+
+#include <libpic30.h>
 #include "SPI_API.h"
 #include "DEC_API.h"
 #include "xlcd/xlcd.h"
 #include "SRC_API.h"
 #include "PCM_API.h"
+#include "PLL_API.h"
 
 #include <libpic30.h>
 
@@ -68,17 +72,24 @@
 
 
 
-
 int main(void) {
     AD1PCFGL = 0x1fff;
-    uint8_t level = 0x15;
     state_rotation_t dec_test = DEC_NO_TURN;
-
+    
+    
+    log_init();
+    LOG("\n\nmain()\n");
+  
+    //=======================================
     // initalisation of the modules
     log_init();
     LOG("\n\nLOG: main()\n");
     LOG("LOG: xlcd_init()\n");
     xlcd_init();
+    LOG("LOG: pll_init()\n");
+    PLL_init();
+    LOG("LOG: menu_init()\n");
+    menu_init();
     LOG("LOG: spi_init()\n");
     spi_init();
     LOG("LOG: DEC_init()\n");
@@ -105,25 +116,25 @@ int main(void) {
     
     while(1){
     	dec_test = get_DEC_status();
-    	switch (dec_test){
-            case DEC_TURN_LEFT:
-                if(level > 0){
-                    level--;
-                    PCM_set_attunation_level_left(level);
-                    PCM_set_attunation_level_right(level);
-                }
-                LOG("%i\n",level);
+    	switch (dec_test)
+        {
+            case DEC_TURN_LEFT:     
+                LOG("L\n");
+                menu_btn_down();
+                
                 break;
-            case DEC_TURN_RIGHT:
-                if(level <255){
-                    level++;
-                    PCM_set_attunation_level_left(level);
-                    PCM_set_attunation_level_right(level);
-                }
-                LOG("%i\n",level);;
+                
+            case DEC_TURN_RIGHT:    
+                LOG("R\n");
+                menu_btn_up();
                 break;
-            case DEC_BUTTON:
+                
+            case DEC_BUTTON:        
                 LOG("B\n");
+                menu_btn_set();
+                break;
+                
+            default:                
                 break;
     	}
     }
