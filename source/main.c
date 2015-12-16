@@ -15,18 +15,18 @@
 
 #include <xc.h>
 #include <stdio.h>
+
 #include "log.h"
 #include "PLL_API.h"
-#include "xlcd/xlcd.h"
 #include "UART_API.h"
 #include "menu.h"
 
 #include <libpic30.h>
+#include "SPI_API.h"
+#include "DEC_API.h"
+#include "xlcd/xlcd.h"
 
-
-
-
-    
+#include <libpic30.h>
 
 
 
@@ -77,10 +77,17 @@ int main(void) {
     
     LOG("\n\nmain()\n");
 
-    
+
+    state_rotation_t dec_test = DEC_NO_TURN;
+
     //=======================================
     // initalisation of the modules
+    log_init();
+    LOG("\n\nLOG: main()\n");
+    
+    LOG("LOG: xlcd_init()\n");
     xlcd_init();
+    LOG("LOG: pll_init()\n");
     pll_init();
     menu_init();
     
@@ -112,6 +119,24 @@ int main(void) {
     }
     
     
+    LOG("LOG: spi_init()\n");
+    spi_init();
+    LOG("LOG: DEC_init()\n");
+    DEC_init();
+    
+    while(1){
+    	dec_test = get_DEC_status();
+    	switch (dec_test){
+            case DEC_TURN_LEFT:     LOG("L\n");
+                                    break;
+            case DEC_TURN_RIGHT:    LOG("R\n");
+                                    break;
+            case DEC_BUTTON:        LOG("B\n");
+                                    break;
+            default:                break;
+    	}
+    }
+
 
 
 

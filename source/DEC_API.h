@@ -26,13 +26,13 @@ typedef enum {DEC_NO_TURN=0,
               DEC_TURN_RIGHT=3} state_rotation_t;
 
 /** Rotary Encoder PINS TRIS initialization */
-void DEC_init();
+void DEC_init(void);
 
 /** Get the State of the Rotary Encoder Button */
-unsigned char get_DEC_button();
+unsigned char get_DEC_button(void);
 
 /** Get the State of the rotary encoder */
-state_rotation_t get_DEC_status();
+state_rotation_t get_DEC_status(void);
 
 
 #endif /* _DEC_API_H */
