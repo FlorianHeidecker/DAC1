@@ -31,6 +31,8 @@ void CONTROL_init(void){
     CONTROL_LOG("CONTROL_LOG: spi_init()\n");
     spi_init();
     PLL_init();
+    SRC_init();
+    PLL_set_scko1_freq(PLL_SCKO1_16MHz);
     CONTROL_set_audio_data_format(CONTROL_24_bit_I2S);
     CONTROL_set_attunation_level(100);
     CONTROL_set_zero_detect_mute(PCM_enabled);
@@ -42,22 +44,32 @@ void CONTROL_set_audio_data_format(CONTROL_audio_data_format_t CONTROL_audio_dat
     switch(CONTROL_audio_data_format){
         case CONTROL_16_bit_standard_format:
             PCM_set_audio_data_format(PCM_16_bit_standard_format);
+            SRC_set_audio_output_data_format(SRC_16_bit_right_justified);
+            SRC_set_word_length(SRC_WORD_LENGTH16);
             break;
             
         case CONTROL_20_bit_standard_format:
             PCM_set_audio_data_format(PCM_20_bit_standard_format);
+            SRC_set_audio_output_data_format(SRC_20_bit_right_justified);
+            SRC_set_word_length(SRC_WORD_LENGTH20);
             break;
             
         case CONTROL_24_bit_standard_format:
             PCM_set_audio_data_format(PCM_24_bit_standard_format);
+            SRC_set_audio_output_data_format(SRC_24_bit_right_justified);
+            SRC_set_word_length(SRC_WORD_LENGTH24);
             break;
             
         case CONTROL_24_bit_MSB_first:
             PCM_set_audio_data_format(PCM_24_bit_MSB_first);
+            SRC_set_audio_output_data_format(SRC_24_bit_left_justified);
+            SRC_set_word_length(SRC_WORD_LENGTH24);
             break;
             
         case CONTROL_24_bit_I2S:
             PCM_set_audio_data_format(PCM_24_bit_I2S);
+            SRC_set_audio_output_data_format(SRC_24_bit_I2S);
+            SRC_set_word_length(SRC_WORD_LENGTH24);
             break;
     }
 }
@@ -84,6 +96,12 @@ CONTROL_audio_data_format_t CONTROL_get_audio_data_format(void){
             return CONTROL_24_bit_I2S;
             break;
     }
+}
+
+void CONTROL_reset(void){
+    PCM_pcm_reset(PCM_enabled);
+    SRC_set_reset(1);
+    CONTROL_init();
 }
 
 //== only PLL related ==========================================================
