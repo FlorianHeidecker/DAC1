@@ -48,6 +48,8 @@
 /** PLL API log output on UART1 */
 #define PLL_API_LOGGING
 /** Log function for XLCD library and menu */
+/** Log function for PCM*/
+#define PCM_API_LOGGING
 #define XLCD_LOGGING
 /** Log function for SRC */
 #define SRC_LOGGING
@@ -69,6 +71,13 @@
 #else
 	#define PLL_LOG(x, args...)
 #endif /* PLL_LOGGING */
+
+
+#ifdef PCM_API_LOGGING
+	#define PCM_LOG(x, args...)   LOG_WRITE_FUNCTION(x, ##args)
+#else
+	#define PCM_LOG(x, args...)
+#endif /* PCM_LOGGING */
 
 
 #ifdef XLCD_LOGGING

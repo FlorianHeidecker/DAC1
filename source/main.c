@@ -118,6 +118,9 @@ int main(void) {
                 LOG("B\n");
                 menu_btn_set();
                 break;
+                
+            default:
+                break;
     	}
     }
 
