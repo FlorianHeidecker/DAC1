@@ -68,8 +68,8 @@ typedef enum {	SRC_INTERPOLATION_FILTER64 = 0,
 /** SRC: Decimation Filter/Direct Down Sampling */               
 typedef enum {	SRC_DECIMATION_FILTER = 0,
 				SRC_DIRECT_DOWN_SAMPLING = 1 } SRC_decimation_filter_t;                 
-                
-                
+
+          
 /** SRC: available register */
 typedef enum {	SRC_register_power = 0x01,
                 SRC_interrupt_status = 0x02,
@@ -346,6 +346,28 @@ uint8_t SRC_get_qchannel_register9(void);
  *                  
  */
 uint8_t SRC_get_qchannel_register10(void);
+
+/*
+ * @brief           get information about play time of the actual titel and the whole time
+ *                   
+ * @param minutes    played minutes of the actual titel            
+ * @param seconds    played seconds of the actual titel  
+ * @param aminutes   played minutes of the whole cd                                       
+ * @param aseconds   played seconds of the whole cd     
+ *                                    
+ */
+void SRC_get_play_time(uint8_t* minutes, uint8_t* seconds, uint8_t* aminutes, uint8_t* aseconds);
+
+/*
+ * @brief           get information about address, track and index
+ *                   
+ * @param address               
+ * @param track     
+ * @param index                                           
+ *                                    
+ */
+void SRC_get_cd_info(uint8_t* address, uint8_t* track, uint8_t* index);
+
 /*
  * @brief   These two bits indicate the maximum available RXCKO clock rate based 
  *          upon the DIR detection       

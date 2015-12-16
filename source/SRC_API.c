@@ -332,6 +332,19 @@ uint8_t SRC_get_qchannel_register10(void){
     return (data);
 }
 
+void SRC_get_play_time(uint8_t* minutes, uint8_t* seconds, uint8_t* aminutes, uint8_t* aseconds){
+    *minutes =  SRC_get_qchannel_register4;
+    *seconds =  SRC_get_qchannel_register5;
+    *aminutes = SRC_get_qchannel_register8;
+    *aseconds = SRC_get_qchannel_register9;
+}
+
+void SRC_get_cd_info(uint8_t* address, uint8_t* track, uint8_t* index){
+    *address =  SRC_get_qchannel_register1;
+    *track =  SRC_get_qchannel_register2;
+    *index = SRC_get_qchannel_register3;
+}
+
 uint8_t SRC_get_interrupt_status(void){
     uint8_t data = SRC_receive(SRC_interrupt_status);
     return (data);
