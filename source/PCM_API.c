@@ -31,7 +31,7 @@ typedef enum {	PCM_register_16 = 0x10,
 
 uint8_t PCM_send_receive(uint8_t address, uint8_t data, uint8_t read_write){
     if(read_write == 1){ // if read, set 1
-        address = address | (1 << 7);
+        address |= 1 << 7;
     }
     uint8_t data_send[2] = {address, data};
     uint8_t data_receive[2] = {0, 0};
