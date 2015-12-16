@@ -95,8 +95,8 @@ const char *pcm_attunation_text[] =
 const char *pcm_soft_mute_text[] = 
 {
     "SoftMute",
-    "    On",
-    "   Off"
+    "     On",
+    "    Off"
 };
 
 const char *pcm_audio_data_format_text[] =
@@ -286,7 +286,7 @@ const menu_t menu_arr[] =
     {   // PCM_AUDIO_DATA_FORMAT_MENU
         .text   = pcm_audio_data_format_text,
         .type   = MENU_OPTION,
-        .num_elements = 2,
+        .num_elements = 6,
         .prev   = PCM_ZERO_DETECT_MUTE,
         .next   = PCM_DELTA_SIGMA_MENU,
         .up     = PCM_MAIN_MENU,
@@ -458,7 +458,7 @@ void menu_write_line(uint16_t line, uint16_t index)
     xlcd_clear_line(line);
     xlcd_goto(line, TEXT_INDEX);
     putrsXLCD(menu_arr[index].text[0]);
-    MENU_LOG("MENU: %s", menu_arr[index].text[0]); 
+    MENU_LOG("MENU: %s\n", menu_arr[index].text[0]); 
     
     switch(menu_arr[index].type)
     {
@@ -495,8 +495,15 @@ void menu_write_line(uint16_t line, uint16_t index)
             
             // write parameter
             xlcd_goto(line, PARAM_INDEX);
-            putrsXLCD(menu_arr[index].text[param_index+1]);    // plus 2 to get right indice in array
-            MENU_LOG(" %s", menu_arr[index].text[param_index+1]);
+            if(param_index < menu_arr[index].num_elements)
+            {
+                putrsXLCD(menu_arr[index].text[param_index+1]);    // plus 2 to get right indice in array
+                MENU_LOG(" %s\n", menu_arr[index].text[param_index+1]);
+            }
+            else
+            {
+                MENU_LOG("MENU: param_index out of range: %i\n", param_index);
+            }
 
 //            // write unit
 //            xlcd_goto(line, PARAM_UNIT_INDEX);
@@ -505,7 +512,7 @@ void menu_write_line(uint16_t line, uint16_t index)
 //            break;
     }
     
-    MENU_LOG("\n");
+    //MENU_LOG("\n");
 }
 
 
@@ -545,11 +552,11 @@ void menu_call_next(void)
     {
         // cursor is already at MAX_LINE
         // refresh screen
-        xlcd_clear_line(1);
+        //xlcd_clear_line(1);
         menu_write_line(1, menu_arr[m.index].prev);
-        xlcd_clear_line(2);
+        //xlcd_clear_line(2);
         menu_write_line(2, m.index);
-        xlcd_clear_line(3);
+        //xlcd_clear_line(3);
         menu_write_line(3, menu_arr[m.index].next);  
     }
     
@@ -572,11 +579,11 @@ void menu_call_prev(void)
     {
         // cursor is already at line 1 
         // refresh screen
-        xlcd_clear_line(1);
+        //xlcd_clear_line(1);
         menu_write_line(1, menu_arr[m.index].prev);
-        xlcd_clear_line(2);
+        //xlcd_clear_line(2);
         menu_write_line(2, m.index);
-        xlcd_clear_line(3);
+        //xlcd_clear_line(3);
         menu_write_line(3, menu_arr[m.index].next);
     }
     
