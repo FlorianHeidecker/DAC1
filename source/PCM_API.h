@@ -46,9 +46,10 @@ typedef enum {PCM_left_channel = 0, PCM_right_channel = 1} PCM_data_channel_t;
  * 
  * @param address   register to write or read
  * @param data      write data
+ * @param           read_write (write = 0, read = 1)
  * @return          read data
  */
-uint8_t PCM_send_receive(uint8_t address, uint8_t data);
+uint8_t PCM_send_receive(uint8_t address, uint8_t data, uint8_t read_write);
 
 /**
  * @brief           set digital attenuation level, left side
@@ -60,7 +61,7 @@ uint8_t PCM_send_receive(uint8_t address, uint8_t data);
  *                  15 - 255		(-120,0) - dB 0 dB
  *                  0 - 14          mute
  */
-void PCM_set_attunation_level_left(uint8_t value);
+void PCM_set_attenuation_level_left(uint8_t value);
 
 /**
  * @brief           get digital attenuation level, left side
@@ -70,7 +71,7 @@ void PCM_set_attunation_level_left(uint8_t value);
  *                  15 - 255		(-120,0) - dB 0 dB
  *                  0 - 14          mute
  */
-uint8_t PCM_get_attunation_level_left(void);
+uint8_t PCM_get_attenuation_level_left(void);
 
 /**
  * @brief           set digital attenuation level, right side
@@ -82,7 +83,7 @@ uint8_t PCM_get_attunation_level_left(void);
  *                  15 - 255		(-120,0) - dB 0 dB
  *                  0 - 14          mute
  */
-void PCM_set_attunation_level_right(uint8_t value);
+void PCM_set_attenuation_level_right(uint8_t value);
 
 /**
  * @brief           get digital attenuation level, right side
@@ -92,7 +93,7 @@ void PCM_set_attunation_level_right(uint8_t value);
  *                  15 - 255		(-120,0) - dB 0 dB
  *                  0 - 14          mute
  */
-uint8_t PCM_get_attunation_level_right(void);
+uint8_t PCM_get_attenuation_level_right(void);
 
 /** ATS: Attenuation Rate Select 
     read and write */
