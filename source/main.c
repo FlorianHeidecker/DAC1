@@ -31,7 +31,6 @@
 
 #include <libpic30.h>
 
-
 // FBS
 #pragma config BWRP = WRPROTECT_OFF     // Boot Segment Write Protect (Boot Segment may be written)
 #pragma config BSS = NO_FLASH           // Boot Segment Program Flash Code Protection (No Boot program Flash segment)
@@ -69,21 +68,15 @@
 #pragma config ICS = PGD1               // Comm Channel Select (Communicate on PGC1/EMUC1 and PGD1/EMUD1)
 #pragma config JTAGEN = OFF             // JTAG Port Enable (JTAG is Disabled)
 
-
-
-
 int main(void) {
     AD1PCFGL = 0x1fff;
     state_rotation_t dec_test = DEC_NO_TURN;
     
-    
-    log_init();
-    LOG("\n\nmain()\n");
-  
     //=======================================
     // initalisation of the modules
     log_init();
     LOG("\n\nLOG: main()\n");
+
     LOG("LOG: xlcd_init()\n");
     xlcd_init();
     LOG("LOG: pll_init()\n");
@@ -98,21 +91,14 @@ int main(void) {
     PLL_init();
     LOG("LOG: PLL_init()\n");
             
-    SRC_init();
-    SRC_set_audio_output_data_format(SRC_24_bit_I2S);
-    SRC_set_output_mute(0);
-    SRC_set_master_clock_source(SRC_MCLK);
-    SRC_set_master_clock_divider(SRC_Divide128);
-    SRC_set_data_source(SRC_SRC);
-    SRC_set_word_length(SRC_WORD_LENGTH24);
+    //SRC_init();
+    //SRC_set_audio_output_data_format(SRC_24_bit_I2S);
+    //SRC_set_output_mute(0);
+    //SRC_set_master_clock_source(SRC_MCLK);
+    //SRC_set_master_clock_divider(SRC_Divide128);
+    //SRC_set_data_source(SRC_SRC);
+    //SRC_set_word_length(SRC_WORD_LENGTH24);  
     
-    PLL_set_scko1_freq(PLL_SCKO1_16MHz);
-    PLL_set_sampling_freq(PLL_SAMPLING_FREQ_96kHz);  
-    
-    PCM_set_audio_data_format(PCM_24_bit_I2S);
-    PCM_set_oversampling_rate(PCM_64_times_fs);
-    PCM_set_monaural_mode(PCM_stereo);
-    PCM_set_attenuation_control(1);
     
     while(1){
     	dec_test = get_DEC_status();
@@ -121,7 +107,6 @@ int main(void) {
             case DEC_TURN_LEFT:     
                 LOG("L\n");
                 menu_btn_down();
-                
                 break;
                 
             case DEC_TURN_RIGHT:    
@@ -132,9 +117,6 @@ int main(void) {
             case DEC_BUTTON:        
                 LOG("B\n");
                 menu_btn_set();
-                break;
-                
-            default:                
                 break;
     	}
     }

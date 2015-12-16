@@ -31,31 +31,31 @@ typedef enum {	PCM_register_16 = 0x10,
 
 uint8_t PCM_send_receive(uint8_t address, uint8_t data, uint8_t read_write){
     if(read_write == 1){ // if read, set 1
-        address = address | (1 << 7);
+        address |= 1 << 7;
     }
     uint8_t data_send[2] = {address, data};
     uint8_t data_receive[2] = {0, 0};
     
     //PCM_LOG("PCM send: Register: 0x%x || Data: 0x%x\n", *data_send, *(data_send + 1));
     spi_rw_n(data_send, data_receive, 2, SPI_DAC_channel);
-    //PCM_LOG("PCM receive: Data[0]: 0x%x || Data[1]: 0x%x\n", *data_receive, *(data_receive + 1));
+    PCM_LOG("PCM receive: Data[0]: 0x%x || Data[1]: 0x%x\n", address, *(data_receive + 1));
     
     return *(data_receive + 1);
 }
 
-void PCM_set_attunation_level_left(uint8_t value){
+void PCM_set_attenuation_level_left(uint8_t value){
     PCM_send_receive(PCM_register_16, value, WRITE);
 }
 
-uint8_t PCM_get_attunation_level_left(void){
+uint8_t PCM_get_attenuation_level_left(void){
     return PCM_send_receive(PCM_register_16, 0x00, READ);
 }
 
-void PCM_set_attunation_level_right(uint8_t value){
+void PCM_set_attenuation_level_right(uint8_t value){
     PCM_send_receive(PCM_register_17, value, WRITE);
 }
 
-uint8_t PCM_get_attunation_level_right(void){
+uint8_t PCM_get_attenuation_level_right(void){
     return PCM_send_receive(PCM_register_17, 0x00, READ);
 }
 
