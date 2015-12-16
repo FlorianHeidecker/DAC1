@@ -14,6 +14,7 @@
 #include <stdio.h>
 #include "menu.h"
 #include "PLL_API.h"
+#include "PCM_API.h"
 #include "xlcd/xlcd.h"
 #include "log.h"
 
@@ -37,19 +38,6 @@ struct menu_control{
 }m;
 
 //==============================================================================
-// Definitions of Menu Text
-//==============================================================================
-//                                       "01234567890123456789"
-const char *main_menu_text[]          = {"Main Menu"};
-const char *info_main_menu_text[]     = {"Audio Informationen"};
-const char *audio_main_menu_text[]    = {"Audio Einstellungen"};
-const char *pll_main_menu_text[]      = {"PLL Einstellungen"};
-const char *src_main_menu_text[]      = {"SRC Einstellungen"};
-const char *pcm_main_menu_text[]      = {"PCM Einstellungen"};
-const char *return_menu_text[]        = {"## RETURN ##"};
-
-
-//==============================================================================
 // internal function declarations
 //==============================================================================
 void menu_set_nothing(uint16_t dummy);
@@ -63,26 +51,78 @@ void menu_refresh_lines(void);
 void menu_write_headline(void);
 
 
+
+//==============================================================================
+// Definitions of Menu Text
+//==============================================================================
+//                                       "01234567890123456789"
+const char *main_menu_text[]          = {"Main Menu"};
+const char *info_main_menu_text[]     = {"Audio Informationen"};
+const char *audio_main_menu_text[]    = {"Audio Einstellungen"};
+const char *pll_main_menu_text[]      = {"PLL Einstellungen"};
+const char *src_main_menu_text[]      = {"SRC Einstellungen"};
+const char *pcm_main_menu_text[]      = {"PCM Einstellungen"};
+const char *return_menu_text[]        = {"RETURN ->"};
+
+
 //==============================================================================
 // Definitions of Menu Parameterlist
 //==============================================================================
 const char *pll_sampling_freq_text[] =
 {
     "Samp. Freq.", 
-    "kHz",
-    "  48",
-    "44.1",
-    "  32",
-    "  96",
-    "88.2",
-    "  64"
+    "  48kHz",
+    "44.1kHz",
+    "  32kHz",
+    "  96kHz",
+    "88.2kHz",
+    "  64kHz"
 };
 const char *pll_scko_freq_text[] =
 {
     "SCKO1 Freq.",
-    "MHz",
-    "  16",
-    "  33"
+    "  16MHz",
+    "  33MHz"
+};
+
+const char *pcm_attunation_text[] =
+{
+    "Dämpfung",
+    "xxdB",
+    "xxdB"
+};
+
+const char *pcm_soft_mute_text[] = 
+{
+    "SoftMute",
+    "On",
+    "Off"
+};
+
+const char *pcm_audio_data_format_text[] =
+{
+    "I2S Format",
+    "16 LSB",
+    "20 LSB",
+    "24 LSB",
+    "24 MSB",
+    "16 I2S",
+    "24 I2S"
+};
+
+const char *pcm_delta_sigma_text[] = 
+{
+    "DeltaSigma",
+    " 64fs",
+    " 32fs",
+    "128fs"
+};
+
+const char *pcm_monaural_text[] =
+{
+    "Monaural",
+    "  Mono",
+    "Stereo"
 };
 
 //==============================================================================
@@ -189,6 +229,17 @@ const menu_t menu_arr[] =
         .sub    = 0,
         .get    = menu_get_nothing,
         .set    = menu_call_up
+    },
+    {   // PCM_MONAURAL_MENU
+        .text   = pcm_monaural_text,      
+        .type   = MENU_OPTION,
+        .num_elements = 2,
+        .prev   = PCM_RETURN_MENU,
+        .next   = PCM_ATTUNATION_MENU,
+        .up     = PCM_MAIN_MENU,
+        .sub    = 0,
+        .get    = PCM_get_monaural_mode,
+        .set    = PCM_set_monaural_mode,
     }
 };
 
@@ -366,14 +417,14 @@ void menu_write_line(uint16_t line, uint16_t index)
             
             // write parameter
             xlcd_goto(line, PARAM_INDEX);
-            putrsXLCD(menu_arr[index].text[param_index+2]);    // plus 2 to get right indice in array
-            MENU_LOG(" %s", menu_arr[index].text[param_index+2]);
+            putrsXLCD(menu_arr[index].text[param_index+1]);    // plus 2 to get right indice in array
+            MENU_LOG(" %s", menu_arr[index].text[param_index+1]);
 
-            // write unit
-            xlcd_goto(line, PARAM_UNIT_INDEX);
-            putrsXLCD(menu_arr[index].text[1]);
-            MENU_LOG(" %s", menu_arr[index].text[1]);
-            break;
+//            // write unit
+//            xlcd_goto(line, PARAM_UNIT_INDEX);
+//            putrsXLCD(menu_arr[index].text[1]);
+//            MENU_LOG(" %s", menu_arr[index].text[1]);
+//            break;
     }
     
     MENU_LOG("\n");

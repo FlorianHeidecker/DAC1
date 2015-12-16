@@ -38,7 +38,13 @@ typedef enum {
     PLL_FREQ_SEL_MENU,
     PLL_SCKO_SEL_MENU,
     PLL_RETURN_MENU,
-          
+        PCM_MONAURAL_MENU,
+        PCM_ATTUNATION_MENU,
+        PCM_SOFT_MUTE_MENU,
+        PCM_DATA_FORMAT_MENU,
+        PCM_DELTA_SIGMA_MENU,
+        PCM_RETURN_MENU
+             
 }menu_index_t;
 
 typedef struct menu_struct{
