@@ -44,7 +44,9 @@ typedef enum {
     PCM_ZERO_DETECT_MUTE,
     PCM_AUDIO_DATA_FORMAT_MENU,
     PCM_DELTA_SIGMA_MENU,
-    PCM_RETURN_MENU          
+    PCM_RETURN_MENU,
+    SRC_AUDIO_DATA_FORMAT_TEXT,
+            
 }menu_index_t;
 
 typedef struct menu_struct{

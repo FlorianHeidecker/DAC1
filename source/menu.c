@@ -15,6 +15,7 @@
 #include "menu.h"
 #include "PLL_API.h"
 #include "PCM_API.h"
+#include "SRC_API.h"
 #include "xlcd/xlcd.h"
 #include "log.h"
 
@@ -68,8 +69,7 @@ const char *return_menu_text[]        = {"RETURN ->"};
 //==============================================================================
 // Definitions of Menu Parameterlist
 //==============================================================================
-const char *pll_sampling_freq_text[] =
-{
+const char *pll_sampling_freq_text[] = {
     "Samp. Freq.", 
     "  48kHz",
     "44.1kHz",
@@ -78,29 +78,23 @@ const char *pll_sampling_freq_text[] =
     "88.2kHz",
     "  64kHz"
 };
-const char *pll_scko_freq_text[] =
-{
+const char *pll_scko_freq_text[] = {
     "SCKO1 Freq.",
     "  16MHz",
     "  33MHz"
 };
 
-const char *pcm_attunation_text[] =
-{
+const char *pcm_attunation_text[] = {
     "Attunation",
     "   xxdB",
     "   xxdB"
 };
-
-const char *pcm_soft_mute_text[] = 
-{
+const char *pcm_soft_mute_text[] = {
     "SoftMute",
     "     On",
     "    Off"
 };
-
-const char *pcm_audio_data_format_text[] =
-{
+const char *pcm_audio_data_format_text[] = {
     "I2S Format",
     " 16 LSB",
     " 20 LSB",
@@ -109,28 +103,77 @@ const char *pcm_audio_data_format_text[] =
     " 16 I2S",
     " 24 I2S"
 };
-
-const char *pcm_delta_sigma_text[] = 
-{
+const char *pcm_delta_sigma_text[] = {
     "DeltaSigma",
     "   64fs",
     "   32fs",
     "  128fs"
 };
-
-const char *pcm_monaural_text[] =
-{
+const char *pcm_monaural_text[] = {
     "Monaural",
     "   Mono",
     " Stereo"
 };
-
-const char *pcm_zero_detect_text[] =
-{
+const char *pcm_zero_detect_text[] = {
     "ZeroDetect"
     "     On",
     "    Off"
 };
+
+const char *src_audio_output_format_text[] = {
+    "I2S Format",
+    "24 left",
+    " 24 I2S",
+    "16right",
+    "18right",
+    "20right",
+    "24right"
+};
+const char *src_master_clock_divider_text[] = {
+    "MCLK Div",
+    "128",
+    "256",
+    "384",
+    "512"
+};
+const char *src_master_clock_source_text[] = {
+    "MCLK Src.",
+    "MCLK",
+    "RXCKI"
+};
+const char *src_port_a_source_text[] = {
+    "Output Src",
+    "direct",
+    "upsamp"
+};
+const char *src_output_mute_text[] = {
+    "Mute",  
+    "Off",
+    "On"
+};
+const char *src_word_length_text[] = {
+    "Word Length",
+    "24 Bit",
+    "20 Bit",
+    "18 Bit",
+    "16 Bit"
+};
+const char *src_receiver_status1_text[] = {
+    "Receiv.Status",
+    "noClock",
+    "128 fs",
+    "256 fs",
+    "512 fs"
+};
+// cant be implementet right now
+// const char *src_receiver_status2_text[] ={};
+const char *src_receiver_status3_text[] = {
+    "Receiv.Status",
+    "OK",
+    "ERR"
+};
+
+
 
 //==============================================================================
 // Definitions Menu Structure
@@ -305,7 +348,7 @@ const menu_t menu_arr[] =
         .get    = PCM_get_oversampling_rate,
         .set    = PCM_set_oversampling_rate,  
     },
-        {   // PCM_RETURN_MENU
+    {   // PCM_RETURN_MENU
         .text   = return_menu_text,      
         .type   = MENU_NORMAL,
         .num_elements = 0,
@@ -342,7 +385,7 @@ void menu_btn_set(void)
             // this is menu_call_sub() for MENU_NORMAL
             menu_arr[m.index].set(0);
             break;
-            
+                        
         case MENU_OPTION:
             switch(m.state)
             {
