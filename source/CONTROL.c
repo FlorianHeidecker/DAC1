@@ -19,16 +19,72 @@
 #include "PCM_API.h"
 #include "SPI_API.h"
 
+#define bottom_border_level 135
+
+typedef enum {	CONTROL_16_bit_standard_format=0,
+				CONTROL_20_bit_standard_format=1,
+				CONTROL_24_bit_standard_format=2,
+				CONTROL_24_bit_MSB_first=3,
+				CONTROL_24_bit_I2S=4} CONTROL_audio_data_format_t;
+
 void CONTROL_init(void){
     CONTROL_LOG("CONTROL_LOG: spi_init()\n");
     spi_init();
+    PLL_init();
+    CONTROL_set_audio_data_format(CONTROL_24_bit_I2S);
     CONTROL_set_attunation_level(100);
     CONTROL_set_zero_detect_mute(PCM_enabled);
     CONTROL_set_monaural_mode(PCM_stereo);
 }
 
 //== PLL/PCM/SRC related =======================================================
+void CONTROL_set_audio_data_format(CONTROL_audio_data_format_t CONTROL_audio_data_format){
+    switch(CONTROL_audio_data_format){
+        case CONTROL_16_bit_standard_format:
+            PCM_set_audio_data_format(PCM_16_bit_standard_format);
+            break;
+            
+        case CONTROL_20_bit_standard_format:
+            PCM_set_audio_data_format(PCM_20_bit_standard_format);
+            break;
+            
+        case CONTROL_24_bit_standard_format:
+            PCM_set_audio_data_format(PCM_24_bit_standard_format);
+            break;
+            
+        case CONTROL_24_bit_MSB_first:
+            PCM_set_audio_data_format(PCM_24_bit_MSB_first);
+            break;
+            
+        case CONTROL_24_bit_I2S:
+            PCM_set_audio_data_format(PCM_24_bit_I2S);
+            break;
+    }
+}
 
+CONTROL_audio_data_format_t CONTROL_get_audio_data_format(void){
+    switch(PCM_get_audio_data_format()){
+        case PCM_16_bit_standard_format:
+            return CONTROL_16_bit_standard_format;
+            break;
+            
+        case PCM_20_bit_standard_format:
+            return CONTROL_20_bit_standard_format;
+            break;
+            
+        case PCM_24_bit_standard_format:
+            return CONTROL_24_bit_standard_format;
+            break;
+            
+        case PCM_24_bit_MSB_first:
+            return CONTROL_24_bit_MSB_first;
+            break;
+            
+        case PCM_24_bit_I2S:
+            return CONTROL_24_bit_I2S;
+            break;
+    }
+}
 
 //== only PLL related ==========================================================
 
@@ -42,11 +98,11 @@ void CONTROL_set_attunation_level(uint8_t percent){
     
     CONTROL_LOG("CONTROL_LOG: CONTROL_set_attunation_level, input percent = %i\n", percent);
     // input value is proportional to attunation level
-    uint8_t level = (uint8_t)(((uint16_t)((255 - 14) * percent ) / 100) + 14);
+    uint8_t level = (uint8_t)(((uint16_t)((255 - bottom_border_level) * percent ) / 100) + bottom_border_level);
     CONTROL_LOG("CONTROL_LOG: CONTROL_set_attunation_level, output level = %i\n", level);
     
-    PCM_set_attunation_level_left(level);
-    PCM_set_attunation_level_right(level);
+    PCM_set_attenuation_level_left(level);
+    PCM_set_attenuation_level_right(level);
     
     // enable soft mute if level is below 14
     if(level <= 14){
@@ -58,11 +114,11 @@ void CONTROL_set_attunation_level(uint8_t percent){
 }
 
 uint8_t CONTROL_get_attunation_level(void){
-    uint8_t level = PCM_get_attunation_level_left();
+    uint8_t level = PCM_get_attenuation_level_left();
     CONTROL_LOG("CONTROL_LOG: CONTROL_get_attunation_level, input level = %i\n", level);
     
     // output value is proportional to attunation level
-    uint8_t percent = (uint8_t)((uint16_t)(100 * (level - 14)) / (255 - 14));
+    uint8_t percent = (uint8_t)((uint16_t)(100 * (level - bottom_border_level)) / (255 - bottom_border_level));
     CONTROL_LOG("CONTROL_LOG: CONTROL_get_attunation_level, output percent = %i\n", percent);
     return percent;
 }
