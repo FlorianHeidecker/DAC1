@@ -165,8 +165,8 @@ const menu_t menu_arr[] =
         .next = PLL_SCKO_SEL_MENU,
         .up   = PLL_MAIN_MENU,
         .sub  = 0, 
-        .get  = get_sampling_freq,  
-        .set  = set_sampling_freq
+        .get  = PLL_get_sampling_freq,  
+        .set  = PLL_set_sampling_freq
     },
     {   // PLL_SCKO_SEL_MENU
         .text = pll_scko_freq_text,     
@@ -176,8 +176,8 @@ const menu_t menu_arr[] =
         .next = PLL_RETURN_MENU,
         .up   = PLL_MAIN_MENU,
         .sub  = 0, 
-        .get  = get_scko1_freq,     
-        .set  = set_scko1_freq
+        .get  = PLL_get_scko1_freq,     
+        .set  = PLL_set_scko1_freq
     },
     {   // PLL_RETURN_MENU
         .text   = return_menu_text,      

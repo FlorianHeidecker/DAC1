@@ -71,13 +71,13 @@
 
 int main(void) {
     AD1PCFGL = 0x1fff;
-    log_init();
+    state_rotation_t dec_test = DEC_NO_TURN;
     
+    
+    log_init();
     LOG("\n\nmain()\n");
 
-
-    state_rotation_t dec_test = DEC_NO_TURN;
-
+  
     //=======================================
     // initalisation of the modules
     log_init();
@@ -85,7 +85,7 @@ int main(void) {
     LOG("LOG: xlcd_init()\n");
     xlcd_init();
     LOG("LOG: pll_init()\n");
-    pll_init();
+    PLL_init();
     LOG("LOG: menu_init()\n");
     menu_init();
     LOG("LOG: spi_init()\n");
