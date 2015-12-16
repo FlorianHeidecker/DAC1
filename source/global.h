@@ -36,11 +36,11 @@
 #define SCLK_TRIS           TRISBbits.TRISB7
 #define SCLK_LATCH          LATBbits.LATB7
 
-#define MISO_TRIS           TRISBbits.TRISB6
-#define MISO_LATCH          LATBbits.LATB6
+#define MISO_TRIS           TRISBbits.TRISB5
+#define MISO_LATCH          LATBbits.LATB5
 
-#define MOSI_TRIS           TRISBbits.TRISB5
-#define MOSI_LATCH          LATBbits.LATB5
+#define MOSI_TRIS           TRISBbits.TRISB6
+#define MOSI_LATCH          LATBbits.LATB6
 
 /* DAC */
 #define DAC_MUTE_TRIS       TRISAbits.TRISA4
@@ -53,8 +53,8 @@
 
 /* SRC */
 #define SRC_CS_TRIS         TRISBbits.TRISB8
-#define SRC_CS_LATCH        LATBbits.LATB9
-#define SRC_CS_PORT         PORTBbits.RB9
+#define SRC_CS_LATCH        LATBbits.LATB8
+#define SRC_CS_PORT         PORTBbits.RB8
 
 #define SRC_INT_TRIS        TRISCbits.TRISC5
 #define SRC_INT_LATCH       LATCbits.LATC5

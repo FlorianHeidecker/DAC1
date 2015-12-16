@@ -47,8 +47,8 @@
 #define LOGGING
 /** PLL API log output on UART1 */
 #define PLL_API_LOGGING
-/** This is an example for a new stage of loging */
-#define NEW_STAGE_LOGGING
+/** Log function for PCM*/
+#define PCM_API_LOGGING
 /** Log function for XLCD library and menu */
 #define XLCD_LOGGING
 /** menu log function */ 
@@ -68,6 +68,11 @@
 	#define PLL_LOG(x, args...)
 #endif /* PLL_LOGGING */
 
+#ifdef PCM_API_LOGGING
+	#define PCM_LOG(x, args...)   LOG_WRITE_FUNCTION(x, ##args)
+#else
+	#define PCM_LOG(x, args...)
+#endif /* PCM_LOGGING */
 
 #ifdef XLCD_LOGGING
 	#define XLCD_LOG(x, args...)   LOG_WRITE_FUNCTION(x, ##args)
@@ -82,11 +87,6 @@
 #endif /* MENU_LOGGING */
 
 
-#ifdef NEW_STAGE_LOGGING
-	#define NEW_STAGE_LOG(x, args...)   LOG_WRITE_FUNCTION(x, ##args)
-#else
-	#define NEW_STAGE_LOG(x, args...)
-#endif /* NEW_STAGE_LOGGING */
 
 
 /** @brief Initializes logging function

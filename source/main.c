@@ -12,12 +12,10 @@
  */
 
 
-
 #include <xc.h>
 #include <stdio.h>
 
 #include "log.h"
-#include "PLL_API.h"
 #include "UART_API.h"
 #include "menu.h"
 
@@ -25,6 +23,7 @@
 #include "SPI_API.h"
 #include "DEC_API.h"
 #include "xlcd/xlcd.h"
+#include "PLL_API.h"
 
 #include <libpic30.h>
 
@@ -83,7 +82,6 @@ int main(void) {
     // initalisation of the modules
     log_init();
     LOG("\n\nLOG: main()\n");
-    
     LOG("LOG: xlcd_init()\n");
     xlcd_init();
     LOG("LOG: pll_init()\n");
@@ -94,17 +92,7 @@ int main(void) {
     spi_init();
     LOG("LOG: DEC_init()\n");
     DEC_init();
-    
-  
-    
-    
-    //menu_write_line(0);
-    
-//    while(1)
-//    {
-//        //menu_up();
-//        asm("nop");
-//    }
+
     
     
 
@@ -133,9 +121,6 @@ int main(void) {
                 break;
     	}
     }
-
-
-
 
     while(1); 
 }
