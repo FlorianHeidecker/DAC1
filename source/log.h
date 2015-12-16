@@ -51,8 +51,9 @@
 #define PCM_API_LOGGING
 /** Log function for XLCD library and menu */
 #define XLCD_LOGGING
-/** This is an example for a new stage of loging */
-#define NEW_STAGE_LOGGING
+/** menu log function */ 
+#define MENU_LOGGING
+
 
 #ifdef LOGGING
 	#define LOG(x, args...)   LOG_WRITE_FUNCTION(x, ##args)
@@ -77,14 +78,15 @@
 	#define XLCD_LOG(x, args...)   LOG_WRITE_FUNCTION(x, ##args)
 #else
 	#define XLCD_LOG(x, args...)
-#endif /* NEW_STAGE_LOGGING */
+#endif /* XLCD_LOGGING */
 
-
-#ifdef NEW_STAGE_LOGGING
-	#define NEW_STAGE_LOG(x, args...)   LOG_WRITE_FUNCTION(x, ##args)
+#ifdef MENU_LOGGING
+	#define MENU_LOG(x, args...)   LOG_WRITE_FUNCTION(x, ##args)
 #else
-	#define NEW_STAGE_LOG(x, args...)
-#endif /* NEW_STAGE_LOGGING */
+	#define MENU_LOG(x, args...)
+#endif /* MENU_LOGGING */
+
+
 
 
 /** @brief Initializes logging function

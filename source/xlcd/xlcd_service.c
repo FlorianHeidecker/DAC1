@@ -23,7 +23,7 @@ void xlcd_init(void)
     WriteCmdXLCD(XLCD_JUMP_HOME);
 
     while(BusyXLCD());
-    WriteCmdXLCD(DON & CURSOR_ON & BLINK_ON); 
+    WriteCmdXLCD(DON & CURSOR_OFF & BLINK_OFF); 
 }
 
 
@@ -73,10 +73,20 @@ void xlcd_clear_line(uint16_t line)
     }
     
     xlcd_goto(line, 0);
-    for(i=0; i<19; i++)
+    for(i=0; i<20; i++)
     {
         putsXLCD(" ");
     }
+}
+
+
+void xlcd_clear(void)
+{
+    while(BusyXLCD());
+    WriteCmdXLCD(XLCD_CLR_DISP);
+    
+    while(BusyXLCD());
+    WriteCmdXLCD(XLCD_JUMP_HOME);
 }
 
 
