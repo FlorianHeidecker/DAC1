@@ -70,7 +70,6 @@
 
 
 
-
 int main(void) {
     AD1PCFGL = 0x1fff;
     log_init();
@@ -89,51 +88,49 @@ int main(void) {
     xlcd_init();
     LOG("LOG: pll_init()\n");
     pll_init();
+    LOG("LOG: menu_init()\n");
     menu_init();
-    
-    menu_call_next();
-    LOG("\n");
-    menu_call_next();
-    LOG("\n");
-    menu_call_next();
-    LOG("\n");
-    menu_call_next();
-    LOG("\n");
-    menu_call_next();
-    LOG("\n");
-    menu_call_next();
-    LOG("\n");
-    menu_call_next();
-    LOG("\n");
-    menu_call_next();
-    LOG("\n");
-    
-    
-    
-    //menu_write_line(0);
-    
-    while(1)
-    {
-        //menu_up();
-        asm("nop");
-    }
-    
-    
     LOG("LOG: spi_init()\n");
     spi_init();
     LOG("LOG: DEC_init()\n");
     DEC_init();
     
+  
+    
+    
+    //menu_write_line(0);
+    
+//    while(1)
+//    {
+//        //menu_up();
+//        asm("nop");
+//    }
+    
+    
+
+    
     while(1){
     	dec_test = get_DEC_status();
-    	switch (dec_test){
-            case DEC_TURN_LEFT:     LOG("L\n");
-                                    break;
-            case DEC_TURN_RIGHT:    LOG("R\n");
-                                    break;
-            case DEC_BUTTON:        LOG("B\n");
-                                    break;
-            default:                break;
+    	switch (dec_test)
+        {
+            case DEC_TURN_LEFT:     
+                LOG("L\n");
+                menu_btn_down();
+                
+                break;
+                
+            case DEC_TURN_RIGHT:    
+                LOG("R\n");
+                menu_btn_up();
+                break;
+                
+            case DEC_BUTTON:        
+                LOG("B\n");
+                menu_btn_set();
+                break;
+                
+            default:                
+                break;
     	}
     }
 

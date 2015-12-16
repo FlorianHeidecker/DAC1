@@ -75,7 +75,7 @@
 #define LINES_5X7  0b00111000  /* 5x7 characters, multiple line */
 
 #define XLCD_ROW1        0x80   //0x80 + 0
-#define XLCD_ROW2        0xA8   //0xc0 + 0
+#define XLCD_ROW2        0xC0   //0xc0 + 0
 #define XLCD_ROW3        0x94   //0x80 + 20 
 #define XLCD_ROW4        0xD4   //0xC0 + 20
 
