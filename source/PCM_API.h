@@ -61,7 +61,7 @@ uint8_t PCM_send_receive(uint8_t address, uint8_t data, uint8_t read_write);
  *                  15 - 255		(-120,0) - dB 0 dB
  *                  0 - 14          mute
  */
-void PCM_set_attenuation_level_left(uint8_t value);
+void PCM_set_attenuation_level_left(uint16_t value);
 
 /**
  * @brief           get digital attenuation level, left side
@@ -83,7 +83,7 @@ uint16_t PCM_get_attenuation_level_left(void);
  *                  15 - 255		(-120,0) - dB 0 dB
  *                  0 - 14          mute
  */
-void PCM_set_attenuation_level_right(uint8_t value);
+void PCM_set_attenuation_level_right(uint16_t value);
 
 /**
  * @brief           get digital attenuation level, right side
@@ -104,7 +104,7 @@ uint16_t PCM_get_attenuation_level_right(void);
  * 
  * @param value     disabled/enabeld
  */
-void PCM_set_soft_mute(uint8_t value);
+void PCM_set_soft_mute(uint16_t value);
 
 /**
  * @brief           soft mute control
@@ -122,7 +122,7 @@ uint16_t PCM_get_soft_mute(void);
  * 
  * @param value     disabled/enabeld
  */
-void PCM_set_attenuation_control(uint8_t value);
+void PCM_set_attenuation_control(uint16_t value);
 
 /**
  * @brief           get ATLD: attenuation load control
@@ -213,7 +213,7 @@ PCM_oversampling_rate_t PCM_get_oversampling_rate(void);
  * 
  * @param value     disabled/enabeld
  */
-void PCM_set_zero_detect_mute(uint8_t value);
+void PCM_set_zero_detect_mute(uint16_t value);
 
 /**
  * @brief           get infinite zero detect mute control
@@ -232,7 +232,7 @@ uint16_t PCM_get_zero_detect_mute(void);
  * @param value     Normal operation = 0,
  *                  System reset operation = 1 (generate one reset pulse)
  */
-void PCM_pcm_reset(uint8_t value);
+void PCM_pcm_reset(uint16_t value);
 
 /** DSD: DSD Interface Mode Control 
     read and write */
