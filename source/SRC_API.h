@@ -26,6 +26,7 @@
 #define SRC_DECIMATION 0x04
 #define SRC_DEEMPHASIS 0x20
 #define SRC_PLLLOCKERROR 0x10
+#define SRC_MUTE 0x40
 
 /** SRC: possible audio output data format selection */
 typedef enum {	SRC_24_bit_left_justified=0,
@@ -40,8 +41,8 @@ typedef enum {	SRC_MCLK=0,
 				SRC_RXCKI=1 } SRC_master_clock_sources_t;    
                 
 /** SRC: possible data sources port a */               
-typedef enum {	SRC_DIR=2,
-				SRC_SRC=3 } SRC_data_sources_t;                  
+typedef enum {	SRC_DIR=0,
+				SRC_SRC=1 } SRC_data_sources_t;                  
                 
 /** SRC: possible clock sources divider */               
 typedef enum {	SRC_Divide128 = 0,
@@ -146,7 +147,7 @@ void SRC_init (void);
  *                   0 Disabled (Default)
  *                   1 Enabled; all control registers will be reset to the default state.
  */
-void SRC_set_reset(uint8_t enable);
+void SRC_set_reset(uint16_t enable);
 
 /**
  * @brief           set audio interface data format
@@ -232,7 +233,17 @@ SRC_data_sources_t SRC_get_data_source(void);
  *                0 Disabled; SDOUTA is driven by the output data source. (Default)
  *                1 Enabled; SDOUTA is forced low.
  */
-void SRC_set_output_mute(uint8_t enable);
+void SRC_set_output_mute(uint16_t enable);
+
+/*
+ * @brief   This bit indicate if Port A audio data output is muted
+ *                  
+ * 
+ * @param enable:     
+ *                0 Disabled; SDOUTA is driven by the output data source. (Default)
+ *                1 Enabled; SDOUTA is forced low.
+ */
+uint16_t SRC_get_output_mute(void);
 
 /*
  * @brief           set output word length
@@ -280,7 +291,7 @@ SRC_page_selection_t SRC_get_page(void);
  * @return          infos about control and address
  *                  
  */
-uint8_t SRC_get_qchannel_register1(void);
+uint16_t SRC_get_qchannel_register1(void);
 
 
 /**
@@ -289,7 +300,7 @@ uint8_t SRC_get_qchannel_register1(void);
  * @return          infos about track
  *                  
  */
-uint8_t SRC_get_qchannel_register2(void);
+uint16_t SRC_get_qchannel_register2(void);
 
 /**
  * @brief           get information of qchannel register 3
@@ -297,7 +308,7 @@ uint8_t SRC_get_qchannel_register2(void);
  * @return          infos about index
  *                  
  */
-uint8_t SRC_get_qchannel_register3(void);
+uint16_t SRC_get_qchannel_register3(void);
 
 /**
  * @brief           get information of qchannel register 4
@@ -305,7 +316,7 @@ uint8_t SRC_get_qchannel_register3(void);
  * @return          infos about minutes
  *                  
  */
-uint8_t SRC_get_qchannel_register4(void);
+uint16_t SRC_get_qchannel_register4(void);
 
 /**
  * @brief           get information of qchannel register 5
@@ -313,7 +324,7 @@ uint8_t SRC_get_qchannel_register4(void);
  * @return          infos about seconds
  *                  
  */
-uint8_t SRC_get_qchannel_register5(void);
+uint16_t SRC_get_qchannel_register5(void);
 
 /**
  * @brief           get information of qchannel register 6
@@ -321,7 +332,7 @@ uint8_t SRC_get_qchannel_register5(void);
  * @return          infos about frame
  *                  
  */
-uint8_t SRC_get_qchannel_register6(void);
+uint16_t SRC_get_qchannel_register6(void);
 
 /**
  * @brief           get information of qchannel register 7
@@ -329,7 +340,7 @@ uint8_t SRC_get_qchannel_register6(void);
  * @return          8 bit zeros to differ between register 4-6 and 8-10
  *                  
  */
-uint8_t SRC_get_qchannel_register7(void);
+uint16_t SRC_get_qchannel_register7(void);
 
 /**
  * @brief           get information of qchannel register 8
@@ -337,7 +348,7 @@ uint8_t SRC_get_qchannel_register7(void);
  * @return          infos about absolut min
  *                  
  */
-uint8_t SRC_get_qchannel_register8(void);
+uint16_t SRC_get_qchannel_register8(void);
 
 /**
  * @brief           get information of qchannel register 9
@@ -345,7 +356,7 @@ uint8_t SRC_get_qchannel_register8(void);
  * @return          infos about absolut sec 
  *                  
  */
-uint8_t SRC_get_qchannel_register9(void);
+uint16_t SRC_get_qchannel_register9(void);
 
 /**
  * @brief           get information of qchannel register 10
@@ -353,7 +364,7 @@ uint8_t SRC_get_qchannel_register9(void);
  * @return          infos about absolut frame
  *                  
  */
-uint8_t SRC_get_qchannel_register10(void);
+uint16_t SRC_get_qchannel_register10(void);
 
 /*
  * @brief           get information about play time of the actual titel and the whole time
@@ -364,7 +375,7 @@ uint8_t SRC_get_qchannel_register10(void);
  * @param aseconds   played seconds of the whole cd     
  *                                    
  */
-void SRC_get_play_time(uint8_t* minutes, uint8_t* seconds, uint8_t* aminutes, uint8_t* aseconds);
+void SRC_get_play_time(uint16_t* minutes, uint16_t* seconds, uint16_t* aminutes, uint16_t* aseconds);
 
 /*
  * @brief           get information about address, track and index
@@ -374,7 +385,7 @@ void SRC_get_play_time(uint8_t* minutes, uint8_t* seconds, uint8_t* aminutes, ui
  * @param index                                           
  *                                    
  */
-void SRC_get_cd_info(uint8_t* address, uint8_t* track, uint8_t* index);
+void SRC_get_cd_info(uint16_t* address, uint16_t* track, uint16_t* index);
 
 /*
  * @brief   These two bits indicate the maximum available RXCKO clock rate based 
@@ -388,7 +399,7 @@ void SRC_get_cd_info(uint8_t* address, uint8_t* track, uint8_t* index);
  *                  
  *                  
  */
-uint8_t SRC_get_receiver_status1(void);
+uint16_t SRC_get_receiver_status1(void);
 
 /**
  * @brief  Information about Channel, Parity, Validity, Bipolar, Q-Channel Status       
@@ -397,7 +408,7 @@ uint8_t SRC_get_receiver_status1(void);
  *                
  *                 
  */
-uint8_t SRC_get_receiver_status2(void);
+uint16_t SRC_get_receiver_status2(void);
 
 /**
  * @brief   Receiver Output Data Slip Error Status      
@@ -409,7 +420,7 @@ uint8_t SRC_get_receiver_status2(void);
  *                
  *                 
  */
-uint8_t SRC_get_receiver_status3(void);
+uint16_t SRC_get_receiver_status3(void);
 
 /**
  * @brief   Global Interrupt Status [2:0]      
@@ -419,7 +430,7 @@ uint8_t SRC_get_receiver_status3(void);
  *          Bit1: Receiver Function Block Interrupt Status (Active High) -> read 0x14 and 0x15                
  *          Bit2: Transmitter Function Block Interrupt Status (Active High) -> read 0x0A               
  */
-uint8_t SRC_get_interrupt_status(void);
+uint16_t SRC_get_interrupt_status(void);
 
 /**
  * @brief    SRC and DIT Status, s. page 59    
@@ -430,7 +441,7 @@ uint8_t SRC_get_interrupt_status(void);
  *          Bit4: SRC Rate Estimator Ready Status, Active High    
  *          Bit5: SRC Ratio Status, Active High       
  */
-uint8_t SRC_get_src_dit_status(void);
+uint16_t SRC_get_src_dit_status(void);
 
 /**
  * @brief    This bit is used to set the automatic mute function for the DIR 
@@ -441,7 +452,7 @@ uint8_t SRC_get_src_dit_status(void);
  *               1 Enabled; audio data output from the DIR block is forced low for a loss of
  *               lock condition   
  */
-void SRC_set_mute_pll_error(uint8_t enable);
+void SRC_set_mute_pll_error(uint16_t enable);
 
 /**
  * @brief          get status of setting pll loos of lock mute
@@ -451,7 +462,7 @@ void SRC_set_mute_pll_error(uint8_t enable);
  *               lock condition   
  *                  
  */
-uint8_t SRC_get_mute_pll_error(void);
+uint16_t SRC_get_mute_pll_error(void);
 
 /**
  * @brief     Non-PCM Audio Detection Status Register; This bit is utilized to 
@@ -466,7 +477,7 @@ uint8_t SRC_get_mute_pll_error(void);
  *               0 The CD/LD is not DTS encoded.
  *               1 DTS CD/LD playback detected.
  */
-uint8_t SRC_get_non_pcm_audio_detection(void);
+uint16_t SRC_get_non_pcm_audio_detection(void);
 
 /*
  * @brief           set samples of interpolation filter
@@ -495,7 +506,7 @@ SRC_interpolation_filter_t SRC_get_interpolation_filter(void);
  *                  1 Enabled
  *                                      
  */
-void SRC_set_automatic_deemphasis(uint8_t enable);
+void SRC_set_automatic_deemphasis(uint16_t enable);
 
 /**
  * @brief           get status of setting automatic deemphasis
@@ -503,7 +514,7 @@ void SRC_set_automatic_deemphasis(uint8_t enable);
  * @return         0 Disabled (Default)
  *                 1 Enabled                                
  */
-uint8_t SRC_get_automatic_deemphasis(void);
+uint16_t SRC_get_automatic_deemphasis(void);
 
 /*
  * @brief           This bit selects the mode of the decimation function,

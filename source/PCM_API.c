@@ -43,46 +43,46 @@ uint8_t PCM_send_receive(uint8_t address, uint8_t data, uint8_t read_write){
     return *(data_receive + 1);
 }
 
-void PCM_set_attenuation_level_left(uint8_t value){
+void PCM_set_attenuation_level_left(uint16_t value){
     PCM_send_receive(PCM_register_16, value, WRITE);
 }
 
-uint8_t PCM_get_attenuation_level_left(void){
+uint16_t PCM_get_attenuation_level_left(void){
     return PCM_send_receive(PCM_register_16, 0x00, READ);
 }
 
-void PCM_set_attenuation_level_right(uint8_t value){
+void PCM_set_attenuation_level_right(uint16_t value){
     PCM_send_receive(PCM_register_17, value, WRITE);
 }
 
-uint8_t PCM_get_attenuation_level_right(void){
+uint16_t PCM_get_attenuation_level_right(void){
     return PCM_send_receive(PCM_register_17, 0x00, READ);
 }
 
-void PCM_set_soft_mute(uint8_t value){
-    uint8_t data = PCM_send_receive(PCM_register_18, 0x00, READ);
+void PCM_set_soft_mute(uint16_t value){
+    uint16_t data = PCM_send_receive(PCM_register_18, 0x00, READ);
     data ^= (-value ^ data) & (1 << 0);
     PCM_send_receive(PCM_register_18, data, WRITE);
 }
 
-uint8_t PCM_get_soft_mute(void){
-    uint8_t data = PCM_send_receive(PCM_register_18, 0x00, READ);
+uint16_t PCM_get_soft_mute(void){
+    uint16_t data = PCM_send_receive(PCM_register_18, 0x00, READ);
     return ((data >> 0) & 1);
 }
 
-void PCM_set_attenuation_control(uint8_t value){
-    uint8_t data = PCM_send_receive(PCM_register_18, 0x00, READ);
+void PCM_set_attenuation_control(uint16_t value){
+    uint16_t data = PCM_send_receive(PCM_register_18, 0x00, READ);
     data ^= (-value ^ data) & (1 << 7);
     PCM_send_receive(PCM_register_18, data, WRITE);
 }
 
-uint8_t PCM_get_attenuation_control(void){
-    uint8_t data = PCM_send_receive(PCM_register_18, 0x00, READ);
+uint16_t PCM_get_attenuation_control(void){
+    uint16_t data = PCM_send_receive(PCM_register_18, 0x00, READ);
     return (data >> 7) & 1;
 }
 
 void PCM_set_audio_data_format(PCM_audio_data_format_t PCM_audio_data_format){
-    uint8_t data = PCM_send_receive(PCM_register_18, 0x00, READ);
+    uint16_t data = PCM_send_receive(PCM_register_18, 0x00, READ);
     
     switch(PCM_audio_data_format){
         case PCM_16_bit_standard_format:
@@ -121,12 +121,12 @@ void PCM_set_audio_data_format(PCM_audio_data_format_t PCM_audio_data_format){
 }
 
 PCM_audio_data_format_t PCM_get_audio_data_format(void){
-    uint8_t data = PCM_send_receive(PCM_register_18, 0x00, READ);
+    uint16_t data = PCM_send_receive(PCM_register_18, 0x00, READ);
     return (data >> 4) & 0x7;
 }
 
 void PCM_set_oversampling_rate(PCM_oversampling_rate_t PCM_oversampling_rate){
-    uint8_t data = PCM_send_receive(PCM_register_20, 0x00, READ);
+    uint16_t data = PCM_send_receive(PCM_register_20, 0x00, READ);
     
     switch(PCM_oversampling_rate){
         case PCM_64_times_fs:
@@ -147,55 +147,55 @@ void PCM_set_oversampling_rate(PCM_oversampling_rate_t PCM_oversampling_rate){
 }
 
 PCM_oversampling_rate_t PCM_get_oversampling_rate(void){
-    uint8_t data = PCM_send_receive(PCM_register_20, 0x00, READ);
+    uint16_t data = PCM_send_receive(PCM_register_20, 0x00, READ);
     return (data >> 0) & 0x3;
 }
 
-void PCM_set_zero_detect_mute(uint8_t value){
-    uint8_t data = PCM_send_receive(PCM_register_19, 0x00, READ);
+void PCM_set_zero_detect_mute(uint16_t value){
+    uint16_t data = PCM_send_receive(PCM_register_19, 0x00, READ);
     data ^= (-value ^ data) & (1 << 0);
     PCM_send_receive(PCM_register_19, data, WRITE);
 }
 
-uint8_t PCM_get_zero_detect_mute(void){
-    uint8_t data = PCM_send_receive(PCM_register_19, 0x00, READ);
+uint16_t PCM_get_zero_detect_mute(void){
+    uint16_t data = PCM_send_receive(PCM_register_19, 0x00, READ);
     return ((data >> 0) & 1);
 }
 
-void PCM_set_pcm_reset(uint8_t value){
-    uint8_t data = PCM_send_receive(PCM_register_20, 0x00, READ);
+void PCM_set_pcm_reset(uint16_t value){
+    uint16_t data = PCM_send_receive(PCM_register_20, 0x00, READ);
     data ^= (-value ^ data) & (1 << 6);
     PCM_send_receive(PCM_register_20, data, WRITE);
 }
 
 void PCM_set_monaural_mode(PCM_monaural_mode_t PCM_monaural_mode){
-    uint8_t data = PCM_send_receive(PCM_register_20, 0x00, READ);
+    uint16_t data = PCM_send_receive(PCM_register_20, 0x00, READ);
     data ^= (-PCM_monaural_mode ^ data) & (1 << 3);
     PCM_send_receive(PCM_register_20, data, WRITE);
 }
 
 PCM_monaural_mode_t PCM_get_monaural_mode(void){
-    uint8_t data = PCM_send_receive(PCM_register_20, 0x00, READ);
+    uint16_t data = PCM_send_receive(PCM_register_20, 0x00, READ);
     return ((data >> 3) & 1);
 }
 
 void PCM_set_data_channel(PCM_data_channel_t PCM_data_channel){
-    uint8_t data = PCM_send_receive(PCM_register_20, 0x00, READ);
+    uint16_t data = PCM_send_receive(PCM_register_20, 0x00, READ);
     data ^= (-PCM_data_channel ^ data) & (1 << 2);
     PCM_send_receive(PCM_register_20, data, WRITE);
 }
 
 PCM_data_channel_t PCM_get_data_channel(void){
-    uint8_t data = PCM_send_receive(PCM_register_20, 0x00, READ);
+    uint16_t data = PCM_send_receive(PCM_register_20, 0x00, READ);
     return ((data >> 2) & 1);
 }
 
-uint8_t PCM_get_left_zero_detection(void){
-    uint8_t data = PCM_send_receive(PCM_register_22, 0x00, READ);
+uint16_t PCM_get_left_zero_detection(void){
+    uint16_t data = PCM_send_receive(PCM_register_22, 0x00, READ);
     return ((data >> 0) & 1);
 }
 
-uint8_t PCM_get_rigth_zero_detection(void){
-    uint8_t data = PCM_send_receive(PCM_register_22, 0x00, READ);
+uint16_t PCM_get_rigth_zero_detection(void){
+    uint16_t data = PCM_send_receive(PCM_register_22, 0x00, READ);
     return ((data >> 1) & 1);
 }
