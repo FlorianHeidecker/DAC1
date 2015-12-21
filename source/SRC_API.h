@@ -108,7 +108,9 @@ typedef enum {	SRC_register_power = 0x01,
                 SRC_receiver_interrupt_mask2 = 0x17,
                 SRC_receiver_interrupt_mode = 0x18,
                 SRC_receiver_interrupt_mode2 = 0x19,
-                SRC_receiver_interrupt_mode3 = 0x1A} SRC_register_t;                      
+                SRC_receiver_interrupt_mode3 = 0x1A,
+                SRC_burst_preamble_pc_highbyte = 0x29,
+                SRC_burst_preamble_pc_lowbyte = 0x2A} SRC_register_t;                      
                         
 //== functions =================================================================
 
@@ -537,6 +539,46 @@ void SRC_set_decimation_filter(SRC_decimation_filter_t SRC_decimation_filter);
  *                  
  */
 SRC_decimation_filter_t SRC_get_decimation_filter(void);
+
+/**
+ * @brief           get actual minute of the track
+ * 
+ * @return          actual minute value
+ *                  
+ */
+uint16_t SRC_get_minutes(void);
+
+/**
+ * @brief           get the seconds of the track
+ * 
+ * @return          actual value of seconds
+ *                  
+ */
+uint16_t SRC_get_seconds(void);
+
+/**
+ * @brief           get the number of played track
+ * 
+ * @return          actual track number
+ *                  
+ */
+uint16_t SRC_get_track(void);
+
+/**
+ * @brief           get information of burst preamble pc high-byte
+ * 
+ * @return          high-byte
+ *                  
+ */
+uint16_t SRC_get_burst_preamble_pc_highbyte(void);
+
+/**
+ * @brief           get information of burst preamble pc low-byte
+ * 
+ * @return          low-byte
+ *                  
+ */
+uint16_t SRC_get_burst_preamble_pc_lowbyte(void);
 
 
 #endif /* _SRC_API_H */

@@ -360,16 +360,24 @@ uint16_t SRC_get_qchannel_register10(void){
 }
 
 void SRC_get_play_time(uint16_t* minutes, uint16_t* seconds, uint16_t* aminutes, uint16_t* aseconds){
-    *minutes =  SRC_get_qchannel_register4();
-    *seconds =  SRC_get_qchannel_register5();
-    *aminutes = SRC_get_qchannel_register8();
-    *aseconds = SRC_get_qchannel_register9();
+    uint16_t temp =  SRC_get_qchannel_register4();
+    *minutes =  (temp& 0x0F) + ((temp>>4)& 0x0F)*10;
+    temp =  SRC_get_qchannel_register5();
+    *seconds =  (temp& 0x0F) + ((temp>>4)& 0x0F)*10;
+    temp =  SRC_get_qchannel_register8();
+    *aminutes =  (temp& 0x0F) + ((temp>>4)& 0x0F)*10;
+    temp =  SRC_get_qchannel_register9();
+    *aseconds =  (temp& 0x0F) + ((temp>>4)& 0x0F)*10;
+    
 }
 
 void SRC_get_cd_info(uint16_t* address, uint16_t* track, uint16_t* index){
-    *address =  SRC_get_qchannel_register1();
-    *track =  SRC_get_qchannel_register2();
-    *index = SRC_get_qchannel_register3();
+    uint16_t temp = SRC_get_qchannel_register1();
+    *address =  (temp& 0x0F) + ((temp>>4)& 0x0F)*10;
+    temp = SRC_get_qchannel_register2();
+    *track =  (temp& 0x0F) + ((temp>>4)& 0x0F)*10;
+    temp = SRC_get_qchannel_register3();
+    *index = (temp& 0x0F) + ((temp>>4)& 0x0F)*10;
 }
 
 uint16_t SRC_get_interrupt_status(void){
@@ -461,4 +469,29 @@ void SRC_set_decimation_filter(SRC_decimation_filter_t SRC_decimation_filter){
 SRC_decimation_filter_t SRC_get_decimation_filter(void){
     uint16_t data = SRC_receive(SRC_register_control_2);
     return (data & SRC_DECIMATION);   
+}
+
+uint16_t SRC_get_minutes(void){
+    uint16_t temp =  SRC_get_qchannel_register4();
+    return  ((temp& 0x0F) + ((temp>>4)& 0x0F)*10);
+}
+
+uint16_t SRC_get_seconds(void){
+    uint16_t temp =  SRC_get_qchannel_register5();
+    return  ((temp& 0x0F) + ((temp>>4)& 0x0F)*10);
+}
+
+uint16_t SRC_get_track(void){
+    uint16_t temp =  SRC_get_qchannel_register2();
+    return  ((temp& 0x0F) + ((temp>>4)& 0x0F)*10);
+}
+
+uint16_t SRC_get_burst_preamble_pc_highbyte(void){
+    uint16_t data = SRC_receive(SRC_burst_preamble_pc_highbyte);
+    return (data);
+}
+
+uint16_t SRC_get_burst_preamble_pc_lowbyte(void){
+    uint16_t data = SRC_receive(SRC_burst_preamble_pc_lowbyte);
+    return (data);
 }
