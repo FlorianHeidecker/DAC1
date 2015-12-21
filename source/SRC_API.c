@@ -485,3 +485,13 @@ uint16_t SRC_get_track(void){
     uint16_t temp =  SRC_get_qchannel_register2();
     return  ((temp& 0x0F) + ((temp>>4)& 0x0F)*10);
 }
+
+uint16_t SRC_get_burst_preamble_pc_highbyte(void){
+    uint16_t data = SRC_receive(SRC_burst_preamble_pc_highbyte);
+    return (data);
+}
+
+uint16_t SRC_get_burst_preamble_pc_lowbyte(void){
+    uint16_t data = SRC_receive(SRC_burst_preamble_pc_lowbyte);
+    return (data);
+}
