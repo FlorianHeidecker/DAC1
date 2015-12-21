@@ -538,6 +538,30 @@ void SRC_set_decimation_filter(SRC_decimation_filter_t SRC_decimation_filter);
  */
 SRC_decimation_filter_t SRC_get_decimation_filter(void);
 
+/**
+ * @brief           get actual minute of the track
+ * 
+ * @return          actual minute value
+ *                  
+ */
+uint16_t SRC_get_minutes(void);
+
+/**
+ * @brief           get the seconds of the track
+ * 
+ * @return          actual value of seconds
+ *                  
+ */
+uint16_t SRC_get_seconds(void);
+
+/**
+ * @brief           get the number of played track
+ * 
+ * @return          actual track number
+ *                  
+ */
+uint16_t SRC_get_track(void);
+
 
 #endif /* _SRC_API_H */
 

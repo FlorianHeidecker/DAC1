@@ -71,6 +71,7 @@
 int main(void) {
     AD1PCFGL = 0x1fff;
     state_rotation_t dec_test = DEC_NO_TURN;
+    uint16_t minutes, seconds, aminutes, aseconds ,address, track, index, receiver_status2=0x00;
     
     //=======================================
     // initalisation of the modules
@@ -91,13 +92,13 @@ int main(void) {
     PLL_init();
     LOG("LOG: PLL_init()\n");
             
-    //SRC_init();
-    //SRC_set_audio_output_data_format(SRC_24_bit_I2S);
-    //SRC_set_output_mute(0);
-    //SRC_set_master_clock_source(SRC_MCLK);
-    //SRC_set_master_clock_divider(SRC_Divide128);
-    //SRC_set_data_source(SRC_SRC);
-    //SRC_set_word_length(SRC_WORD_LENGTH24);  
+    SRC_init();
+    SRC_set_audio_output_data_format(SRC_24_bit_I2S);
+    SRC_set_output_mute(0);
+    SRC_set_master_clock_source(SRC_MCLK);
+    SRC_set_master_clock_divider(SRC_Divide128);
+    SRC_set_data_source(SRC_SRC);
+    SRC_set_word_length(SRC_WORD_LENGTH24);  
     
     
     while(1){
@@ -107,13 +108,19 @@ int main(void) {
             case DEC_TURN_LEFT:     
                 LOG("L\n");
                 menu_btn_down();
+                SRC_get_cd_info(&address, &track, &index);
+                LOG("Add=%i,Tra=%i,Ind=%i\n",address, track, index);
+                SRC_get_play_time( &minutes, &seconds, &aminutes, &aseconds);
+                LOG("M=%i,S=%i,aM=%i,aS=%i\n",minutes, seconds, aminutes, aseconds);
+                receiver_status2 = SRC_get_receiver_status2();
+                LOG("ReStat2=%b",receiver_status2);
                 break;
                 
             case DEC_TURN_RIGHT:    
                 LOG("R\n");
                 menu_btn_up();
                 break;
-                
+            
             case DEC_BUTTON:        
                 LOG("B\n");
                 menu_btn_set();
