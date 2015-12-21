@@ -19,17 +19,14 @@
 #include "log.h"
 #include "PLL_API.h"
 #include "UART_API.h"
+#include "DEC_API.h"
+#include "xlcd/xlcd.h"
+#include "CONTROL.h"
 #include "menu.h"
 
 #include <libpic30.h>
-#include "SPI_API.h"
 #include "DEC_API.h"
 #include "xlcd/xlcd.h"
-#include "SRC_API.h"
-#include "PCM_API.h"
-#include "PLL_API.h"
-
-#include <libpic30.h>
 
 // FBS
 #pragma config BWRP = WRPROTECT_OFF     // Boot Segment Write Protect (Boot Segment may be written)
@@ -71,34 +68,39 @@
 int main(void) {
     AD1PCFGL = 0x1fff;
     state_rotation_t dec_test = DEC_NO_TURN;
-    uint16_t minutes, seconds, aminutes, aseconds ,address, track, index, receiver_status2, preamble_high, preamble_low, pcmAudioDec =0x00;
+
+    //uint16_t minutes, seconds, aminutes, aseconds ,address, track, index, receiver_status2, preamble_high, preamble_low, pcmAudioDec =0x00;
     
-    //=======================================
+
     // initalisation of the modules
     log_init();
     LOG("\n\nLOG: main()\n");
 
     LOG("LOG: xlcd_init()\n");
     xlcd_init();
-    LOG("LOG: pll_init()\n");
-    PLL_init();
+
+    LOG("LOG: DEC_init()\n");
+    DEC_init();
+    
+    LOG("LOG: CONTROL_init()\n");
+    CONTROL_init();
+
     LOG("LOG: menu_init()\n");
     menu_init();
-    LOG("LOG: spi_init()\n");
-    spi_init();
+
     LOG("LOG: DEC_init()\n");
     DEC_init();
         
     PLL_init();
     LOG("LOG: PLL_init()\n");
             
-    SRC_init();
-    SRC_set_audio_output_data_format(SRC_24_bit_I2S);
-    SRC_set_output_mute(0);
-    SRC_set_master_clock_source(SRC_MCLK);
-    SRC_set_master_clock_divider(SRC_Divide128);
-    SRC_set_data_source(SRC_SRC);
-    SRC_set_word_length(SRC_WORD_LENGTH24);  
+    //SRC_init();
+    //SRC_set_audio_output_data_format(SRC_24_bit_I2S);
+    //SRC_set_output_mute(0);
+    //SRC_set_master_clock_source(SRC_MCLK);
+    //SRC_set_master_clock_divider(SRC_Divide128);
+    //SRC_set_data_source(SRC_SRC);
+    //SRC_set_word_length(SRC_WORD_LENGTH24);  
     
     
     while(1){
