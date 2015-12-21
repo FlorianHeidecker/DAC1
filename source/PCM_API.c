@@ -162,7 +162,7 @@ uint16_t PCM_get_zero_detect_mute(void){
     return ((data >> 0) & 1);
 }
 
-void PCM_set_pcm_reset(uint16_t value){
+void PCM_reset(uint16_t value){
     uint16_t data = PCM_send_receive(PCM_register_20, 0x00, READ);
     data ^= (-value ^ data) & (1 << 6);
     PCM_send_receive(PCM_register_20, data, WRITE);

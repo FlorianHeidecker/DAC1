@@ -18,14 +18,7 @@
 #include "PLL_API.h"
 #include "PCM_API.h"
 #include "SPI_API.h"
-
-#define bottom_border_level 135
-
-typedef enum {	CONTROL_16_bit_standard_format=0,
-				CONTROL_20_bit_standard_format=1,
-				CONTROL_24_bit_standard_format=2,
-				CONTROL_24_bit_MSB_first=3,
-				CONTROL_24_bit_I2S=4} CONTROL_audio_data_format_t;
+#include "SRC_API.h"
 
 void CONTROL_init(void){
     CONTROL_LOG("CONTROL_LOG: spi_init()\n");
@@ -34,12 +27,51 @@ void CONTROL_init(void){
     SRC_init();
     PLL_set_scko1_freq(PLL_SCKO1_16MHz);
     CONTROL_set_audio_data_format(CONTROL_24_bit_I2S);
+    CONTROL_set_oversampling_freq(PLL_SAMPLING_FREQ_48kHz);
     CONTROL_set_attunation_level(100);
     CONTROL_set_zero_detect_mute(PCM_enabled);
     CONTROL_set_monaural_mode(PCM_stereo);
 }
 
 //== PLL/PCM/SRC related =======================================================
+
+void CONTROL_set_oversampling_freq(CONTROL_oversampling_freq_t CONTROL_oversampling_freq){
+    switch(CONTROL_oversampling_freq){
+        case CONTROL_OVERSAMPLING_FREQ_32kHz:
+            PLL_set_sampling_freq(PLL_SAMPLING_FREQ_32kHz);
+            SRC_set_master_clock_divider(SRC_Divide256);
+            break;
+        case CONTROL_OVERSAMPLING_FREQ_44_1kHz:
+            PLL_set_sampling_freq(PLL_SAMPLING_FREQ_44_1kHz);
+            SRC_set_master_clock_divider(SRC_Divide256);
+            break;
+        case CONTROL_OVERSAMPLING_FREQ_48kHz:
+            PLL_set_sampling_freq(PLL_SAMPLING_FREQ_48kHz);
+            SRC_set_master_clock_divider(SRC_Divide256);
+            break;
+        case CONTROL_OVERSAMPLING_FREQ_64kHz:
+            PLL_set_sampling_freq(PLL_SAMPLING_FREQ_64kHz);
+            SRC_set_master_clock_divider(SRC_Divide256);
+            break;
+        case CONTROL_OVERSAMPLING_FREQ_88_2kHz:
+            PLL_set_sampling_freq(PLL_SAMPLING_FREQ_88_2kHz);
+            SRC_set_master_clock_divider(SRC_Divide256);
+            break;
+        case CONTROL_OVERSAMPLING_FREQ_96kHz:
+            PLL_set_sampling_freq(PLL_SAMPLING_FREQ_96kHz);
+            SRC_set_master_clock_divider(SRC_Divide256);
+            break;
+        case CONTROL_OVERSAMPLING_FREQ_192kHz:
+            PLL_set_sampling_freq(PLL_SAMPLING_FREQ_96kHz);
+            SRC_set_master_clock_divider(SRC_Divide128);
+            break;
+    }
+}
+
+CONTROL_oversampling_freq_t CONTROL_get_oversampling_freq(void){
+    return 0; // dummy
+}
+
 void CONTROL_set_audio_data_format(CONTROL_audio_data_format_t CONTROL_audio_data_format){
     switch(CONTROL_audio_data_format){
         case CONTROL_16_bit_standard_format:
@@ -99,13 +131,10 @@ CONTROL_audio_data_format_t CONTROL_get_audio_data_format(void){
 }
 
 void CONTROL_reset(void){
-    PCM_pcm_reset(PCM_enabled);
+    PCM_reset(PCM_enabled);
     SRC_set_reset(1);
     CONTROL_init();
 }
-
-//== only PLL related ==========================================================
-
 
 //== only PCM related ==========================================================
 

@@ -69,7 +69,7 @@ int main(void) {
     AD1PCFGL = 0x1fff;
     state_rotation_t dec_test = DEC_NO_TURN;
 
-    //uint16_t minutes, seconds, aminutes, aseconds ,address, track, index, receiver_status2, preamble_high, preamble_low, pcmAudioDec =0x00;
+    uint16_t minutes, seconds, aminutes, aseconds ,address, track, index, receiver_status2, preamble_high, preamble_low, pcmAudioDec =0x00;
     
 
     // initalisation of the modules
@@ -93,15 +93,6 @@ int main(void) {
         
     PLL_init();
     LOG("LOG: PLL_init()\n");
-            
-    //SRC_init();
-    //SRC_set_audio_output_data_format(SRC_24_bit_I2S);
-    //SRC_set_output_mute(0);
-    //SRC_set_master_clock_source(SRC_MCLK);
-    //SRC_set_master_clock_divider(SRC_Divide128);
-    //SRC_set_data_source(SRC_SRC);
-    //SRC_set_word_length(SRC_WORD_LENGTH24);  
-    
     
     while(1){
     	dec_test = get_DEC_status();

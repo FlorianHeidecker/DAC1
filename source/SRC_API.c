@@ -38,6 +38,8 @@ void SRC_send (uint8_t address, uint8_t data){
 
 void SRC_init (void){
     SRC_set_output_mute(0); // SRC has no mute functionality
+    SRC_set_master_clock_source(SRC_MCLK);
+    SRC_set_data_source(SRC_SRC);
     
     uint16_t data = 0x3F; // enable all fuction blocks on SRC
     SRC_send(SRC_register_power, data);

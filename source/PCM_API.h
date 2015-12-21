@@ -232,7 +232,7 @@ uint16_t PCM_get_zero_detect_mute(void);
  * @param value     Normal operation = 0,
  *                  System reset operation = 1 (generate one reset pulse)
  */
-void PCM_pcm_reset(uint16_t value);
+void PCM_reset(uint16_t value);
 
 /** DSD: DSD Interface Mode Control 
     read and write */
