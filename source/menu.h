@@ -46,7 +46,22 @@ typedef enum {
     PCM_AUDIO_DATA_FORMAT_MENU,
     PCM_DELTA_SIGMA_MENU,
     PCM_RETURN_MENU,
-    SRC_AUDIO_DATA_FORMAT_TEXT,
+    CTRL_OVERSAMPLING_MENU,
+    CTRL_AUDIO_FORMAT_MENU,
+    CTRL_VOLUME_MENU,
+    CTRL_SOFT_MUTE_MENU,
+    CTRL_ZERO_MUTING_MENU,
+    CTRL_MONAURAL_MENU,
+    CTRL_RETURN_MENU,
+            SRC_UPSAMPLING_MENU,
+            SRC_MCLK_DIV_MENU,
+            SRC_FORMAT_MENU,
+            SRC_INTERPOLATION_MENU,
+            SRC_MUTE_MENU,
+            SRC_ERROR_MUTE_MENU,
+            SRC_RETURN_MENU
+            
+            
             
 }menu_index_t;
 

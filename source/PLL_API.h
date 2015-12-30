@@ -21,12 +21,14 @@
 typedef enum {PLL_SCKO1_16MHz = 1, PLL_SCKO1_33MHz = 0} PLL_scko1_freq_t;
 
 /** avalible sampling frequency in kHz */
-typedef enum {PLL_SAMPLING_FREQ_48kHz=0,
-              PLL_SAMPLING_FREQ_44_1kHz=1,
-              PLL_SAMPLING_FREQ_32kHz=2,
-              PLL_SAMPLING_FREQ_96kHz=4,
-              PLL_SAMPLING_FREQ_88_2kHz=5,
-              PLL_SAMPLING_FREQ_64kHz=6} PLL_sampling_freq_t;
+typedef enum {
+    PLL_SAMPLING_FREQ_32kHz=0,
+    PLL_SAMPLING_FREQ_44_1kHz,
+    PLL_SAMPLING_FREQ_48kHz,
+    PLL_SAMPLING_FREQ_64kHz,   
+    PLL_SAMPLING_FREQ_88_2kHz,
+    PLL_SAMPLING_FREQ_96kHz
+}PLL_sampling_freq_t;
 
 //== functions =================================================================
 

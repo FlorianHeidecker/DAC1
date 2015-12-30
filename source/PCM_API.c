@@ -36,9 +36,9 @@ uint8_t PCM_send_receive(uint8_t address, uint8_t data, uint8_t read_write){
     uint8_t data_send[2] = {address, data};
     uint8_t data_receive[2] = {0, 0};
     
-    PCM_LOG("PCM send: Register: 0x%x || Data: 0x%x\n", *data_send, *(data_send + 1));
+    //PCM_LOG("PCM send: Register: 0x%x || Data: 0x%x\n", *data_send, *(data_send + 1));
     spi_rw_n(data_send, data_receive, 2, SPI_DAC_channel);
-    PCM_LOG("PCM receive: Data[0]: 0x%x || Data[1]: 0x%x\n", address, *(data_receive + 1));
+    //PCM_LOG("PCM receive: Data[0]: 0x%x || Data[1]: 0x%x\n", address, *(data_receive + 1));
     
     return *(data_receive + 1);
 }

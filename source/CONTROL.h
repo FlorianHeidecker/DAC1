@@ -25,18 +25,18 @@ typedef enum {	no_zero_detection=0,
 #define bottom_border_level 135
 
 typedef enum {	CONTROL_16_bit_standard_format=0,
-				CONTROL_20_bit_standard_format=1,
-				CONTROL_24_bit_standard_format=2,
-				CONTROL_24_bit_MSB_first=3,
-				CONTROL_24_bit_I2S=5} CONTROL_audio_data_format_t;
+				CONTROL_20_bit_standard_format,
+				CONTROL_24_bit_standard_format,
+				CONTROL_24_bit_MSB_first,
+				CONTROL_24_bit_I2S} CONTROL_audio_data_format_t;
 
 typedef enum {  CONTROL_OVERSAMPLING_FREQ_32kHz=0,
-                CONTROL_OVERSAMPLING_FREQ_44_1kHz=1,
-                CONTROL_OVERSAMPLING_FREQ_48kHz=2,
-                CONTROL_OVERSAMPLING_FREQ_64kHz=4,
-                CONTROL_OVERSAMPLING_FREQ_88_2kHz=5,
-                CONTROL_OVERSAMPLING_FREQ_96kHz=6,
-                CONTROL_OVERSAMPLING_FREQ_192kHz=7} CONTROL_oversampling_freq_t;
+                CONTROL_OVERSAMPLING_FREQ_44_1kHz,
+                CONTROL_OVERSAMPLING_FREQ_48kHz,
+                CONTROL_OVERSAMPLING_FREQ_64kHz,
+                CONTROL_OVERSAMPLING_FREQ_88_2kHz,
+                CONTROL_OVERSAMPLING_FREQ_96kHz,
+                CONTROL_OVERSAMPLING_FREQ_192kHz} CONTROL_oversampling_freq_t;
 
 //== functions =================================================================
 
@@ -52,17 +52,17 @@ CONTROL_audio_data_format_t CONTROL_get_audio_data_format(void);
 
 void CONTROL_reset(void);
 
-void CONTROL_set_attunation_level(uint8_t percent);
+void CONTROL_set_attunation_level(uint16_t percent);
 
-uint8_t CONTROL_get_attunation_level(void);
+uint16_t CONTROL_get_attunation_level(void);
 
-void CONTROL_set_soft_mute(uint8_t value);
+void CONTROL_set_soft_mute(uint16_t value);
 
-uint8_t CONTROL_get_soft_mute(void);
+uint16_t CONTROL_get_soft_mute(void);
 
-void CONTROL_set_zero_detect_mute(uint8_t value);
+void CONTROL_set_zero_detect_mute(uint16_t value);
 
-uint8_t CONTROL_get_zero_detect_mute(void);
+uint16_t CONTROL_get_zero_detect_mute(void);
 
 void CONTROL_set_monaural_mode(PCM_monaural_mode_t PCM_monaural_mode);
 

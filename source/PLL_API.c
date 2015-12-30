@@ -78,8 +78,30 @@ void PLL_set_sampling_freq(PLL_sampling_freq_t PLL_sampling_freq){
     }
 }
 
-PLL_sampling_freq_t PLL_get_sampling_freq(void){
-    PLL_sampling_freq_t index = PLL_SR_LATCH*4 + PLL_FS2_LATCH*2 + PLL_FS1_LATCH;
-    return index;
+PLL_sampling_freq_t PLL_get_sampling_freq(void)
+{
+    int temp;
+    temp = PLL_SR_LATCH*4 + PLL_FS1_LATCH*2 + PLL_FS2_LATCH;
+    
+    switch(temp)
+    {
+        case 0:
+            return PLL_SAMPLING_FREQ_48kHz;
+        case 1:
+            return PLL_SAMPLING_FREQ_32kHz;
+        case 2:
+            return PLL_SAMPLING_FREQ_44_1kHz; 
+        case 4:
+            return PLL_SAMPLING_FREQ_96kHz;
+        case 5:
+            return PLL_SAMPLING_FREQ_64kHz;
+        case 6:
+            return PLL_SAMPLING_FREQ_88_2kHz;
+        default:
+            PLL_LOG("PLL: PLL_get_sampling_freq() unknow frequency\n");
+            break;
+    }
+    
+    return 0;
 }
 

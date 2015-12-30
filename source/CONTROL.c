@@ -25,9 +25,10 @@ void CONTROL_init(void){
     spi_init();
     PLL_init();
     SRC_init();
+    
     PLL_set_scko1_freq(PLL_SCKO1_16MHz);
     CONTROL_set_audio_data_format(CONTROL_24_bit_I2S);
-    CONTROL_set_oversampling_freq(PLL_SAMPLING_FREQ_48kHz);
+    CONTROL_set_oversampling_freq(CONTROL_OVERSAMPLING_FREQ_44_1kHz);
     CONTROL_set_attunation_level(100);
     CONTROL_set_zero_detect_mute(PCM_enabled);
     CONTROL_set_monaural_mode(PCM_stereo);
@@ -68,12 +69,24 @@ void CONTROL_set_oversampling_freq(CONTROL_oversampling_freq_t CONTROL_oversampl
     }
 }
 
-CONTROL_oversampling_freq_t CONTROL_get_oversampling_freq(void){
-    return 0; // dummy
+CONTROL_oversampling_freq_t CONTROL_get_oversampling_freq(void)
+{
+    if(SRC_get_master_clock_divider() == SRC_Divide128)
+    {
+        return CONTROL_OVERSAMPLING_FREQ_192kHz;
+    }
+    else
+    {
+        return PLL_get_sampling_freq();
+    }
+    
+    //return 0; // dummy
 }
 
-void CONTROL_set_audio_data_format(CONTROL_audio_data_format_t CONTROL_audio_data_format){
-    switch(CONTROL_audio_data_format){
+void CONTROL_set_audio_data_format(CONTROL_audio_data_format_t CONTROL_audio_data_format)
+{
+    switch(CONTROL_audio_data_format)
+    {
         case CONTROL_16_bit_standard_format:
             PCM_set_audio_data_format(PCM_16_bit_standard_format);
             SRC_set_audio_output_data_format(SRC_16_bit_right_justified);
@@ -106,8 +119,11 @@ void CONTROL_set_audio_data_format(CONTROL_audio_data_format_t CONTROL_audio_dat
     }
 }
 
-CONTROL_audio_data_format_t CONTROL_get_audio_data_format(void){
-    switch(PCM_get_audio_data_format()){
+CONTROL_audio_data_format_t CONTROL_get_audio_data_format(void)
+{
+    
+    switch(PCM_get_audio_data_format())
+    {
         case PCM_16_bit_standard_format:
             return CONTROL_16_bit_standard_format;
             break;
@@ -127,7 +143,14 @@ CONTROL_audio_data_format_t CONTROL_get_audio_data_format(void){
         case PCM_24_bit_I2S:
             return CONTROL_24_bit_I2S;
             break;
+            
+        case PCM_16_bit_I2S:
+            CONTROL_LOG("CONTROL: CONTROL_get_audio_data_format(), PCM_16_bit_I2S not supported");
+            return 0;
+            break;
     }
+    
+    return 0;
 }
 
 void CONTROL_reset(void){
@@ -138,14 +161,14 @@ void CONTROL_reset(void){
 
 //== only PCM related ==========================================================
 
-void CONTROL_set_attunation_level(uint8_t percent){
+void CONTROL_set_attunation_level(uint16_t percent){
     // attenuation control must be set to 1
     CONTROL_LOG("CONTROL_LOG: PCM_set_attenuation_control = enabled\n");
     PCM_set_attenuation_control(PCM_enabled);
     
     CONTROL_LOG("CONTROL_LOG: CONTROL_set_attunation_level, input percent = %i\n", percent);
     // input value is proportional to attunation level
-    uint8_t level = (uint8_t)(((uint16_t)((255 - bottom_border_level) * percent ) / 100) + bottom_border_level);
+    uint16_t level = (((uint16_t)((255 - bottom_border_level) * percent ) / 100) + bottom_border_level);
     CONTROL_LOG("CONTROL_LOG: CONTROL_set_attunation_level, output level = %i\n", level);
     
     PCM_set_attenuation_level_left(level);
@@ -160,17 +183,17 @@ void CONTROL_set_attunation_level(uint8_t percent){
     }
 }
 
-uint8_t CONTROL_get_attunation_level(void){
-    uint8_t level = PCM_get_attenuation_level_left();
+uint16_t CONTROL_get_attunation_level(void){
+    uint16_t level = PCM_get_attenuation_level_left();
     CONTROL_LOG("CONTROL_LOG: CONTROL_get_attunation_level, input level = %i\n", level);
     
     // output value is proportional to attunation level
-    uint8_t percent = (uint8_t)((uint16_t)(100 * (level - bottom_border_level)) / (255 - bottom_border_level));
+    uint16_t percent = ((uint16_t)(100 * (level - bottom_border_level)) / (255 - bottom_border_level));
     CONTROL_LOG("CONTROL_LOG: CONTROL_get_attunation_level, output percent = %i\n", percent);
     return percent;
 }
 
-void CONTROL_set_soft_mute(uint8_t value){
+void CONTROL_set_soft_mute(uint16_t value){
     if(value == PCM_enabled){
         CONTROL_LOG("CONTROL_LOG: PCM_set_soft_mute = enabled");
     }
@@ -180,11 +203,11 @@ void CONTROL_set_soft_mute(uint8_t value){
     PCM_set_soft_mute(value);
 }
 
-uint8_t CONTROL_get_soft_mute(void){
+uint16_t CONTROL_get_soft_mute(void){
     return PCM_get_soft_mute();
 }
 
-void CONTROL_set_zero_detect_mute(uint8_t value){
+void CONTROL_set_zero_detect_mute(uint16_t value){
     if(value == PCM_enabled){
         CONTROL_LOG("CONTROL_LOG: PCM_set_zero_detect_mute = enabled");
     }
@@ -194,7 +217,7 @@ void CONTROL_set_zero_detect_mute(uint8_t value){
     PCM_set_zero_detect_mute(value);
 }
 
-uint8_t CONTROL_get_zero_detect_mute(void){
+uint16_t CONTROL_get_zero_detect_mute(void){
     return PCM_get_zero_detect_mute();
 }
 

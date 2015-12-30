@@ -19,6 +19,7 @@
 #include "SRC_API.h"
 #include "xlcd/xlcd.h"
 #include "log.h"
+#include "control.h"
 
 /** Maximum Number of Lines for the Menu */
 #define MAX_LINE    (4-1)      
@@ -59,70 +60,73 @@ void menu_write_headline(void);
 //==============================================================================
 //                                       "01234567890123456789"
 const char *main_menu_text[]          = {"Main Menu"};
-const char *info_main_menu_text[]     = {"Audio Informationen"};
-const char *audio_main_menu_text[]    = {"Audio Einstellungen"};
-const char *pll_main_menu_text[]      = {"PLL Einstellungen"};
-const char *src_main_menu_text[]      = {"SRC Einstellungen"};
-const char *pcm_main_menu_text[]      = {"PCM Einstellungen"};
+const char *info_main_menu_text[]     = {"Audio Info"};
+const char *audio_main_menu_text[]    = {"Audio Settings"};
+const char *pll_main_menu_text[]      = {"PLL Settings"};
+const char *src_main_menu_text[]      = {"SRC Settings"};
+const char *pcm_main_menu_text[]      = {"PCM Settings"};
 const char *return_menu_text[]        = {"RETURN ->"};
+const char *control_volume_text[]     = {"Volume"};
 
 
 //==============================================================================
 // Definitions of Menu Parameterlist
 //==============================================================================
 const char *pll_sampling_freq_text[] = {
-    "Samp. Freq.", 
-    "  48kHz",
+    "SCKO2 Freq.", 
+    "32kHz",
     "44.1kHz",
-    "  32kHz",
-    "  96kHz",
+    "48kHz",
+    "64kHz",
     "88.2kHz",
-    "  64kHz"
+    "96kHz"
 };
 const char *pll_scko_freq_text[] = {
     "SCKO1 Freq.",
-    "  16MHz",
-    "  33MHz"
+    "16MHz",
+    "33MHz"
 };
 
 const char *pcm_attunation_text[] = {
-    "Attunation",
-    "   xxdB",
-    "   xxdB"
+    "Volume",
 };
 const char *pcm_soft_mute_text[] = {
     "SoftMute",
-    "     On",
-    "    Off"
+    "On",
+    "Off"
 };
 const char *pcm_audio_data_format_text[] = {
-    "I2S Format",
-    " 16 LSB",
-    " 20 LSB",
-    " 24 LSB",
-    " 24 MSB",
-    " 16 I2S",
-    " 24 I2S"
+    "Format",
+    "16 LSB",
+    "20 LSB",
+    "24 LSB",
+    "24 MSB",
+    "16 I2S",
+    "24 I2S"
 };
 const char *pcm_delta_sigma_text[] = {
     "DeltaSigma",
-    "   64fs",
-    "   32fs",
-    "  128fs"
+    "64fs",
+    "32fs",
+    "128fs"
 };
 const char *pcm_monaural_text[] = {
     "Monaural",
-    "   Mono",
-    " Stereo"
+    "Stereo",
+    "Mono"
 };
 const char *pcm_zero_detect_text[] = {
-    "ZeroDetect"
-    "     On",
-    "    Off"
+    "ZeroDetect",
+    "Off",
+    "On"
 };
 
+
+//==============================================================================
+// Definitions of SRC Settings
+//==============================================================================
 const char *src_audio_output_format_text[] = {
-    "I2S Format",
+    "Format",
     "24 left",
     "24 I2S",
     "16right",
@@ -137,44 +141,71 @@ const char *src_master_clock_divider_text[] = {
     "384",
     "512"
 };
-const char *src_master_clock_source_text[] = {
-    "MCLK Src.",
-    "MCLK",
-    "RXCKI"
-};
 const char *src_port_a_source_text[] = {
-    "Output Src",
-    "direct",
-    "upsamp"
+    "Upsampling",
+    "Off",
+    "On"
 };
 const char *src_output_mute_text[] = {
     "Mute",  
     "Off",
     "On"
 };
-const char *src_word_length_text[] = {
-    "Word Length",
-    "24 Bit",
-    "20 Bit",
-    "18 Bit",
-    "16 Bit"
+const char *src_mute_pll_error_text[] = {
+    "Err. Mute",
+    "Off",
+    "On"
 };
-const char *src_receiver_status1_text[] = {
-    "Receiv.Status",
-    "noClock",
-    "128 fs",
-    "256 fs",
-    "512 fs"
-};
-// cant be implementet right now
-// const char *src_receiver_status2_text[] ={};
-const char *src_receiver_status3_text[] = {
-    "Receiv.Status",
-    "OK",
-    "ERR"
+const char *src_interpolation_filter_text[] = {
+    "Fil. Delay",
+    "64 Samp",
+    "32 Samp",
+    "16 Samp",
+    "8 Samp"
 };
 
 
+
+//==============================================================================
+// Definitions of Audio Settings
+//==============================================================================
+const char *control_oversampling_text[] = {
+    "Oversamp.",
+    "32kHz",
+    "44.1kHz",
+    "48kHz",
+    "64kHz",
+    "88.2kHz",
+    "96kHz",
+    "192kHz"
+};
+
+const char *control_audio_format_text[] = {
+    "Format",
+    "16Bit R",
+    "20Bit R",
+    "24Bit R",
+    "24Bit L",
+    "24 I2S"
+};
+
+const char *control_soft_mute_text[] = {
+    "Mute",
+    "Off",
+    "On"
+};
+
+const char *control_zero_detect_mute_text[] = {
+    "Zero Muting",
+    "Off",
+    "On"
+};
+
+const char *control_monaural_text[] = {
+    "Monaural",
+    "Stereo",
+    "Mono"
+};
 
 //==============================================================================
 // Definitions Menu Structure
@@ -211,7 +242,7 @@ const menu_t menu_arr[] =
         .prev   = INFO_MAIN_MENU,  
         .next   = PLL_MAIN_MENU,      
         .up     = MAIN_MENU_DUMMY, 
-        .sub    = 0, 
+        .sub    = CTRL_OVERSAMPLING_MENU, 
         .get    = menu_get_nothing,
         .set    = menu_call_sub
     },
@@ -233,7 +264,7 @@ const menu_t menu_arr[] =
         .prev   = PLL_MAIN_MENU,   
         .next   = PCM_MAIN_MENU,      
         .up     = MAIN_MENU_DUMMY, 
-        .sub    = 0, 
+        .sub    = SRC_UPSAMPLING_MENU, 
         .get    = menu_get_nothing,
         .set    = menu_call_sub
     },
@@ -294,22 +325,21 @@ const menu_t menu_arr[] =
     },
     {   // PCM_ATTUNATION_MENU
         .text   = pcm_attunation_text,
-        .type   = MENU_OPTION,
-        .num_elements = 2,
+        .type   = MENU_OPTION_INT,
+        .num_elements = 100,
         .prev   = PCM_MONAURAL_MENU,
-        //.next   = PCM_SOFT_MUTE_MENU,
-        .next   = PCM_ZERO_DETECT_MUTE,
+        .next   = PCM_SOFT_MUTE_MENU,
         .up     = PCM_MAIN_MENU,
         .sub    = 0,
-        .get    = PCM_get_monaural_mode,
-        .set    = PCM_set_monaural_mode,  
+        .get    = CONTROL_get_attunation_level,
+        .set    = CONTROL_set_attunation_level,  
     },
     {   // PCM_SOFT_MUTE_MENU
         .text   = pcm_soft_mute_text,
         .type   = MENU_OPTION,
         .num_elements = 2,
         .prev   = PCM_ATTUNATION_MENU,
-        .next   = PCM_AUDIO_DATA_FORMAT_MENU,
+        .next   = PCM_ZERO_DETECT_MUTE,
         .up     = PCM_MAIN_MENU,
         .sub    = 0,
         .get    = PCM_get_soft_mute,
@@ -319,8 +349,7 @@ const menu_t menu_arr[] =
         .text   = pcm_zero_detect_text,
         .type   = MENU_OPTION,
         .num_elements = 2,
-        //.prev   = PCM_SOFT_MUTE_MENU,
-        .prev   = PCM_ATTUNATION_MENU,
+        .prev   = PCM_SOFT_MUTE_MENU,
         .next   = PCM_AUDIO_DATA_FORMAT_MENU,
         .up     = PCM_MAIN_MENU,
         .sub    = 0,
@@ -359,7 +388,162 @@ const menu_t menu_arr[] =
         .sub    = 0,
         .get    = menu_get_nothing,
         .set    = menu_call_up
+    },
+    {   // CTRL_OVERSAMPLING_MENU
+        .text   = control_oversampling_text,      
+        .type   = MENU_OPTION,
+        .num_elements = 7,
+        .prev   = CTRL_RETURN_MENU,
+        .next   = CTRL_AUDIO_FORMAT_MENU,
+        .up     = AUDIO_MAIN_MENU,
+        .sub    = 0,
+        .get    = CONTROL_get_oversampling_freq,
+        .set    = CONTROL_set_oversampling_freq
+    },
+    {   // CTRL_AUDIO_FORMAT_MENU
+        .text   = control_audio_format_text,      
+        .type   = MENU_OPTION,
+        .num_elements = 5,
+        .prev   = CTRL_OVERSAMPLING_MENU,
+        .next   = CTRL_VOLUME_MENU,
+        .up     = AUDIO_MAIN_MENU,
+        .sub    = 0,
+        .get    = CONTROL_get_audio_data_format,
+        .set    = CONTROL_set_audio_data_format
+    },
+    {   // CTRL_VOLUME_MENU
+        .text   = control_volume_text,      
+        .type   = MENU_OPTION_INT,
+        .num_elements = 100,
+        .prev   = CTRL_AUDIO_FORMAT_MENU,
+        .next   = CTRL_SOFT_MUTE_MENU,
+        .up     = AUDIO_MAIN_MENU,
+        .sub    = 0,
+        .get    = CONTROL_get_attunation_level,
+        .set    = CONTROL_set_attunation_level
+    },
+    {   // CTRL_SOFT_MUTE_MENU
+        .text   = control_soft_mute_text,      
+        .type   = MENU_OPTION,
+        .num_elements = 2,
+        .prev   = CTRL_VOLUME_MENU,
+        .next   = CTRL_ZERO_MUTING_MENU,
+        .up     = AUDIO_MAIN_MENU,
+        .sub    = 0,
+        .get    = CONTROL_get_soft_mute,
+        .set    = CONTROL_set_soft_mute
+    },
+    {   // CTRL_ZERO_MUTING_MENU
+        .text   = control_zero_detect_mute_text,      
+        .type   = MENU_OPTION,
+        .num_elements = 2,
+        .prev   = CTRL_SOFT_MUTE_MENU,
+        .next   = CTRL_MONAURAL_MENU,
+        .up     = AUDIO_MAIN_MENU,
+        .sub    = 0,
+        .get    = CONTROL_get_zero_detect_mute,
+        .set    = CONTROL_set_zero_detect_mute
+    },
+    {   // CTRL_MONAURAL_MENU
+        .text   = control_monaural_text,      
+        .type   = MENU_OPTION,
+        .num_elements = 2,
+        .prev   = CTRL_ZERO_MUTING_MENU,
+        .next   = CTRL_RETURN_MENU,
+        .up     = AUDIO_MAIN_MENU,
+        .sub    = 0,
+        .get    = CONTROL_get_monaural_mode,
+        .set    = CONTROL_set_monaural_mode
+    },
+    {   // CTRL_RETURN_MENU
+        .text   = return_menu_text,
+        .type   = MENU_NORMAL,
+        .num_elements = 0,
+        .prev   = CTRL_MONAURAL_MENU,
+        .next   = CTRL_OVERSAMPLING_MENU,
+        .up     = AUDIO_MAIN_MENU,
+        .sub    = 0,
+        .get    = menu_get_nothing,
+        .set    = menu_call_up
+    },
+    {   // SRC_UPSAMPLING_MENU
+        .text   = src_port_a_source_text,
+        .type   = MENU_OPTION,
+        .num_elements = 2,
+        .prev   = SRC_RETURN_MENU,
+        .next   = SRC_MCLK_DIV_MENU,
+        .up     = SRC_MAIN_MENU,
+        .sub    = 0,
+        .get    = SRC_get_data_source,
+        .set    = SRC_set_data_source
+    },
+    {   // SRC_MCLK_DIV_MENU
+        .text   = src_master_clock_divider_text,
+        .type   = MENU_OPTION,
+        .num_elements = 4,
+        .prev   = SRC_UPSAMPLING_MENU,
+        .next   = SRC_FORMAT_MENU,
+        .up     = SRC_MAIN_MENU,
+        .sub    = 0,
+        .get    = SRC_get_master_clock_divider,
+        .set    = SRC_set_master_clock_divider
+    },
+    {   // SRC_FORMAT_MENU
+        .text   = src_audio_output_format_text,
+        .type   = MENU_OPTION,
+        .num_elements = 6,
+        .prev   = SRC_MCLK_DIV_MENU,
+        .next   = SRC_INTERPOLATION_MENU,
+        .up     = SRC_MAIN_MENU,
+        .sub    = 0,
+        .get    = SRC_get_audio_output_data_format,
+        .set    = SRC_set_audio_output_data_format
+    },
+    {   // SRC_INTERPOLATION_MENU
+        .text   = src_interpolation_filter_text,
+        .type   = MENU_OPTION,
+        .num_elements = 4,
+        .prev   = SRC_FORMAT_MENU,
+        .next   = SRC_MUTE_MENU,
+        .up     = SRC_MAIN_MENU,
+        .sub    = 0,
+        .get    = SRC_get_interpolation_filter,
+        .set    = SRC_set_interpolation_filter
+    },
+    {   // SRC_MUTE_MENU
+        .text   = src_output_mute_text,
+        .type   = MENU_OPTION,
+        .num_elements = 2,
+        .prev   = SRC_INTERPOLATION_MENU,
+        .next   = SRC_ERROR_MUTE_MENU,
+        .up     = SRC_MAIN_MENU,
+        .sub    = 0,
+        .get    = SRC_get_output_mute,
+        .set    = SRC_set_output_mute
+    },
+    {   // SRC_ERROR_MUTE_MENU
+        .text   = src_mute_pll_error_text,
+        .type   = MENU_OPTION,
+        .num_elements = 2,
+        .prev   = SRC_MUTE_MENU,
+        .next   = SRC_RETURN_MENU,
+        .up     = SRC_MAIN_MENU,
+        .sub    = 0,
+        .get    = SRC_get_mute_pll_error,
+        .set    = SRC_set_mute_pll_error
+    },
+    {   // SRC_RETURN_MENU
+        .text   = return_menu_text,
+        .type   = MENU_NORMAL,
+        .num_elements = 0,
+        .prev   = SRC_ERROR_MUTE_MENU,
+        .next   = SRC_UPSAMPLING_MENU,
+        .up     = SRC_MAIN_MENU,
+        .sub    = 0,
+        .get    = menu_get_nothing,
+        .set    = menu_call_up
     }
+    
 };
 
 void menu_init(void)
@@ -567,7 +751,7 @@ void menu_write_line(uint16_t line, uint16_t index)
                        
             // write parameter
             xlcd_goto(line, PARAM_INDEX);
-            if(param_index < menu_arr[index].num_elements)
+            if(param_index <= menu_arr[index].num_elements)
             {                
                 char buf[10];
                 ltoa(buf, param_index, 10);

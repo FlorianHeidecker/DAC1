@@ -67,9 +67,10 @@
 
 int main(void) {
     AD1PCFGL = 0x1fff;
+    int i;
     state_rotation_t dec_test = DEC_NO_TURN;
 
-    uint16_t minutes, seconds, aminutes, aseconds ,address, track, index, receiver_status2, preamble_high, preamble_low, pcmAudioDec =0x00;
+    //uint16_t minutes, seconds, aminutes, aseconds ,address, track, index, receiver_status2, preamble_high, preamble_low, pcmAudioDec =0x00;
     
 
     // initalisation of the modules
@@ -78,21 +79,24 @@ int main(void) {
 
     LOG("LOG: xlcd_init()\n");
     xlcd_init();
+    
+    LOG("LOG: menu_init()\n");
+    menu_init();
 
     LOG("LOG: DEC_init()\n");
     DEC_init();
     
     LOG("LOG: CONTROL_init()\n");
     CONTROL_init();
+    asm("nop");
+    
+    for(i=0; i<8;i++)
+    {
+        CONTROL_set_oversampling_freq(i);
+        asm("nop");
+    }
 
-    LOG("LOG: menu_init()\n");
-    menu_init();
 
-    LOG("LOG: DEC_init()\n");
-    DEC_init();
-        
-    PLL_init();
-    LOG("LOG: PLL_init()\n");
     
     while(1){
     	dec_test = get_DEC_status();
@@ -101,18 +105,18 @@ int main(void) {
             case DEC_TURN_LEFT:     
                 LOG("L\n");
                 menu_btn_down();
-                SRC_get_cd_info(&address, &track, &index);
-                LOG("Add=%i,Tra=%i,Ind=%i\n",address, track, index);
-                SRC_get_play_time( &minutes, &seconds, &aminutes, &aseconds);
-                LOG("M=%i,S=%i,aM=%i,aS=%i\n",minutes, seconds, aminutes, aseconds);
-                receiver_status2 = SRC_get_receiver_status2();
-                LOG("ReStat2_0b=%b\n",receiver_status2);
-                preamble_high = SRC_get_burst_preamble_pc_highbyte();
-                LOG("PreambleHigh_0b=%b\n",preamble_high);
-                preamble_low = SRC_get_burst_preamble_pc_lowbyte();
-                LOG("PreambleLow_0b=%b\n",preamble_low);
-                pcmAudioDec =SRC_get_non_pcm_audio_detection();
-                LOG("NonPCMAuDec_0b=%b\n",pcmAudioDec);
+//                SRC_get_cd_info(&address, &track, &index);
+//                LOG("Add=%i,Tra=%i,Ind=%i\n",address, track, index);
+//                SRC_get_play_time( &minutes, &seconds, &aminutes, &aseconds);
+//                LOG("M=%i,S=%i,aM=%i,aS=%i\n",minutes, seconds, aminutes, aseconds);
+//                receiver_status2 = SRC_get_receiver_status2();
+//                LOG("ReStat2_0b=%b\n",receiver_status2);
+//                preamble_high = SRC_get_burst_preamble_pc_highbyte();
+//                LOG("PreambleHigh_0b=%b\n",preamble_high);
+//                preamble_low = SRC_get_burst_preamble_pc_lowbyte();
+//                LOG("PreambleLow_0b=%b\n",preamble_low);
+//                pcmAudioDec =SRC_get_non_pcm_audio_detection();
+//                LOG("NonPCMAuDec_0b=%b\n",pcmAudioDec);
                 break;
                 
             case DEC_TURN_RIGHT:    

@@ -21,7 +21,7 @@ void SRC_send (uint8_t address, uint8_t data){
     uint8_t data_send[3] = {address, 0, data};
     uint8_t data_receive[3] = {0, 0, 0};
     
-    SRC_LOG("SRC send: Register: 0x%x || Data: 0x%x\n", address, *(data_send + 2));
+    //SRC_LOG("SRC send: Register: 0x%x || Data: 0x%x\n", address, *(data_send + 2));
     spi_rw_n(data_send, data_receive, 3, SPI_SRC_channel);
 }
 
@@ -31,7 +31,7 @@ void SRC_send (uint8_t address, uint8_t data){
     uint8_t data_receive[3] = {0, 0, 0};
     
     spi_rw_n(data_send, data_receive, 3, SPI_SRC_channel);
-    SRC_LOG("SRC rece: Register: 0x%x || Data: 0x%x\n", address, *(data_receive + 2));
+    //SRC_LOG("SRC rece: Register: 0x%x || Data: 0x%x\n", address, *(data_receive + 2));
     
     return *(data_receive + 2);
  }
@@ -144,7 +144,7 @@ void SRC_set_audio_output_data_format(SRC_audio_output_data_format_t SRC_audio_o
     SRC_send(SRC_register_portA_1, data);    
 }
 
-SRC_audio_output_data_format_t SRC_get_audio_data_format(void){
+SRC_audio_output_data_format_t SRC_get_audio_output_data_format(void){
     uint16_t data = SRC_receive(SRC_register_portA_1);
     return (data & SRC_AUDIO_FORMAT);
 }
@@ -219,7 +219,27 @@ void SRC_set_data_source(SRC_data_sources_t SRC_data_sources){
 
 SRC_data_sources_t SRC_get_data_source(void){
     uint16_t data = SRC_receive(SRC_register_portA_1);
-    return (data & SRC_DATA_SOURCE);
+    data = (data & SRC_DATA_SOURCE)>>4;
+    
+    switch(data)
+    {
+        case 0:
+           // PORT A
+            data = 0;
+           break;
+        case 1:
+            data = 0;
+            break;
+        case 2:
+            // DIR (SPDIF Input)
+            data = SRC_DIR;
+            break;
+        case 3:
+            // SRC
+            data = SRC_SRC;
+            break;
+    }
+    return data;
 }
 
 
