@@ -69,6 +69,7 @@ const char *src_main_menu_text[]      = {"SRC Settings"};
 const char *pcm_main_menu_text[]      = {"PCM Settings"};
 const char *return_menu_text[]        = {"RETURN ->"};
 const char *control_volume_text[]     = {"Volume"};
+const char *menu_dummy_text[]         = {"#DUMMY#"};
 
 
 //==============================================================================
@@ -221,27 +222,27 @@ const menu_t menu_arr[] =
         .num_elements = 0,
         .prev = 0,
         .next = 0,
-        .up = INFO_MAIN_MENU,   // to get out of here
-        .sub = INFO_MAIN_MENU,  // to get out of here
+        .up  = AUDIO_INFO_MAIN_MENU,   // to get out of here
+        .sub = AUDIO_INFO_MAIN_MENU,  // to get out of here
         .get = menu_get_nothing,
         .set = menu_call_sub
     },
-    {   // INFO_MAIN_MENU
+    {   // AUDIO_INFO_MAIN_MENU
         .text = info_main_menu_text,
-        .type = MENU_WINDOW,
+        .type = MENU_NORMAL,
         .num_elements = 0,
         .prev   = PCM_MAIN_MENU,
         .next   = AUDIO_MAIN_MENU,
         .up     = MAIN_MENU_DUMMY,
-        .sub    = 0,
+        .sub    = AUDIO_INFO_SCREEN_MENU,
         .get    = menu_get_nothing,
-        .set    = menu_show_audio_information
+        .set    = menu_call_sub
     },
     {   // AUDIO_MAIN_MENU
         .text = audio_main_menu_text,
         .type = MENU_NORMAL,
         .num_elements = 0, 
-        .prev   = INFO_MAIN_MENU,  
+        .prev   = AUDIO_INFO_MAIN_MENU,  
         .next   = PLL_MAIN_MENU,      
         .up     = MAIN_MENU_DUMMY, 
         .sub    = CTRL_OVERSAMPLING_MENU, 
@@ -275,7 +276,7 @@ const menu_t menu_arr[] =
         .type = MENU_NORMAL,
         .num_elements = 0,
         .prev   = SRC_MAIN_MENU,
-        .next   = INFO_MAIN_MENU,
+        .next   = AUDIO_INFO_MAIN_MENU,
         .up     = MAIN_MENU_DUMMY,
         .sub    = PCM_MONAURAL_MENU,
         .get    = menu_get_nothing,
@@ -544,6 +545,17 @@ const menu_t menu_arr[] =
         .sub    = 0,
         .get    = menu_get_nothing,
         .set    = menu_call_up
+    },
+    {   // AUDIO_INFO_SCREEN_MENU
+        .text   = menu_dummy_text,
+        .type   = MENU_WINDOW,
+        .num_elements = 0,
+        .prev   = AUDIO_INFO_SCREEN_MENU,
+        .next   = AUDIO_INFO_SCREEN_MENU,
+        .up     = AUDIO_INFO_MAIN_MENU,
+        .sub    = 0,
+        .get    = menu_get_nothing,
+        .set    = menu_show_audio_information 
     }
     
 };
@@ -551,17 +563,17 @@ const menu_t menu_arr[] =
 void menu_init(void)
 {
     // set param
-    m.index = INFO_MAIN_MENU;
+    m.index = AUDIO_INFO_SCREEN_MENU;
     m.param_index = 0;
     m.cursor = 1;
     m.state = MENU_NORMAL;
     
-    menu_btn_set();
+    //menu_btn_set();
     
-//    menu_write_headline();
-//    menu_write_line(1, m.index);
-//    menu_write_line(2, menu_arr[m.index].next);
-//    menu_write_line(3, menu_arr[menu_arr[m.index].next].next);   
+    menu_write_headline();
+    menu_write_line(1, m.index);
+    menu_write_line(2, menu_arr[m.index].next);
+    menu_write_line(3, menu_arr[menu_arr[m.index].next].next);   
 }
 
 
@@ -570,9 +582,10 @@ void menu_btn_set(void)
     switch(menu_arr[m.index].type)
     {
         case MENU_NORMAL:
+        case MENU_WINDOW:
             // call set functions
             // this is menu_call_sub() for MENU_NORMAL
-            menu_arr[m.index].set(0);
+            menu_arr[m.index].set(1);
             break;
                         
         case MENU_OPTION:
@@ -608,28 +621,11 @@ void menu_btn_set(void)
                     break;
             }
             break;
-            
-         case MENU_WINDOW:
-             switch(m.state)
-             {
-                 case MENU_STATE_NORMAL:
-                      m.state = MENU_STATE_WINDOW;
-                      menu_arr[m.index].set(0);
-                      
-                     break;
-                     
-                 case MENU_STATE_WINDOW:
-                     menu_write_headline();
-                     menu_refresh_lines();
-                     m.state = MENU_STATE_NORMAL;
-                     break;
-             }
-             break;
     }
 }
 
 
-void menu_btn_down(void)
+void menu_btn_right(void)
 {
     switch(menu_arr[m.index].type)
     {
@@ -649,7 +645,7 @@ void menu_btn_down(void)
                     
                 case MENU_STATE_PARAM_CHANGE:
                     m.param_index++;
-                    if(m.param_index >= menu_arr[m.index].num_elements)
+                    if(m.param_index > menu_arr[m.index].num_elements)
                     {
                         m.param_index = 0;
                     }
@@ -657,23 +653,14 @@ void menu_btn_down(void)
                     break;
             }
             break;
+            
          case MENU_WINDOW:
-             switch(m.state)
-             {
-                 case MENU_STATE_NORMAL:
-                    // loads next menu entries
-                    menu_call_next();
-                    break;
-                     
-                 case MENU_STATE_WINDOW:
-                     menu_arr[m.index].set(1);
-                     break;
-             }
-             break;
+            menu_arr[m.index].set(2);
+            break;        
     }
 }
 
-void menu_btn_up(void)
+void menu_btn_left(void)
 {    
     switch(menu_arr[m.index].type)
     {
@@ -693,27 +680,17 @@ void menu_btn_up(void)
                     
                 case MENU_STATE_PARAM_CHANGE:
                     m.param_index--;
-                    if(m.param_index >= menu_arr[m.index].num_elements)
+                    if(m.param_index > menu_arr[m.index].num_elements)
                     {
-                        m.param_index = menu_arr[m.index].num_elements - 1;
+                        m.param_index = menu_arr[m.index].num_elements;
                     }
                     menu_write_line(m.cursor, m.index);
                     break;
             }
             break;
-         case MENU_WINDOW:
-             switch(m.state)
-             {
-                 case MENU_STATE_NORMAL:
-                    // loads next menu entries
-                    menu_call_prev();
-                    break;
-                     
-                 case MENU_STATE_WINDOW:
-                     menu_arr[m.index].set(2);
-                     break;
-             }            
-            
+         case MENU_WINDOW:                     
+            menu_arr[m.index].set(3);   
+            break;    
     }
 }
 
@@ -726,7 +703,7 @@ void menu_write_line(uint16_t line, uint16_t index)
     xlcd_clear_line(line);
     xlcd_goto(line, TEXT_INDEX);
     putrsXLCD(menu_arr[index].text[0]);
-    MENU_LOG("MENU: %s\n", menu_arr[index].text[0]); 
+    //MENU_LOG("MENU: %s\n", menu_arr[index].text[0]); 
     
     switch(menu_arr[index].type)
     {
@@ -766,7 +743,7 @@ void menu_write_line(uint16_t line, uint16_t index)
             if(param_index < menu_arr[index].num_elements)
             {
                 putrsXLCD(menu_arr[index].text[param_index+1]);    // plus 2 to get right indice in array
-                MENU_LOG(" %s\n", menu_arr[index].text[param_index+1]);
+                //MENU_LOG(" %s\n", menu_arr[index].text[param_index+1]);
             }
             else
             {
@@ -804,7 +781,7 @@ void menu_write_line(uint16_t line, uint16_t index)
                 ltoa(buf, param_index, 10);
                 putsXLCD(buf);
                 //putrsXLCD(menu_arr[index].text[param_index+1]);    // plus 1 to get right indice in array
-                MENU_LOG(" %s\n", buf);
+                //MENU_LOG(" %s\n", buf);
             }
             else
             {
@@ -813,21 +790,8 @@ void menu_write_line(uint16_t line, uint16_t index)
             break;
             
         case MENU_WINDOW:   
-            switch(m.state)
-            {
-                case MENU_STATE_NORMAL:
-                    // set cursor if write line = cursor line
-                    if(line == m.cursor)
-                    {
-                        xlcd_goto(m.cursor, TEXT_CURSOR_INDEX);
-                        putrsXLCD(CURSOR_SIGN);
-                    }
-                    break;
-                case MENU_STATE_WINDOW:
-                    // do nothig, dont write cursor if in window mode
-                    break;
-                
-            }
+            // nothing to do
+            menu_arr[index].set(0);
             break;
     }
 }
@@ -838,9 +802,21 @@ void menu_call_sub(uint16_t dummy)
     m.index = menu_arr[m.index].sub;
     m.cursor = 1;
     
-    menu_write_headline();
-    menu_refresh_lines();
-    
+    switch(menu_arr[m.index].type)
+    {
+        case MENU_NORMAL:
+        case MENU_OPTION:
+        case MENU_OPTION_INT:
+            menu_write_headline();
+            menu_refresh_lines();
+            break;
+            
+        case MENU_WINDOW:
+            menu_write_headline();
+            menu_arr[m.index].set(0);
+            break;
+            
+    }    
 }
 
 
@@ -957,12 +933,12 @@ void menu_show_audio_information(uint16_t btn_value)
     
     switch(btn_value)
     {
-        case 0:
+        case 0: // first call (write screen)
+        case 2: // btn down
+        case 3: // btn up
+            
             // 1. line
-            xlcd_clear_line(0);
-            xlcd_goto(0,0);
-            putrsXLCD("*");
-            putrsXLCD(menu_arr[m.index].text[0]);
+            menu_write_headline();
             
             // 2. line
             xlcd_clear_line(1);
@@ -997,6 +973,10 @@ void menu_show_audio_information(uint16_t btn_value)
             {
                 putrsXLCD(control_oversampling_text[temp+1]);
             }         
+            break;
+        
+        case 1: // btn pressed
+            menu_call_up(0);    // 0 is only a dummy
             break;
             
         default:

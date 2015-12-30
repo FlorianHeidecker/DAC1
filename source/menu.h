@@ -27,13 +27,12 @@ typedef enum {
 
 typedef enum {
     MENU_STATE_NORMAL = 1,
-    MENU_STATE_PARAM_CHANGE,
-    MENU_STATE_WINDOW
+    MENU_STATE_PARAM_CHANGE
 }menu_state_t;
 
 typedef enum {
     MAIN_MENU_DUMMY = 0,
-    INFO_MAIN_MENU,
+    AUDIO_INFO_MAIN_MENU,
     AUDIO_MAIN_MENU,
     PLL_MAIN_MENU,
     SRC_MAIN_MENU,
@@ -61,7 +60,8 @@ typedef enum {
     SRC_INTERPOLATION_MENU,
     SRC_MUTE_MENU,
     SRC_ERROR_MUTE_MENU,
-    SRC_RETURN_MENU
+    SRC_RETURN_MENU,
+    AUDIO_INFO_SCREEN_MENU
             
             
             
@@ -82,8 +82,8 @@ typedef struct menu_struct{
 
 // externe funktionen
 void menu_init(void);
-void menu_btn_up(void);
-void menu_btn_down(void);
+void menu_btn_left(void);
+void menu_btn_right(void);
 void menu_btn_set(void);
 
 #endif /* _MENU_H */
