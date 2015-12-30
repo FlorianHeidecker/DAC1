@@ -20,7 +20,8 @@
 
 typedef enum {
     MENU_NORMAL = 1,
-    MENU_OPTION
+    MENU_OPTION,
+    MENU_OPTION_INT
 }menu_type_t;
 
 typedef enum {
@@ -38,7 +39,15 @@ typedef enum {
     PLL_FREQ_SEL_MENU,
     PLL_SCKO_SEL_MENU,
     PLL_RETURN_MENU,
-          
+    PCM_MONAURAL_MENU,
+    PCM_ATTUNATION_MENU,
+    PCM_SOFT_MUTE_MENU,
+    PCM_ZERO_DETECT_MUTE,
+    PCM_AUDIO_DATA_FORMAT_MENU,
+    PCM_DELTA_SIGMA_MENU,
+    PCM_RETURN_MENU,
+    SRC_AUDIO_DATA_FORMAT_TEXT,
+            
 }menu_index_t;
 
 typedef struct menu_struct{

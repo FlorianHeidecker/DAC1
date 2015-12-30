@@ -65,6 +65,7 @@ void PCM_set_soft_mute(uint16_t value){
     PCM_send_receive(PCM_register_18, data, WRITE);
 }
 
+
 uint16_t PCM_get_soft_mute(void){
     uint16_t data = PCM_send_receive(PCM_register_18, 0x00, READ);
     return ((data >> 0) & 1);

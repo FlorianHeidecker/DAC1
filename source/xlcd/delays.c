@@ -23,6 +23,7 @@ void DelayFor18TCY (void)
    for( k=0; k<18; k++)
    {
        asm("clrwdt");
+       asm("nop");
       //__nop();
    }
 }
@@ -41,6 +42,7 @@ void DelayPORXLCD(void) 	/* provides delay for atleast 15msec */
     for(i=0;i < DelayPORXLCD_Cnt;i+=TCY_CNT_PER_LOOP)
     {
         asm("clrwdt");
+        asm("nop");
     }
 }
 
@@ -55,6 +57,7 @@ void DelayXLCD(void)  		/* provides delay for atleast 5msec */
     for(i=0;i < DelayXLCD_Cnt;i+=TCY_CNT_PER_LOOP)
     {
         asm("clrwdt");
+        asm("nop");
     }
 }
 
@@ -65,6 +68,7 @@ void Delay10KTCYx(unsigned char delay)
     for(i=0;i < (long)delay*10000;i+=TCY_CNT_PER_LOOP)
     {
         asm("clrwdt");
+        asm("nop");
     }
     //__delay_ms(1);
 }
