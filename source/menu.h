@@ -21,12 +21,14 @@
 typedef enum {
     MENU_NORMAL = 1,
     MENU_OPTION,
-    MENU_OPTION_INT
+    MENU_OPTION_INT,
+    MENU_WINDOW
 }menu_type_t;
 
 typedef enum {
     MENU_STATE_NORMAL = 1,
-    MENU_STATE_PARAM_CHANGE
+    MENU_STATE_PARAM_CHANGE,
+    MENU_STATE_WINDOW
 }menu_state_t;
 
 typedef enum {
@@ -53,13 +55,13 @@ typedef enum {
     CTRL_ZERO_MUTING_MENU,
     CTRL_MONAURAL_MENU,
     CTRL_RETURN_MENU,
-            SRC_UPSAMPLING_MENU,
-            SRC_MCLK_DIV_MENU,
-            SRC_FORMAT_MENU,
-            SRC_INTERPOLATION_MENU,
-            SRC_MUTE_MENU,
-            SRC_ERROR_MUTE_MENU,
-            SRC_RETURN_MENU
+    SRC_UPSAMPLING_MENU,
+    SRC_MCLK_DIV_MENU,
+    SRC_FORMAT_MENU,
+    SRC_INTERPOLATION_MENU,
+    SRC_MUTE_MENU,
+    SRC_ERROR_MUTE_MENU,
+    SRC_RETURN_MENU
             
             
             

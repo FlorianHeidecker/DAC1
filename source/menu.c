@@ -53,6 +53,8 @@ void menu_write_line(uint16_t line, uint16_t index);
 void menu_refresh_lines(void);
 void menu_write_headline(void);
 
+void menu_show_audio_information(uint16_t btn_value);
+
 
 
 //==============================================================================
@@ -127,12 +129,12 @@ const char *pcm_zero_detect_text[] = {
 //==============================================================================
 const char *src_audio_output_format_text[] = {
     "Format",
-    "24 left",
+    "24Bit L",
     "24 I2S",
-    "16right",
-    "18right",
-    "20right",
-    "24right"
+    "16Bit R",
+    "18Bit R",
+    "20Bit R",
+    "24Bit R"
 };
 const char *src_master_clock_divider_text[] = {
     "MCLK Div",
@@ -226,14 +228,14 @@ const menu_t menu_arr[] =
     },
     {   // INFO_MAIN_MENU
         .text = info_main_menu_text,
-        .type = MENU_NORMAL,
+        .type = MENU_WINDOW,
         .num_elements = 0,
         .prev   = PCM_MAIN_MENU,
         .next   = AUDIO_MAIN_MENU,
         .up     = MAIN_MENU_DUMMY,
         .sub    = 0,
         .get    = menu_get_nothing,
-        .set    = menu_call_sub
+        .set    = menu_show_audio_information
     },
     {   // AUDIO_MAIN_MENU
         .text = audio_main_menu_text,
@@ -554,10 +556,12 @@ void menu_init(void)
     m.cursor = 1;
     m.state = MENU_NORMAL;
     
-    menu_write_headline();
-    menu_write_line(1, m.index);
-    menu_write_line(2, menu_arr[m.index].next);
-    menu_write_line(3, menu_arr[menu_arr[m.index].next].next);   
+    menu_btn_set();
+    
+//    menu_write_headline();
+//    menu_write_line(1, m.index);
+//    menu_write_line(2, menu_arr[m.index].next);
+//    menu_write_line(3, menu_arr[menu_arr[m.index].next].next);   
 }
 
 
@@ -604,6 +608,23 @@ void menu_btn_set(void)
                     break;
             }
             break;
+            
+         case MENU_WINDOW:
+             switch(m.state)
+             {
+                 case MENU_STATE_NORMAL:
+                      m.state = MENU_STATE_WINDOW;
+                      menu_arr[m.index].set(0);
+                      
+                     break;
+                     
+                 case MENU_STATE_WINDOW:
+                     menu_write_headline();
+                     menu_refresh_lines();
+                     m.state = MENU_STATE_NORMAL;
+                     break;
+             }
+             break;
     }
 }
 
@@ -636,6 +657,19 @@ void menu_btn_down(void)
                     break;
             }
             break;
+         case MENU_WINDOW:
+             switch(m.state)
+             {
+                 case MENU_STATE_NORMAL:
+                    // loads next menu entries
+                    menu_call_next();
+                    break;
+                     
+                 case MENU_STATE_WINDOW:
+                     menu_arr[m.index].set(1);
+                     break;
+             }
+             break;
     }
 }
 
@@ -667,6 +701,19 @@ void menu_btn_up(void)
                     break;
             }
             break;
+         case MENU_WINDOW:
+             switch(m.state)
+             {
+                 case MENU_STATE_NORMAL:
+                    // loads next menu entries
+                    menu_call_prev();
+                    break;
+                     
+                 case MENU_STATE_WINDOW:
+                     menu_arr[m.index].set(2);
+                     break;
+             }            
+            
     }
 }
 
@@ -764,7 +811,24 @@ void menu_write_line(uint16_t line, uint16_t index)
                 MENU_LOG("MENU: param_index out of range: %i\n", param_index);
             }
             break;
-
+            
+        case MENU_WINDOW:   
+            switch(m.state)
+            {
+                case MENU_STATE_NORMAL:
+                    // set cursor if write line = cursor line
+                    if(line == m.cursor)
+                    {
+                        xlcd_goto(m.cursor, TEXT_CURSOR_INDEX);
+                        putrsXLCD(CURSOR_SIGN);
+                    }
+                    break;
+                case MENU_STATE_WINDOW:
+                    // do nothig, dont write cursor if in window mode
+                    break;
+                
+            }
+            break;
     }
 }
 
@@ -886,3 +950,56 @@ uint16_t menu_get_nothing(void)
     return 0;
 }
 
+void menu_show_audio_information(uint16_t btn_value)
+{
+    uint16_t temp;
+    char buf[10];
+    
+    switch(btn_value)
+    {
+        case 0:
+            // 1. line
+            xlcd_clear_line(0);
+            xlcd_goto(0,0);
+            putrsXLCD("*");
+            putrsXLCD(menu_arr[m.index].text[0]);
+            
+            // 2. line
+            xlcd_clear_line(1);
+            xlcd_goto(1,1);
+            putrsXLCD("Track");
+            temp = SRC_get_track();             
+            ltoa(buf, temp, 10);
+            xlcd_goto(1,PARAM_INDEX);
+            putsXLCD(buf);
+            
+            // 3. line
+            xlcd_clear_line(2);
+            xlcd_goto(2,1);
+            putrsXLCD("Playtime");
+            temp = SRC_get_minutes();
+            ltoa(buf, temp, 10);
+            xlcd_goto(2, PARAM_INDEX);
+            putsXLCD(buf);
+            putrsXLCD(":");
+            temp = SRC_get_seconds();
+            ltoa(buf, temp, 10);
+            putsXLCD(buf);
+            
+            // 4. line
+            xlcd_clear_line(3);
+            xlcd_goto(3,1);
+            putrsXLCD("Oversamp.");
+            xlcd_goto(3, PARAM_INDEX);
+            temp = CONTROL_get_oversampling_freq();
+            
+            if(temp < 7)
+            {
+                putrsXLCD(control_oversampling_text[temp+1]);
+            }         
+            break;
+            
+        default:
+            MENU_LOG("MENU: menu_show_audio_information() btn_value out of range\n");
+    }
+}

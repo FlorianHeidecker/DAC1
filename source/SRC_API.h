@@ -30,11 +30,11 @@
 
 /** SRC: possible audio output data format selection */
 typedef enum {	SRC_24_bit_left_justified=0,
-				SRC_24_bit_I2S=1,
-                SRC_16_bit_right_justified = 4,
-				SRC_18_bit_right_justified = 5,
-                SRC_20_bit_right_justified = 6,
-				SRC_24_bit_right_justified = 7} SRC_audio_output_data_format_t;
+				SRC_24_bit_I2S,
+                SRC_16_bit_right_justified,
+				SRC_18_bit_right_justified,
+                SRC_20_bit_right_justified,
+				SRC_24_bit_right_justified} SRC_audio_output_data_format_t;
  
 /** SRC: possible clock sources selection */               
 typedef enum {	SRC_MCLK=0,

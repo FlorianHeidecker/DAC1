@@ -80,8 +80,7 @@ int main(void) {
     LOG("LOG: xlcd_init()\n");
     xlcd_init();
     
-    LOG("LOG: menu_init()\n");
-    menu_init();
+
 
     LOG("LOG: DEC_init()\n");
     DEC_init();
@@ -89,6 +88,9 @@ int main(void) {
     LOG("LOG: CONTROL_init()\n");
     CONTROL_init();
     asm("nop");
+    
+        LOG("LOG: menu_init()\n");
+    menu_init();
     
     for(i=0; i<8;i++)
     {

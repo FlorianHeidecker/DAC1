@@ -144,9 +144,25 @@ void SRC_set_audio_output_data_format(SRC_audio_output_data_format_t SRC_audio_o
     SRC_send(SRC_register_portA_1, data);    
 }
 
-SRC_audio_output_data_format_t SRC_get_audio_output_data_format(void){
-    uint16_t data = SRC_receive(SRC_register_portA_1);
-    return (data & SRC_AUDIO_FORMAT);
+SRC_audio_output_data_format_t SRC_get_audio_output_data_format(void)
+{
+    uint16_t data = (SRC_receive(SRC_register_portA_1) & SRC_AUDIO_FORMAT);
+    
+    switch(data)
+    {
+        case 0: return SRC_24_bit_left_justified;
+        case 1: return SRC_24_bit_I2S;
+        case 2:
+        case 3:
+            SRC_LOG("SRC: SRC_get_audio_output_data_format() unsupported format");
+            return 0;
+        case 4: return SRC_16_bit_right_justified;
+        case 5: return SRC_18_bit_right_justified;
+        case 6: return SRC_20_bit_right_justified;
+        case 7: return SRC_24_bit_right_justified;
+    }
+    
+    return 0;
 }
 
 void SRC_set_master_clock_divider(SRC_master_clock_divider_t SRC_master_clock_divider){
@@ -254,7 +270,7 @@ void SRC_set_output_mute(uint16_t enable){
 
 uint16_t SRC_get_output_mute(void){
     uint16_t data = SRC_receive(SRC_register_portA_1);
-    return (data & SRC_MUTE);
+    return (data & SRC_MUTE) >> 6;
 }
 
 void SRC_set_word_length(SRC_word_length_t SRC_word_length){
@@ -423,7 +439,7 @@ void SRC_set_mute_pll_error(uint16_t enable){
 
 uint16_t SRC_get_mute_pll_error(void){
     uint16_t data = SRC_receive(SRC_receiver_control_register_2);
-    return (data & SRC_PLLLOCKERROR);   
+    return (data & SRC_PLLLOCKERROR) >> 3;   
 }
 
 uint16_t SRC_get_non_pcm_audio_detection(void){
@@ -432,7 +448,7 @@ uint16_t SRC_get_non_pcm_audio_detection(void){
 }
 
 void SRC_set_interpolation_filter(SRC_interpolation_filter_t SRC_interpolation_filter){
-    uint16_t data = SRC_receive(SRC_receiver_status_control2);
+    uint16_t data = SRC_receive(SRC_register_control_2);
 
     switch(SRC_interpolation_filter){
         case SRC_INTERPOLATION_FILTER64:
@@ -452,11 +468,11 @@ void SRC_set_interpolation_filter(SRC_interpolation_filter_t SRC_interpolation_f
             data |= 1 << 1;
             break;            
     }
-    SRC_send(SRC_receiver_status_control2, data);     
+    SRC_send(SRC_register_control_2, data);     
 }
 
 SRC_interpolation_filter_t SRC_get_interpolation_filter(void){
-    uint16_t data = SRC_receive(SRC_receiver_status_control2);
+    uint16_t data = SRC_receive(SRC_register_control_2);
     return (data & SRC_INTERPOLATION_FILTER);   
 }
 
