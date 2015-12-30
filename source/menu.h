@@ -20,7 +20,8 @@
 
 typedef enum {
     MENU_NORMAL = 1,
-    MENU_OPTION
+    MENU_OPTION,
+    MENU_OPTION_INT
 }menu_type_t;
 
 typedef enum {

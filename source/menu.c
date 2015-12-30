@@ -12,6 +12,7 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "menu.h"
 #include "PLL_API.h"
 #include "PCM_API.h"
@@ -123,7 +124,7 @@ const char *pcm_zero_detect_text[] = {
 const char *src_audio_output_format_text[] = {
     "I2S Format",
     "24 left",
-    " 24 I2S",
+    "24 I2S",
     "16right",
     "18right",
     "20right",
@@ -387,6 +388,7 @@ void menu_btn_set(void)
             break;
                         
         case MENU_OPTION:
+        case MENU_OPTION_INT:
             switch(m.state)
             {
                 case MENU_STATE_NORMAL:
@@ -432,6 +434,7 @@ void menu_btn_down(void)
             break;
             
         case MENU_OPTION:
+        case MENU_OPTION_INT:
             switch(m.state)
             {
                 case MENU_STATE_NORMAL:
@@ -462,6 +465,7 @@ void menu_btn_up(void)
             break;
             
         case MENU_OPTION:
+        case MENU_OPTION_INT:
             switch(m.state)
             {
                 case MENU_STATE_NORMAL:
@@ -537,15 +541,47 @@ void menu_write_line(uint16_t line, uint16_t index)
             {
                 MENU_LOG("MENU: param_index out of range: %i\n", param_index);
             }
+            break;
+        
+        case MENU_OPTION_INT:
+            switch(m.state)
+            {
+                case MENU_STATE_NORMAL:
+                    param_index = menu_arr[index].get();
+                    if(line == m.cursor)
+                    {
+                        xlcd_goto(m.cursor, TEXT_CURSOR_INDEX);
+                        putrsXLCD(CURSOR_SIGN);
+                    }
+                    break;
+  
+                case MENU_STATE_PARAM_CHANGE:
+                    param_index = m.param_index;
+                    if(line == m.cursor)
+                    {
+                        xlcd_goto(m.cursor, PARAM_CURSOR_INDEX);
+                        putrsXLCD(CURSOR_SIGN);
+                    }
+                    break;
+            }
+                       
+            // write parameter
+            xlcd_goto(line, PARAM_INDEX);
+            if(param_index < menu_arr[index].num_elements)
+            {                
+                char buf[10];
+                ltoa(buf, param_index, 10);
+                putsXLCD(buf);
+                //putrsXLCD(menu_arr[index].text[param_index+1]);    // plus 1 to get right indice in array
+                MENU_LOG(" %s\n", buf);
+            }
+            else
+            {
+                MENU_LOG("MENU: param_index out of range: %i\n", param_index);
+            }
+            break;
 
-//            // write unit
-//            xlcd_goto(line, PARAM_UNIT_INDEX);
-//            putrsXLCD(menu_arr[index].text[1]);
-//            MENU_LOG(" %s", menu_arr[index].text[1]);
-//            break;
     }
-    
-    //MENU_LOG("\n");
 }
 
 
