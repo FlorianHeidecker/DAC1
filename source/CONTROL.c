@@ -145,7 +145,7 @@ CONTROL_audio_data_format_t CONTROL_get_audio_data_format(void)
             break;
             
         case PCM_16_bit_I2S:
-            CONTROL_LOG("CONTROL: CONTROL_get_audio_data_format(), PCM_16_bit_I2S not supported");
+            CONTROL_LOG("CONTROL: CONTROL_get_audio_data_format(), PCM_16_bit_I2S not supported\n");
             return 0;
             break;
     }
@@ -195,10 +195,10 @@ uint16_t CONTROL_get_attunation_level(void){
 
 void CONTROL_set_soft_mute(uint16_t value){
     if(value == PCM_enabled){
-        CONTROL_LOG("CONTROL_LOG: PCM_set_soft_mute = enabled");
+        CONTROL_LOG("CONTROL_LOG: PCM_set_soft_mute = enabled\n");
     }
     else{
-        CONTROL_LOG("CONTROL_LOG: PCM_set_soft_mute = disabled");
+        CONTROL_LOG("CONTROL_LOG: PCM_set_soft_mute = disabled\n");
     }
     PCM_set_soft_mute(value);
 }
@@ -209,10 +209,10 @@ uint16_t CONTROL_get_soft_mute(void){
 
 void CONTROL_set_zero_detect_mute(uint16_t value){
     if(value == PCM_enabled){
-        CONTROL_LOG("CONTROL_LOG: PCM_set_zero_detect_mute = enabled");
+        CONTROL_LOG("CONTROL_LOG: PCM_set_zero_detect_mute = enabled\n");
     }
     else{
-        CONTROL_LOG("CONTROL_LOG: PCM_set_zero_detect_mute = disabled");
+        CONTROL_LOG("CONTROL_LOG: PCM_set_zero_detect_mute = disabled\n");
     }
     PCM_set_zero_detect_mute(value);
 }
@@ -223,13 +223,13 @@ uint16_t CONTROL_get_zero_detect_mute(void){
 
 void CONTROL_set_monaural_mode(PCM_monaural_mode_t PCM_monaural_mode){
     if(PCM_monaural_mode == PCM_stereo){
-        CONTROL_LOG("CONTROL_LOG: PCM_set_monaural_mode = stereo");
+        CONTROL_LOG("CONTROL_LOG: PCM_set_monaural_mode = stereo\n");
         PCM_set_monaural_mode(PCM_monaural_mode);
     }
     else{
-        CONTROL_LOG("CONTROL_LOG: PCM_set_data_channel = PCM_left_channel");
+        CONTROL_LOG("CONTROL_LOG: PCM_set_data_channel = PCM_left_channel\n");
         PCM_set_data_channel(PCM_left_channel);
-        CONTROL_LOG("CONTROL_LOG: PCM_set_monaural_mode = mono");
+        CONTROL_LOG("CONTROL_LOG: PCM_set_monaural_mode = mono\n");
         PCM_set_monaural_mode(PCM_monaural_mode);
     }
 }

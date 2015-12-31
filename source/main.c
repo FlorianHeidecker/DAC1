@@ -67,7 +67,6 @@
 
 int main(void) {
     AD1PCFGL = 0x1fff;
-    int i;
     state_rotation_t dec_test = DEC_NO_TURN;
     
 
@@ -84,17 +83,9 @@ int main(void) {
     LOG("LOG: CONTROL_init()\n");
     CONTROL_init();
 
-    
-        LOG("LOG: menu_init()\n");
+    LOG("LOG: menu_init()\n");
     menu_init();
     
-    for(i=0; i<8;i++)
-    {
-        CONTROL_set_oversampling_freq(i);
-        asm("nop");
-    }
-
-
     
     while(1){
     	dec_test = get_DEC_status();
@@ -107,8 +98,7 @@ int main(void) {
                 
             case DEC_TURN_RIGHT:    
                 LOG("R\n");
-                menu_btn_right();
-                
+                menu_btn_right();        
                 break;
             
             case DEC_BUTTON:        

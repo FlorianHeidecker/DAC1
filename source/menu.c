@@ -645,7 +645,7 @@ void menu_btn_right(void)
                     
                 case MENU_STATE_PARAM_CHANGE:
                     m.param_index++;
-                    if(m.param_index > menu_arr[m.index].num_elements)
+                    if(m.param_index >= menu_arr[m.index].num_elements)
                     {
                         m.param_index = 0;
                     }
@@ -680,7 +680,7 @@ void menu_btn_left(void)
                     
                 case MENU_STATE_PARAM_CHANGE:
                     m.param_index--;
-                    if(m.param_index > menu_arr[m.index].num_elements)
+                    if(m.param_index >= menu_arr[m.index].num_elements)
                     {
                         m.param_index = menu_arr[m.index].num_elements;
                     }
@@ -698,7 +698,7 @@ void menu_btn_left(void)
 void menu_write_line(uint16_t line, uint16_t index)
 {
     //uint16_t menu_index = 0;
-    uint16_t param_index;
+    uint16_t param_index = 0;
     
     xlcd_clear_line(line);
     xlcd_goto(line, TEXT_INDEX);
@@ -853,6 +853,7 @@ void menu_call_next(void)
         menu_write_line(3, menu_arr[m.index].next);  
     }
     
+    //menu_write_headline();
     m.index = menu_arr[m.index].next;
 }
 
@@ -880,6 +881,7 @@ void menu_call_prev(void)
         menu_write_line(3, menu_arr[m.index].next);
     }
     
+    //menu_write_headline();
     m.index = menu_arr[m.index].prev;
 }
 
@@ -892,7 +894,7 @@ void menu_refresh_lines(void)
 //    menu_write_line(2, m.index);
 //    xlcd_clear_line(3);
 //    menu_write_line(3, menu_arr[m.index].next);   
-    
+    menu_write_headline();
     menu_write_line(1, m.index);
     menu_write_line(2, menu_arr[m.index].next);
     menu_write_line(3, menu_arr[menu_arr[m.index].next].next); 
@@ -904,8 +906,16 @@ void menu_write_headline(void)
     
     xlcd_clear_line(0);
     xlcd_goto(0,0);
-    putrsXLCD("*");
+    putrsXLCD("# ");
     putrsXLCD(menu_arr[up_index].text[0]);
+    putrsXLCD(" #");
+//    xlcd_goto(0,17);
+//    ltoa(buf, m.cursor, 10);
+//    putsXLCD(buf);
+//    putrsXLCD("/");
+//    ltoa(buf, menu_arr[up_index].num_elements, 10);
+//    putsXLCD(buf);
+    
     //putrsXLCD(" **");
 }
 
