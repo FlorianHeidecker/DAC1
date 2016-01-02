@@ -213,7 +213,7 @@ void SRC_set_master_clock_source(SRC_master_clock_sources_t SRC_master_clock_sou
 
 SRC_master_clock_sources_t SRC_get_master_clock_source(void){
     uint16_t data = SRC_receive(SRC_register_portA_2);
-    return (data & SRC_MASTER_CLK_SRC);
+    return ((data & SRC_MASTER_CLK_SRC)>>2);
     
 }
 
@@ -299,7 +299,7 @@ void SRC_set_word_length(SRC_word_length_t SRC_word_length){
 
 SRC_word_length_t SRC_get_word_length(void){
     uint16_t data = SRC_receive(SRC_register_control_3);
-    return (data & SRC_WORD_LENGTH);
+    return (data & SRC_WORD_LENGTH) >> 6;
 }
 
 void SRC_set_page(SRC_page_selection_t SRC_page_selection){
@@ -487,7 +487,7 @@ void SRC_set_automatic_deemphasis(uint16_t enable){
 
 uint16_t SRC_get_automatic_deemphasis(void){
     uint16_t data = SRC_receive(SRC_register_control_2);
-    return (data & SRC_DEEMPHASIS);   
+    return (data & SRC_DEEMPHASIS) >> 5;   
 }
 
 void SRC_set_decimation_filter(SRC_decimation_filter_t SRC_decimation_filter){
@@ -506,7 +506,7 @@ void SRC_set_decimation_filter(SRC_decimation_filter_t SRC_decimation_filter){
 
 SRC_decimation_filter_t SRC_get_decimation_filter(void){
     uint16_t data = SRC_receive(SRC_register_control_2);
-    return (data & SRC_DECIMATION);   
+    return (data & SRC_DECIMATION) >> 2;   
 }
 
 uint16_t SRC_get_minutes(void){
