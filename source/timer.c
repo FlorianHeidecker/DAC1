@@ -14,12 +14,17 @@
 #include <time.h>
 
 #include "timer.h"
+#include "log.h"
+
+ #define _ISR_NO_PSV __attribute__((interrupt, no_auto_psv))
+
+volatile interrrupt_state_t timer_interrrupt_state;
 
 /**
  * @brief timer initialization
  */
 void timer_init(void){
-    interrrupt_state = interrupt_no;
+    timer_interrrupt_state = interrupt_no;
     
     T1CONbits.TON = 0;          // disable timer
 	
@@ -53,8 +58,9 @@ void timer_stop(void){
     TMR1 = 0x00;                // clear timer register
 }
 
-void _ISR _T1Interrupt(void){
+void _ISR_NO_PSV  _T1Interrupt(void){
+    //LOG("T\n");
 	TMR1 = 0x00;                        // clear timer register
-    interrrupt_state = interrupt_yes;   // set interrupt state
+    timer_interrrupt_state = interrupt_yes;   // set interrupt state
 	IFS0bits.T1IF = 0;                  // clear interrupt flag
 }

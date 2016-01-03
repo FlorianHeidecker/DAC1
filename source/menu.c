@@ -13,6 +13,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "menu.h"
 #include "PLL_API.h"
 #include "PCM_API.h"
@@ -20,6 +21,7 @@
 #include "xlcd/xlcd.h"
 #include "log.h"
 #include "control.h"
+#include "timer.h"
 
 /** Maximum Number of Lines for the Menu */
 #define MAX_LINE    (4-1)      
@@ -53,6 +55,9 @@ void menu_write_line(uint16_t line, uint16_t index);
 void menu_refresh_lines(void);
 void menu_write_headline(void);
 
+//==============================================================================
+// internal function declarations for special menu windows from MENU_WINDOW Type
+//==============================================================================
 void menu_show_audio_information(uint16_t btn_value);
 
 
@@ -64,6 +69,7 @@ void menu_show_audio_information(uint16_t btn_value);
 const char *main_menu_text[]          = {"Main Menu"};
 const char *info_main_menu_text[]     = {"Audio Info"};
 const char *audio_main_menu_text[]    = {"Audio Settings"};
+const char *expert_menu_text[]        = {"Expert Settings"};
 const char *pll_main_menu_text[]      = {"PLL Settings"};
 const char *src_main_menu_text[]      = {"SRC Settings"};
 const char *pcm_main_menu_text[]      = {"PCM Settings"};
@@ -231,7 +237,7 @@ const menu_t menu_arr[] =
         .text = info_main_menu_text,
         .type = MENU_NORMAL,
         .num_elements = 0,
-        .prev   = PCM_MAIN_MENU,
+        .prev   = EXPERT_MENU,
         .next   = AUDIO_MAIN_MENU,
         .up     = MAIN_MENU_DUMMY,
         .sub    = AUDIO_INFO_SCREEN_MENU,
@@ -243,9 +249,20 @@ const menu_t menu_arr[] =
         .type = MENU_NORMAL,
         .num_elements = 0, 
         .prev   = AUDIO_INFO_MAIN_MENU,  
-        .next   = PLL_MAIN_MENU,      
+        .next   = EXPERT_MENU,      
         .up     = MAIN_MENU_DUMMY, 
         .sub    = CTRL_OVERSAMPLING_MENU, 
+        .get    = menu_get_nothing,
+        .set    = menu_call_sub
+    },
+    {   // EXPERT_MENU
+        .text   = expert_menu_text,
+        .type   = MENU_NORMAL,
+        .num_elements = 0,
+        .prev   = AUDIO_MAIN_MENU,
+        .next   = AUDIO_INFO_MAIN_MENU,
+        .up     = MAIN_MENU_DUMMY,
+        .sub    = PLL_MAIN_MENU,
         .get    = menu_get_nothing,
         .set    = menu_call_sub
     },
@@ -253,9 +270,9 @@ const menu_t menu_arr[] =
         .text = pll_main_menu_text,
         .type = MENU_NORMAL,
         .num_elements = 0, 
-        .prev   = AUDIO_MAIN_MENU, 
+        .prev   = EXPERT_RETURN_MENU, 
         .next   = SRC_MAIN_MENU,      
-        .up     = MAIN_MENU_DUMMY, 
+        .up     = EXPERT_MENU, 
         .sub    = PLL_FREQ_SEL_MENU, 
         .get    = menu_get_nothing,
         .set    = menu_call_sub
@@ -266,7 +283,7 @@ const menu_t menu_arr[] =
         .num_elements = 0, 
         .prev   = PLL_MAIN_MENU,   
         .next   = PCM_MAIN_MENU,      
-        .up     = MAIN_MENU_DUMMY, 
+        .up     = EXPERT_MENU, 
         .sub    = SRC_UPSAMPLING_MENU, 
         .get    = menu_get_nothing,
         .set    = menu_call_sub
@@ -276,11 +293,22 @@ const menu_t menu_arr[] =
         .type = MENU_NORMAL,
         .num_elements = 0,
         .prev   = SRC_MAIN_MENU,
-        .next   = AUDIO_INFO_MAIN_MENU,
-        .up     = MAIN_MENU_DUMMY,
+        .next   = EXPERT_RETURN_MENU,
+        .up     = EXPERT_MENU,
         .sub    = PCM_MONAURAL_MENU,
         .get    = menu_get_nothing,
         .set    = menu_call_sub
+    },
+    {   // EXPERT_RETURN_MENU
+        .text   = return_menu_text,      
+        .type   = MENU_NORMAL,
+        .num_elements = 0,
+        .prev   = PCM_MAIN_MENU,
+        .next   = PLL_MAIN_MENU,
+        .up     = EXPERT_MENU,
+        .sub    = 0,
+        .get    = menu_get_nothing,
+        .set    = menu_call_up
     },
     {   // PLL_FREQ_SEL_MENU
         .text =  pll_sampling_freq_text,
@@ -660,6 +688,21 @@ void menu_btn_right(void)
     }
 }
 
+void menu_refresh(void)
+{
+    switch(m.index)
+    {
+        case AUDIO_INFO_SCREEN_MENU:
+            menu_show_audio_information(4);
+            break;
+            
+        default:
+            menu_write_headline();
+            menu_refresh_lines();
+            break;
+    }
+}
+
 void menu_btn_left(void)
 {    
     switch(menu_arr[m.index].type)
@@ -827,6 +870,15 @@ void menu_call_up(uint16_t dummy)
     
     menu_write_headline();
     menu_refresh_lines();
+    
+    // this is only special feature for expert and non expert mode
+    // this isnt the right place for implementing this but currently i have no 
+    // better idea
+    if(m.index == EXPERT_MENU)
+    {
+        // when leaving expert mode load default settings for audio
+        CONTROL_init();
+    }
 }
 
 
@@ -944,6 +996,7 @@ void menu_show_audio_information(uint16_t btn_value)
     switch(btn_value)
     {
         case 0: // first call (write screen)
+            timer_start();
         case 2: // btn down
         case 3: // btn up
             
@@ -954,28 +1007,38 @@ void menu_show_audio_information(uint16_t btn_value)
             xlcd_clear_line(1);
             xlcd_goto(1,1);
             putrsXLCD("Track");
-            temp = SRC_get_track();             
-            ltoa(buf, temp, 10);
-            xlcd_goto(1,PARAM_INDEX);
-            putsXLCD(buf);
-            
+
             // 3. line
             xlcd_clear_line(2);
             xlcd_goto(2,1);
             putrsXLCD("Playtime");
+            
+            // 4. line
+            xlcd_clear_line(3);
+            xlcd_goto(3,1);
+            putrsXLCD("Oversamp.");
+            
+        case 4: // refresh from timer
+            // 2. line option            
+            temp = SRC_get_track();             
+            ltoa(buf, temp, 10);
+            xlcd_goto(1,PARAM_INDEX);
+            putsXLCD(buf);
+            putrsXLCD(" "); // clearing second character if switching from 2 digit to 1 digit
+            
+            // 3. line option
             temp = SRC_get_minutes();
             ltoa(buf, temp, 10);
             xlcd_goto(2, PARAM_INDEX);
             putsXLCD(buf);
             putrsXLCD(":");
             temp = SRC_get_seconds();
-            ltoa(buf, temp, 10);
+            _format_number(temp, 10, 2, '0', buf);
+            //ltoa(buf, temp, 10);
             putsXLCD(buf);
+            putrsXLCD(" "); // clearing second character if switching from 2 digit to 1 digit
             
-            // 4. line
-            xlcd_clear_line(3);
-            xlcd_goto(3,1);
-            putrsXLCD("Oversamp.");
+            // 4. line option
             xlcd_goto(3, PARAM_INDEX);
             temp = CONTROL_get_oversampling_freq();
             
@@ -986,6 +1049,7 @@ void menu_show_audio_information(uint16_t btn_value)
             break;
         
         case 1: // btn pressed
+            timer_stop();
             menu_call_up(0);    // 0 is only a dummy
             break;
             

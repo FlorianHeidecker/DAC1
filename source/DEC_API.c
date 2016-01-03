@@ -55,8 +55,7 @@ state_rotation_t get_DEC_status(void){
         button_old = DEC_NO_TURN;
         return DEC_NO_TURN;
     }
-    else{
-        dec_inp = (DEC_CHB_PORT <<4) | (DEC_CHA_PORT);
+    else{        dec_inp = (DEC_CHB_PORT <<4) | (DEC_CHA_PORT);
         if(dec_inp ==0x10 && dec_old == DEC_NO_TURN){
             dec_old = DEC_TURN_RIGHT;
             return DEC_NO_TURN;

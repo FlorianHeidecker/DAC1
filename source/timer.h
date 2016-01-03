@@ -20,7 +20,7 @@
 typedef enum {interrupt_no = 0, interrupt_yes = 1} interrrupt_state_t;
 
 /** global variable, used to know the actual interrupt state*/
-interrrupt_state_t interrrupt_state;
+extern volatile interrrupt_state_t timer_interrrupt_state;
 
 //== functions =================================================================
 

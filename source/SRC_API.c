@@ -511,8 +511,9 @@ SRC_decimation_filter_t SRC_get_decimation_filter(void){
 
 uint16_t SRC_get_minutes(void){
     uint16_t temp = SRC_get_receiver_status2();
+    int i;
     
-    for (int i = 0; i < 5; i++){
+    for (i = 0; i < 5; i++){
         if (((temp & 0x02) >> 1) == 0){
             temp =  SRC_get_qchannel_register4();
             return  ((temp& 0x0F) + ((temp>>4)& 0x0F)*10);
@@ -524,8 +525,9 @@ uint16_t SRC_get_minutes(void){
 
 uint16_t SRC_get_seconds(void){
     uint16_t temp = SRC_get_receiver_status2();
+    int i;
     
-    for (int i = 0; i < 5; i++){
+    for (i = 0; i < 5; i++){
         if (((temp & 0x02) >> 1) == 0){
             temp =  SRC_get_qchannel_register5();
             return  ((temp& 0x0F) + ((temp>>4)& 0x0F)*10);
@@ -536,9 +538,10 @@ uint16_t SRC_get_seconds(void){
 }
 
 uint16_t SRC_get_track(void){
+    int i;
     uint16_t temp = SRC_get_receiver_status2();
     
-    for (int i = 0; i < 5; i++){
+    for (i = 0; i < 5; i++){
         if (((temp & 0x02) >> 1) == 0){
             temp =  SRC_get_qchannel_register2();
             return  ((temp& 0x0F) + ((temp>>4)& 0x0F)*10);

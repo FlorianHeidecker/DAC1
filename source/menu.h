@@ -34,9 +34,11 @@ typedef enum {
     MAIN_MENU_DUMMY = 0,
     AUDIO_INFO_MAIN_MENU,
     AUDIO_MAIN_MENU,
+    EXPERT_MENU,      
     PLL_MAIN_MENU,
     SRC_MAIN_MENU,
     PCM_MAIN_MENU,
+    EXPERT_RETURN_MENU,
     PLL_FREQ_SEL_MENU,
     PLL_SCKO_SEL_MENU,
     PLL_RETURN_MENU,
@@ -82,6 +84,7 @@ typedef struct menu_struct{
 
 // externe funktionen
 void menu_init(void);
+void menu_refresh(void);
 void menu_btn_left(void);
 void menu_btn_right(void);
 void menu_btn_set(void);

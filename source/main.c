@@ -23,10 +23,10 @@
 #include "xlcd/xlcd.h"
 #include "CONTROL.h"
 #include "menu.h"
+#include "timer.h"
 
 #include <libpic30.h>
-#include "DEC_API.h"
-#include "xlcd/xlcd.h"
+
 
 // FBS
 #pragma config BWRP = WRPROTECT_OFF     // Boot Segment Write Protect (Boot Segment may be written)
@@ -82,12 +82,16 @@ int main(void) {
     
     LOG("LOG: CONTROL_init()\n");
     CONTROL_init();
+    
+    LOG("LOG: timer_init()\n");
+    timer_init();
 
     LOG("LOG: menu_init()\n");
     menu_init();
     
     
-    while(1){
+    while(1)
+    {
     	dec_test = get_DEC_status();
     	switch (dec_test)
         {
@@ -109,6 +113,11 @@ int main(void) {
             default:
                 break;
     	}
+        if(timer_interrrupt_state == interrupt_yes)
+        {
+            timer_interrrupt_state = interrupt_no;
+            menu_refresh();
+        }
     }
 
     while(1); 
