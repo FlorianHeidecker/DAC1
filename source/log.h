@@ -45,12 +45,24 @@
 
 /** Enables basic log output on UART1 */
 #define LOGGING
+
 /** PLL API log output on UART1 */
 #define PLL_API_LOGGING
-/** This is an example for a new stage of loging */
-#define NEW_STAGE_LOGGING
+
+/** Log function for PCM */
+#define PCM_API_LOGGING
+
 /** Log function for XLCD library and menu */
 #define XLCD_LOGGING
+
+/** Log function for CONTROL */
+#define CONTROL_LOGGING
+
+/** Log function for SRC */
+#define SRC_LOGGING
+
+/** menu log function */ 
+#define MENU_LOGGING
 
 
 #ifdef LOGGING
@@ -67,18 +79,41 @@
 #endif /* PLL_LOGGING */
 
 
+#ifdef PCM_API_LOGGING
+	#define PCM_LOG(x, args...)   LOG_WRITE_FUNCTION(x, ##args)
+#else
+	#define PCM_LOG(x, args...)
+#endif /* PCM_LOGGING */
+
+
 #ifdef XLCD_LOGGING
 	#define XLCD_LOG(x, args...)   LOG_WRITE_FUNCTION(x, ##args)
 #else
 	#define XLCD_LOG(x, args...)
-#endif /* NEW_STAGE_LOGGING */
+#endif /* XLCD_LOGGING*/
 
 
-#ifdef NEW_STAGE_LOGGING
-	#define NEW_STAGE_LOG(x, args...)   LOG_WRITE_FUNCTION(x, ##args)
+#ifdef CONTROL_LOGGING
+	#define CONTROL_LOG(x, args...)   LOG_WRITE_FUNCTION(x, ##args)
 #else
-	#define NEW_STAGE_LOG(x, args...)
-#endif /* NEW_STAGE_LOGGING */
+	#define CONTROL_LOG(x, args...)
+#endif /* CONTROL_LOGGING */
+
+
+#ifdef SRC_LOGGING
+	#define SRC_LOG(x, args...)   LOG_WRITE_FUNCTION(x, ##args)
+#else
+	#define SRC_LOG(x, args...)
+#endif /* SRC_LOG */
+
+
+#ifdef MENU_LOGGING
+	#define MENU_LOG(x, args...)   LOG_WRITE_FUNCTION(x, ##args)
+#else
+	#define MENU_LOG(x, args...)
+#endif /* MENU_LOGGING */
+
+
 
 
 /** @brief Initializes logging function

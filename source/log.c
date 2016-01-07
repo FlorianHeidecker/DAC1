@@ -24,43 +24,43 @@
 
 
 
-#define LTOA_BUFSIZE    12
-
-char *ltoa(char *str, long N, int base)
-{
-      register int i = 2;
-      long uarg;
-      char *tail, *head = str, buf[LTOA_BUFSIZE];
-
-      if (36 < base || 2 > base)
-            base = 10;                    /* can only use 0-9, A-Z        */
-      tail = &buf[LTOA_BUFSIZE - 1];           /* last character position      */
-      *tail-- = '\0';
-
-      if (10 == base && N < 0L)
-      {
-            *head++ = '-';
-            uarg    = -N;
-      }
-      else  uarg = N;
-
-      if (uarg)
-      {
-            for (i = 1; uarg; ++i)
-            {
-                  register ldiv_t r;
-
-                  r       = ldiv(uarg, base);
-                  *tail-- = (char)(r.rem + ((9L < r.rem) ?
-                                  ('A' - 10L) : '0'));
-                  uarg    = r.quot;
-            }
-      }
-      else  *tail-- = '0';
-
-      memcpy(head, ++tail, i);
-      return str;
-}
+//#define LTOA_BUFSIZE    12
+//
+//char *ltoa(char *str, long N, int base)
+//{
+//      register int i = 2;
+//      long uarg;
+//      char *tail, *head = str, buf[LTOA_BUFSIZE];
+//
+//      if (36 < base || 2 > base)
+//            base = 10;                    /* can only use 0-9, A-Z        */
+//      tail = &buf[LTOA_BUFSIZE - 1];           /* last character position      */
+//      *tail-- = '\0';
+//
+//      if (10 == base && N < 0L)
+//      {
+//            *head++ = '-';
+//            uarg    = -N;
+//      }
+//      else  uarg = N;
+//
+//      if (uarg)
+//      {
+//            for (i = 1; uarg; ++i)
+//            {
+//                  register ldiv_t r;
+//
+//                  r       = ldiv(uarg, base);
+//                  *tail-- = (char)(r.rem + ((9L < r.rem) ?
+//                                  ('A' - 10L) : '0'));
+//                  uarg    = r.quot;
+//            }
+//      }
+//      else  *tail-- = '0';
+//
+//      memcpy(head, ++tail, i);
+//      return str;
+//}
  
 
 
@@ -137,7 +137,7 @@ char *ltoa(char *str, long N, int base)
 							SER_PUTS(buffer);
 							break;
 
-				case 'x':   _format_number(va_arg(params, int16_t), 16, digits, padding, buffer);
+				case 'x':   _format_number(va_arg(params, uint16_t), 16, digits, padding, buffer);
 							SER_PUTS(buffer);
 							break;
              
@@ -192,6 +192,15 @@ char *ltoa(char *str, long N, int base)
     }
  }
  
+ 
+ void log_test(void)
+ {
+    LOG("i %i\n", 534);
+    LOG("x %x\n", 0xFA55);
+    LOG("b %b\n", 0b1001101);
+    LOG("c %c\n", 'A');
+    LOG("s %s\n", "Log test");
+ }
  
  /*
  void log_write(const char* str, ...)

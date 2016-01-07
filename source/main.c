@@ -19,12 +19,13 @@
 #include "log.h"
 #include "PLL_API.h"
 #include "UART_API.h"
-#include "SPI_API.h"
 #include "DEC_API.h"
 #include "xlcd/xlcd.h"
+#include "CONTROL.h"
+#include "menu.h"
+#include "timer.h"
 
 #include <libpic30.h>
-
 
 
 // FBS
@@ -54,7 +55,7 @@
 #pragma config WDTPOST = PS32768        // Watchdog Timer Postscaler (1:32,768)
 #pragma config WDTPRE = PR128           // WDT Prescaler (1:128)
 #pragma config WINDIS = OFF             // Watchdog Timer Window (Watchdog Timer in Non-Window mode)
-#pragma config FWDTEN = ON              // Watchdog Timer Enable (Watchdog timer always enabled)
+#pragma config FWDTEN = OFF              // Watchdog Timer Enable (Watchdog timer always enabled)
 
 // FPOR
 #pragma config FPWRT = PWR128           // POR Timer Value (128ms)
@@ -64,42 +65,60 @@
 #pragma config ICS = PGD1               // Comm Channel Select (Communicate on PGC1/EMUC1 and PGD1/EMUD1)
 #pragma config JTAGEN = OFF             // JTAG Port Enable (JTAG is Disabled)
 
-
-
-
-
 int main(void) {
     AD1PCFGL = 0x1fff;
     state_rotation_t dec_test = DEC_NO_TURN;
+    
 
-    //=======================================
     // initalisation of the modules
     log_init();
     LOG("\n\nLOG: main()\n");
-    
+
     LOG("LOG: xlcd_init()\n");
     xlcd_init();
-    LOG("LOG: pll_init()\n");
-    pll_init();
-    LOG("LOG: spi_init()\n");
-    spi_init();
+    
     LOG("LOG: DEC_init()\n");
     DEC_init();
     
-    while(1){
+    LOG("LOG: CONTROL_init()\n");
+    CONTROL_init();
+    
+    LOG("LOG: timer_init()\n");
+    timer_init();
+
+    LOG("LOG: menu_init()\n");
+    menu_init();
+    
+    
+    while(1)
+    {
     	dec_test = get_DEC_status();
-    	switch (dec_test){
-            case DEC_TURN_LEFT:     LOG("L\n");
-                                    break;
-            case DEC_TURN_RIGHT:    LOG("R\n");
-                                    break;
-            case DEC_BUTTON:        LOG("B\n");
-                                    break;
-            default:                break;
+    	switch (dec_test)
+        {
+            case DEC_TURN_LEFT:     
+                LOG("L\n");
+                menu_btn_left();
+                break;
+                
+            case DEC_TURN_RIGHT:    
+                LOG("R\n");
+                menu_btn_right();        
+                break;
+            
+            case DEC_BUTTON:        
+                LOG("B\n");
+                menu_btn_set();
+                break;
+                
+            default:
+                break;
     	}
+        if(timer_interrrupt_state == interrupt_yes)
+        {
+            timer_interrrupt_state = interrupt_no;
+            menu_refresh();
+        }
     }
-
-
 
     while(1); 
 }
