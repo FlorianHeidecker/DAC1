@@ -357,7 +357,7 @@ const menu_t menu_arr[] =
     {   // PCM_ATTUNATION_MENU
         .text   = pcm_attunation_text,
         .type   = MENU_OPTION_INT,
-        .num_elements = 100,
+        .num_elements = 101,
         .prev   = PCM_MONAURAL_MENU,
         .next   = PCM_SOFT_MUTE_MENU,
         .up     = PCM_MAIN_MENU,
@@ -445,7 +445,7 @@ const menu_t menu_arr[] =
     {   // CTRL_VOLUME_MENU
         .text   = control_volume_text,      
         .type   = MENU_OPTION_INT,
-        .num_elements = 100,
+        .num_elements = 101,
         .prev   = CTRL_AUDIO_FORMAT_MENU,
         .next   = CTRL_SOFT_MUTE_MENU,
         .up     = AUDIO_MAIN_MENU,
@@ -725,7 +725,7 @@ void menu_btn_left(void)
                     m.param_index--;
                     if(m.param_index >= menu_arr[m.index].num_elements)
                     {
-                        m.param_index = menu_arr[m.index].num_elements;
+                        m.param_index = menu_arr[m.index].num_elements-1;
                     }
                     menu_write_line(m.cursor, m.index);
                     break;
@@ -1024,7 +1024,7 @@ void menu_show_audio_information(uint16_t btn_value)
             ltoa(buf, temp, 10);
             xlcd_goto(1,PARAM_INDEX);
             putsXLCD(buf);
-            putrsXLCD(" "); // clearing second character if switching from 2 digit to 1 digit
+            putrsXLCD("   "); // clearing second character if switching from 2 digit to 1 digit
             
             // 3. line option
             temp = SRC_get_minutes();
@@ -1036,7 +1036,7 @@ void menu_show_audio_information(uint16_t btn_value)
             _format_number(temp, 10, 2, '0', buf);
             //ltoa(buf, temp, 10);
             putsXLCD(buf);
-            putrsXLCD(" "); // clearing second character if switching from 2 digit to 1 digit
+            putrsXLCD("   "); // clearing second character if switching from 2 digit to 1 digit
             
             // 4. line option
             xlcd_goto(3, PARAM_INDEX);

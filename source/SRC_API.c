@@ -16,6 +16,8 @@
 #include "SRC_API.h"
 #include "SPI_API.h"
 
+#define REPEAT_Q_READ   1000
+
 
 void SRC_send (uint8_t address, uint8_t data){
     uint8_t data_send[3] = {address, 0, data};
@@ -510,16 +512,25 @@ SRC_decimation_filter_t SRC_get_decimation_filter(void){
 }
 
 uint16_t SRC_get_minutes(void){
-    uint16_t temp = SRC_get_receiver_status2();
+    uint16_t temp;
+    uint16_t status;
     int i;
     
-    for (i = 0; i < 5; i++){
-        if (((temp & 0x02) >> 1) == 0){
-            temp =  SRC_get_qchannel_register4();
+    for (i = 0; i < REPEAT_Q_READ; i++){
+        // check validty bit
+        status = SRC_get_receiver_status2();
+        temp =  SRC_get_qchannel_register4();
+        //if (((temp & 0x02) >> 1) == 0)
+        if(status == 0x08)
+        {  
+            // bcd conversion
+            
+            //SRC_LOG("SRC: Track: %i\n", i);
             return  ((temp& 0x0F) + ((temp>>4)& 0x0F)*10);
         }
-        temp = SRC_get_receiver_status2();
+        
     }
+    SRC_LOG("SRC: invalid minutes\n");
     return 0;
 }
 
@@ -527,27 +538,52 @@ uint16_t SRC_get_seconds(void){
     uint16_t temp = SRC_get_receiver_status2();
     int i;
     
-    for (i = 0; i < 5; i++){
-        if (((temp & 0x02) >> 1) == 0){
+    for (i = 0; i < REPEAT_Q_READ; i++){
+        // check validty bit
+        temp = SRC_get_receiver_status2();
+        //if (((temp & 0x02) >> 1) == 0)
+        if(temp == 0x08)
+        {  
+            // bcd conversion
             temp =  SRC_get_qchannel_register5();
+            //SRC_LOG("SRC: Track: %i\n", i);
             return  ((temp& 0x0F) + ((temp>>4)& 0x0F)*10);
         }
-        temp = SRC_get_receiver_status2();
+        
     }
+    
+    SRC_LOG("SRC: invalid seconds\n");
     return 0;    
 }
 
 uint16_t SRC_get_track(void){
     int i;
-    uint16_t temp = SRC_get_receiver_status2();
+    uint16_t temp;// = SRC_get_receiver_status2();
     
-    for (i = 0; i < 5; i++){
-        if (((temp & 0x02) >> 1) == 0){
+//    do{
+//        temp = SRC_get_receiver_status2();
+//        
+//    }while(temp == 0x09);
+     
+//    temp =  SRC_get_qchannel_register2();
+//    return  ((temp& 0x0F) + ((temp>>4)& 0x0F)*10);
+    
+    
+    for (i = 0; i < REPEAT_Q_READ; i++){
+        // check validty bit
+        temp = SRC_get_receiver_status2();
+        //if (((temp & 0x02) >> 1) == 0)
+        if(temp == 0x08)
+        {  
+            // bcd conversion
             temp =  SRC_get_qchannel_register2();
+            //SRC_LOG("SRC: Track: %i\n", i);
             return  ((temp& 0x0F) + ((temp>>4)& 0x0F)*10);
         }
-        temp = SRC_get_receiver_status2();
+        
     }
+    
+    SRC_LOG("SRC: invalid track\n");
     return 0;  
 }
 
