@@ -530,7 +530,7 @@ uint16_t SRC_get_minutes(void){
         }
         
     }
-    SRC_LOG("SRC: invalid minutes\n");
+    //SRC_LOG("SRC: invalid minutes\n");
     return 0;
 }
 
@@ -552,7 +552,7 @@ uint16_t SRC_get_seconds(void){
         
     }
     
-    SRC_LOG("SRC: invalid seconds\n");
+    //SRC_LOG("SRC: invalid seconds\n");
     return 0;    
 }
 
@@ -583,7 +583,7 @@ uint16_t SRC_get_track(void){
         
     }
     
-    SRC_LOG("SRC: invalid track\n");
+    //SRC_LOG("SRC: invalid track\n");
     return 0;  
 }
 

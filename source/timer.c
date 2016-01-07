@@ -16,7 +16,7 @@
 #include "timer.h"
 #include "log.h"
 
- #define _ISR_NO_PSV __attribute__((interrupt, no_auto_psv))
+ #define _ISR_PSV __attribute__((interrupt, auto_psv))
 
 volatile interrrupt_state_t timer_interrrupt_state;
 
@@ -58,7 +58,7 @@ void timer_stop(void){
     TMR1 = 0x00;                // clear timer register
 }
 
-void _ISR_NO_PSV  _T1Interrupt(void){
+void _ISR_PSV  _T1Interrupt(void){
     //LOG("T\n");
 	TMR1 = 0x00;                        // clear timer register
     timer_interrrupt_state = interrupt_yes;   // set interrupt state
