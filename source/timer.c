@@ -1,13 +1,14 @@
 /** 
- * @file        PLL_API.c
+ * @file        timer.c
  *
- * @brief       PLL_API contains the PLL basic functions
+ * @brief       simple module to control a timer
  * 
  * @author      Florian Heidecker
  * @date        13.11.2015 - initial version
- *              07.12.2015 - rework/comments
+ * @date        07.12.2015 - rework/comments
  * 
  * @version     0.1
+ * 
  */
 
 #include <xc.h>

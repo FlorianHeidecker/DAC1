@@ -1,9 +1,11 @@
-/*
-* File:   UART_API.h
-* Author: Marco Jost
-* Comments:  This Module implements the UART API. The Module contains functions for initialization and sending characters
-* Revision history:  1.0
-*/
+/** 
+ * @file	UART_API.c
+ *
+ * @brief	Implementation UART
+ *
+ * This Module implements the UART API. The Module contains functions for 
+ * initialization and sending characters
+ */
 
 #include <xc.h>
 

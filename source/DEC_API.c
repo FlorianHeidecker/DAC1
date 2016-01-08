@@ -1,5 +1,5 @@
 /** 
- * @file        DEC_API
+ * @file        DEC_API.c
  *
  * @brief       DEC_API contains the basic functions for the rotary encoder
  *

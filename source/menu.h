@@ -1,5 +1,5 @@
 /**
- * @file    menu.c
+ * @file    menu.h
  *
  * @brief   Main Function of DAC1 Project
  * 
@@ -18,6 +18,8 @@
 #ifndef _MENU_H
 #define _MENU_H
 
+
+/** different types of menu points / entries */
 typedef enum {
     MENU_NORMAL = 1,
     MENU_OPTION,
@@ -25,11 +27,14 @@ typedef enum {
     MENU_WINDOW
 }menu_type_t;
 
+/** Menu states used for different menu options */
 typedef enum {
     MENU_STATE_NORMAL = 1,
     MENU_STATE_PARAM_CHANGE
 }menu_state_t;
 
+
+/** used to initialize menu_arr with names */
 typedef enum {
     MAIN_MENU_DUMMY = 0,
     AUDIO_INFO_MAIN_MENU,
@@ -63,30 +68,78 @@ typedef enum {
     SRC_MUTE_MENU,
     SRC_ERROR_MUTE_MENU,
     SRC_RETURN_MENU,
-    AUDIO_INFO_SCREEN_MENU
-            
-            
-            
+    AUDIO_INFO_SCREEN_MENU         
+                
 }menu_index_t;
 
+/** Default Structure for one menu entry */
 typedef struct menu_struct{
+    /** pointer to an array of strings (char arrays), the first entry is the text
+      * the following the Optional menu optsions. Only used for menu_option */
     const char **text;
+    /** defines the menu type for this entry */
     menu_type_t type;
+    /** defines number of elements for menu_option type */
     uint16_t num_elements;
+    /** index of previous menu entry */
     menu_index_t prev;
+    /** index of next menu entry */
     menu_index_t next;
+    /** index of menu above the current menu entry */
     menu_index_t up;
-    menu_index_t sub;    
+    /** index of submenu from current menu, set to zero if no submenu available */
+    menu_index_t sub;  
+    /** function pointer to get current value for menu_option 
+      * return value [0...num_elements-1]; only for MENU_OPTION */
     uint16_t (*get)(void);
+    /** function pointer to set selected value for menu option
+      * set value [0..num_elements-1]; in menu_option
+      * for other menu types e.g. menu_call_sub() is used */
     void (*set)(uint16_t);
 }menu_t;
 
 
-// externe funktionen
+/** @brief Initalizes Menu 
+ * 
+ * This Function initalizes menu structure for operation an prints 
+ * default screen on the xlcd.
+ */
 void menu_init(void);
+
+/** @brief Refreshes menu 
+ * 
+ * Refreshes all lines currently displayed by the menu. Including headline.
+ */
 void menu_refresh(void);
+
+/** @brief Menu operation for button turn left
+ * 
+ * This executes menu operation for button left or rotary left.
+ * The exact operation is determined by the menu_type and the current status of 
+ * the menu. 
+ * 
+ * @note Call this functions after the button event
+ */
 void menu_btn_left(void);
+
+/** @brief Menu operation for button turn right
+ * 
+ * This executes menu operation for button right or rotary right.
+ * The exact operation is determined by the menu_type and the current status of 
+ * the menu. 
+ * 
+ * @note Call this functions after the button event
+ */
 void menu_btn_right(void);
+
+/** @brief Menu operation for button pressed
+ * 
+ * This executes menu operation for button pressed
+ * The exact operation is determined by the menu_type and the current status of 
+ * the menu. 
+ * 
+ * @note Call this functions after the button event
+ */
 void menu_btn_set(void);
 
 #endif /* _MENU_H */

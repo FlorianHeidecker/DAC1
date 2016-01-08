@@ -26,19 +26,26 @@
 /** Maximum Number of Lines for the Menu */
 #define MAX_LINE    (4-1)      
 
+/** Cursor index for menu text */
 #define TEXT_CURSOR_INDEX      0
+/** start index of menu text */
 #define TEXT_INDEX             1 
+/** cursor index for menu option */
 #define PARAM_CURSOR_INDEX     12
+/** start index of menu option */
 #define PARAM_INDEX            13
-#define PARAM_UNIT_INDEX       17 
-
-
+/** defines sign used for cursor */
 #define CURSOR_SIGN ">"
 
+/** control structur for whole menu module */
 struct menu_control{
+    /** index of current menu option */
     uint16_t index;
+    /** index of menu parameter from current menu entry */
     uint16_t param_index;
+    /** active cursor line */
     uint16_t cursor;
+    /** state of current menu operation */
     menu_state_t state;
 }m;
 

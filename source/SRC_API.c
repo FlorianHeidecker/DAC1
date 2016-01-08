@@ -1,5 +1,5 @@
 /** 
- * @file        SRC_API.h
+ * @file        SRC_API.c
  *
  * @brief       SRC_API contains IC basic functions
  * 

@@ -1,5 +1,5 @@
 /** 
- * @file        PLL_API.h
+ * @file        timer.h
  *
  * @brief       timer and interrupt routine
  * 
