@@ -173,6 +173,12 @@ const char *src_mute_pll_error_text[] = {
     "On"
 };
 const char *src_interpolation_filter_text[] = {
+    "Filter",
+    "decimat",
+    "direct"
+};
+
+const char *src_interpolation_delay_text[] = {
     "Fil. Delay",
     "64 Samp",
     "32 Samp",
@@ -531,17 +537,28 @@ const menu_t menu_arr[] =
         .type   = MENU_OPTION,
         .num_elements = 6,
         .prev   = SRC_MCLK_DIV_MENU,
-        .next   = SRC_INTERPOLATION_MENU,
+        .next   = SRC_INTERPOLATION_FILTER_MENU,
         .up     = SRC_MAIN_MENU,
         .sub    = 0,
         .get    = SRC_get_audio_output_data_format,
         .set    = SRC_set_audio_output_data_format
     },
-    {   // SRC_INTERPOLATION_MENU
+    {   // SRC_INTERPOLATION_FILTER_MENU
         .text   = src_interpolation_filter_text,
         .type   = MENU_OPTION,
-        .num_elements = 4,
+        .num_elements = 2,
         .prev   = SRC_FORMAT_MENU,
+        .next   = SRC_INTERPOLATION_DELAY_MENU,
+        .up     = SRC_MAIN_MENU,
+        .sub    = 0,
+        .get    = SRC_get_decimation_filter,
+        .set    = SRC_set_decimation_filter
+    },
+    {   // SRC_INTERPOLATION_DELAY_MENU
+        .text   = src_interpolation_delay_text,
+        .type   = MENU_OPTION,
+        .num_elements = 4,
+        .prev   = SRC_INTERPOLATION_FILTER_MENU,
         .next   = SRC_MUTE_MENU,
         .up     = SRC_MAIN_MENU,
         .sub    = 0,
@@ -552,7 +569,7 @@ const menu_t menu_arr[] =
         .text   = src_output_mute_text,
         .type   = MENU_OPTION,
         .num_elements = 2,
-        .prev   = SRC_INTERPOLATION_MENU,
+        .prev   = SRC_INTERPOLATION_DELAY_MENU,
         .next   = SRC_ERROR_MUTE_MENU,
         .up     = SRC_MAIN_MENU,
         .sub    = 0,
@@ -786,8 +803,11 @@ void menu_write_line(uint16_t line, uint16_t index)
                         putrsXLCD(CURSOR_SIGN);
                     }
                     break;
+                default:
+                    MENU_LOG("MENU: ERR: m.state = %i\n", m.state);
+                    break;
             }
-            
+            MENU_LOG("MENU: param_index = %i\n",param_index);
             // write parameter
             xlcd_goto(line, PARAM_INDEX);
             if(param_index < menu_arr[index].num_elements)
@@ -820,6 +840,9 @@ void menu_write_line(uint16_t line, uint16_t index)
                         xlcd_goto(m.cursor, PARAM_CURSOR_INDEX);
                         putrsXLCD(CURSOR_SIGN);
                     }
+                    break;
+                default:
+                    MENU_LOG("MENU: ERR: m.state = %i\n", m.state);
                     break;
             }
                        

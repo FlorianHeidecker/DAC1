@@ -42,36 +42,43 @@ void CONTROL_set_oversampling_freq(CONTROL_oversampling_freq_t CONTROL_oversampl
             PLL_set_sampling_freq(PLL_SAMPLING_FREQ_32kHz);
             SRC_set_master_clock_divider(SRC_Divide256);
             PCM_set_oversampling_rate(PCM_128_times_fs);
+            SRC_set_decimation_filter(SRC_DECIMATION_FILTER);
             break;
         case CONTROL_OVERSAMPLING_FREQ_44_1kHz:
             PLL_set_sampling_freq(PLL_SAMPLING_FREQ_44_1kHz);
             SRC_set_master_clock_divider(SRC_Divide256);
             PCM_set_oversampling_rate(PCM_128_times_fs);
+            SRC_set_decimation_filter(SRC_DECIMATION_FILTER);
             break;
         case CONTROL_OVERSAMPLING_FREQ_48kHz:
             PLL_set_sampling_freq(PLL_SAMPLING_FREQ_48kHz);
             SRC_set_master_clock_divider(SRC_Divide256);
             PCM_set_oversampling_rate(PCM_128_times_fs);
+            SRC_set_decimation_filter(SRC_DIRECT_DOWN_SAMPLING);
             break;
         case CONTROL_OVERSAMPLING_FREQ_64kHz:
             PLL_set_sampling_freq(PLL_SAMPLING_FREQ_64kHz);
             SRC_set_master_clock_divider(SRC_Divide256);
             PCM_set_oversampling_rate(PCM_128_times_fs);
+            SRC_set_decimation_filter(SRC_DIRECT_DOWN_SAMPLING);
             break;
         case CONTROL_OVERSAMPLING_FREQ_88_2kHz:
             PLL_set_sampling_freq(PLL_SAMPLING_FREQ_88_2kHz);
             SRC_set_master_clock_divider(SRC_Divide256);
             PCM_set_oversampling_rate(PCM_128_times_fs);
+            SRC_set_decimation_filter(SRC_DIRECT_DOWN_SAMPLING);
             break;
         case CONTROL_OVERSAMPLING_FREQ_96kHz:
             PLL_set_sampling_freq(PLL_SAMPLING_FREQ_96kHz);
             SRC_set_master_clock_divider(SRC_Divide256);
             PCM_set_oversampling_rate(PCM_64_times_fs);
+            SRC_set_decimation_filter(SRC_DIRECT_DOWN_SAMPLING);
             break;
         case CONTROL_OVERSAMPLING_FREQ_192kHz:
             PLL_set_sampling_freq(PLL_SAMPLING_FREQ_96kHz);
             SRC_set_master_clock_divider(SRC_Divide128);
             PCM_set_oversampling_rate(PCM_32_times_fs);
+            SRC_set_decimation_filter(SRC_DIRECT_DOWN_SAMPLING);
             break;
             
     }

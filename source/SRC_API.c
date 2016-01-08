@@ -16,7 +16,7 @@
 #include "SRC_API.h"
 #include "SPI_API.h"
 
-#define REPEAT_Q_READ   1000
+#define REPEAT_Q_READ   100
 
 
 void SRC_send (uint8_t address, uint8_t data){
@@ -433,15 +433,15 @@ uint16_t SRC_get_src_dit_status(void){
 void SRC_set_mute_pll_error(uint16_t enable){
     uint16_t data = SRC_receive(SRC_receiver_control_register_2);
     
-    if (enable == 1) data |= (1 << 3);
-    else if (enable == 0) data &= ~(1 << 3);
+    if (enable == 1) data |= (1 << 4);
+    else if (enable == 0) data &= ~(1 << 4);
     
     SRC_send(SRC_receiver_control_register_2, data);  
 }
 
 uint16_t SRC_get_mute_pll_error(void){
     uint16_t data = SRC_receive(SRC_receiver_control_register_2);
-    return (data & SRC_PLLLOCKERROR) >> 3;   
+    return (data & SRC_PLLLOCKERROR) >> 4;   
 }
 
 uint16_t SRC_get_non_pcm_audio_detection(void){
@@ -497,10 +497,10 @@ void SRC_set_decimation_filter(SRC_decimation_filter_t SRC_decimation_filter){
 
     switch(SRC_decimation_filter){
         case SRC_DECIMATION_FILTER:
-            data &= ~(1 << 0);
+            data &= ~(1 << 2);
             break;
         case SRC_DIRECT_DOWN_SAMPLING:
-            data |= 1 << 0;
+            data |= (1 << 2);
             break;       
     }
     SRC_send(SRC_register_control_2, data);     
