@@ -40,18 +40,14 @@ void PLL_init(void);
 /**
  * @brief       set SCKO1 output frequency
  * 
- * @param PLL_scko1_freq        see
- *                              avalible frequenz output on SCKO1 in MHz
- *                              -> PLL_scko1_freq_t
+ * @param PLL_scko1_freq PLL_SCKO1_16MHz / PLL_SCKO1_33MHz
  */
 void PLL_set_scko1_freq(PLL_scko1_freq_t PLL_scko1_freq);
 
 /**
  * @brief       get actuel SCKO1 output frequency
  * 
- * @return      see
- *              avalible frequenz output on SCKO1 in MHz
- *              -> PLL_scko1_freq_t
+ * @return      PLL_SCKO1_16MHz / PLL_SCKO1_33MHz
  */
 PLL_scko1_freq_t PLL_get_scko1_freq(void);
 
@@ -62,9 +58,13 @@ PLL_scko1_freq_t PLL_get_scko1_freq(void);
  *                          SCKO2_output = fs * 256
  *                          SCKO3_output = fs * 384
  * 
- * @param PLL_sampling_freq     see
- *                              avalible sampling frequency in kHz
- *                              -> PLL_sampling_freq_t
+ * @param PLL_sampling_freq
+ *              PLL_SAMPLING_FREQ_32kHz
+ *              PLL_SAMPLING_FREQ_44_1kHz
+ *              PLL_SAMPLING_FREQ_48kHz
+ *              PLL_SAMPLING_FREQ_64kHz   
+ *              PLL_SAMPLING_FREQ_88_2kHz
+ *              PLL_SAMPLING_FREQ_96kHz
  */
 void PLL_set_sampling_freq(PLL_sampling_freq_t PLL_sampling_freq);
 
@@ -76,9 +76,13 @@ void PLL_set_sampling_freq(PLL_sampling_freq_t PLL_sampling_freq);
  *                          SCKO2_output = fs * 256
  *                          SCKO3_output = fs * 384
  * 
- * @return     see
- *             avalible sampling frequency in kHz
- *             -> PLL_sampling_freq_t
+ * @return
+ *              PLL_SAMPLING_FREQ_32kHz
+ *              PLL_SAMPLING_FREQ_44_1kHz
+ *              PLL_SAMPLING_FREQ_48kHz
+ *              PLL_SAMPLING_FREQ_64kHz   
+ *              PLL_SAMPLING_FREQ_88_2kHz
+ *              PLL_SAMPLING_FREQ_96kHz
  */
 PLL_sampling_freq_t PLL_get_sampling_freq(void);
 
