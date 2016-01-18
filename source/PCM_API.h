@@ -95,10 +95,6 @@ void PCM_set_attenuation_level_right(uint16_t value);
  */
 uint16_t PCM_get_attenuation_level_right(void);
 
-/** ATS: Attenuation Rate Select 
-    read and write */
-//void set_????
-
 /**
  * @brief           soft mute control
  * 
@@ -185,22 +181,6 @@ void PCM_set_oversampling_rate(PCM_oversampling_rate_t PCM_oversampling_rate);
  */
 PCM_oversampling_rate_t PCM_get_oversampling_rate(void);
 
-/** DMF: Sampling Frequency Selection for the De-Emphasis Function 
-    read and write */
-//void set_de_emphasis_freq(de_emphasis_freq_t)
-
-/** DME: Digital De-Emphasis Control 
-    read and write */
-//void set_de_emphasis_control(int);
-
-/** REV: Output Phase Reversal 
-    read and write */
-//void set_out_phase_reversal(int);
-
-/** OPE: DAC Operation Control 
-    read and write */
-//void set_DAC_operation(int);
-
 /** FLT: Digital Filter Rolloff Control 
     read and write */
 //void set_filter_rolloff(filter_rolloff_t);
@@ -233,14 +213,6 @@ uint16_t PCM_get_zero_detect_mute(void);
  *                  System reset operation = 1 (generate one reset pulse)
  */
 void PCM_reset(uint16_t value);
-
-/** DSD: DSD Interface Mode Control 
-    read and write */
-//void set_DSD_interface_mode(int);
-
-/** DFTH: Digital Filter Bypass (or Through Mode) Control 
-    read and write */
-//void set_digital_filter_bypass(int);
 
 /**
  * @brief           set monaural mode selection
@@ -280,17 +252,6 @@ void PCM_set_data_channel(PCM_data_channel_t PCM_data_channel);
  */
 PCM_data_channel_t PCM_get_data_channel(void);
 
-/** DZ: DSD Zero Output Enable 
-    read and write */
-//void set_DSD_zero_output(DSD_zero_output_t);
-
-/** PCMZ: PCM Zero Output Enable 
-    read and write */
-//void set_PCM_zero_output(int);
-
-/** ZFGL/ZFGR: Zero-Detection Flag 
-    read pmly */
-
 /**
  * @brief           zero detect in output channel, left
  * 
@@ -304,10 +265,6 @@ uint16_t PCM_get_left_zero_detection(void);
  * @return          not zero = 0, zero detect = 1
  */
 uint16_t PCM_get_rigth_zero_detection(void);
-
-/** ID: Device ID 
-    read only */
-//int get_device_id(void);
 
 #endif /* _PCM_API_H */
 
