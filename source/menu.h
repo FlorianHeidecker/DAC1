@@ -22,7 +22,7 @@
 /** different types of menu points / entries */
 typedef enum {
     MENU_NORMAL = 1,
-    MENU_OPTION,
+    MENU_OPTION_LIST,
     MENU_OPTION_INT,
     MENU_WINDOW
 }menu_type_t;

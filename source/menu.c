@@ -325,7 +325,7 @@ const menu_t menu_arr[] =
     },
     {   // PLL_FREQ_SEL_MENU
         .text =  pll_sampling_freq_text,
-        .type = MENU_OPTION,
+        .type = MENU_OPTION_LIST,
         .num_elements = 6,
         .prev = PLL_RETURN_MENU,
         .next = PLL_SCKO_SEL_MENU,
@@ -336,7 +336,7 @@ const menu_t menu_arr[] =
     },
     {   // PLL_SCKO_SEL_MENU
         .text = pll_scko_freq_text,     
-        .type = MENU_OPTION,
+        .type = MENU_OPTION_LIST,
         .num_elements = 2, 
         .prev = PLL_FREQ_SEL_MENU,
         .next = PLL_RETURN_MENU,
@@ -358,7 +358,7 @@ const menu_t menu_arr[] =
     },
     {   // PCM_MONAURAL_MENU
         .text   = pcm_monaural_text,      
-        .type   = MENU_OPTION,
+        .type   = MENU_OPTION_LIST,
         .num_elements = 2,
         .prev   = PCM_RETURN_MENU,
         .next   = PCM_ATTUNATION_MENU,
@@ -380,7 +380,7 @@ const menu_t menu_arr[] =
     },
     {   // PCM_SOFT_MUTE_MENU
         .text   = pcm_soft_mute_text,
-        .type   = MENU_OPTION,
+        .type   = MENU_OPTION_LIST,
         .num_elements = 2,
         .prev   = PCM_ATTUNATION_MENU,
         .next   = PCM_ZERO_DETECT_MUTE,
@@ -391,7 +391,7 @@ const menu_t menu_arr[] =
     },
     {   // PCM_ZERO_DETECT_MUTE
         .text   = pcm_zero_detect_text,
-        .type   = MENU_OPTION,
+        .type   = MENU_OPTION_LIST,
         .num_elements = 2,
         .prev   = PCM_SOFT_MUTE_MENU,
         .next   = PCM_AUDIO_DATA_FORMAT_MENU,
@@ -402,7 +402,7 @@ const menu_t menu_arr[] =
     },
     {   // PCM_AUDIO_DATA_FORMAT_MENU
         .text   = pcm_audio_data_format_text,
-        .type   = MENU_OPTION,
+        .type   = MENU_OPTION_LIST,
         .num_elements = 6,
         .prev   = PCM_ZERO_DETECT_MUTE,
         .next   = PCM_DELTA_SIGMA_MENU,
@@ -413,7 +413,7 @@ const menu_t menu_arr[] =
     },
     {   // PCM_DELTA_SIGMA_MENU
         .text   = pcm_delta_sigma_text,
-        .type   = MENU_OPTION,
+        .type   = MENU_OPTION_LIST,
         .num_elements = 3,
         .prev   = PCM_AUDIO_DATA_FORMAT_MENU,
         .next   = PCM_RETURN_MENU,
@@ -435,7 +435,7 @@ const menu_t menu_arr[] =
     },
     {   // CTRL_OVERSAMPLING_MENU
         .text   = control_oversampling_text,      
-        .type   = MENU_OPTION,
+        .type   = MENU_OPTION_LIST,
         .num_elements = 7,
         .prev   = CTRL_RETURN_MENU,
         .next   = CTRL_AUDIO_FORMAT_MENU,
@@ -446,7 +446,7 @@ const menu_t menu_arr[] =
     },
     {   // CTRL_AUDIO_FORMAT_MENU
         .text   = control_audio_format_text,      
-        .type   = MENU_OPTION,
+        .type   = MENU_OPTION_LIST,
         .num_elements = 5,
         .prev   = CTRL_OVERSAMPLING_MENU,
         .next   = CTRL_VOLUME_MENU,
@@ -468,7 +468,7 @@ const menu_t menu_arr[] =
     },
     {   // CTRL_SOFT_MUTE_MENU
         .text   = control_soft_mute_text,      
-        .type   = MENU_OPTION,
+        .type   = MENU_OPTION_LIST,
         .num_elements = 2,
         .prev   = CTRL_VOLUME_MENU,
         .next   = CTRL_ZERO_MUTING_MENU,
@@ -479,7 +479,7 @@ const menu_t menu_arr[] =
     },
     {   // CTRL_ZERO_MUTING_MENU
         .text   = control_zero_detect_mute_text,      
-        .type   = MENU_OPTION,
+        .type   = MENU_OPTION_LIST,
         .num_elements = 2,
         .prev   = CTRL_SOFT_MUTE_MENU,
         .next   = CTRL_MONAURAL_MENU,
@@ -490,7 +490,7 @@ const menu_t menu_arr[] =
     },
     {   // CTRL_MONAURAL_MENU
         .text   = control_monaural_text,      
-        .type   = MENU_OPTION,
+        .type   = MENU_OPTION_LIST,
         .num_elements = 2,
         .prev   = CTRL_ZERO_MUTING_MENU,
         .next   = CTRL_RETURN_MENU,
@@ -512,7 +512,7 @@ const menu_t menu_arr[] =
     },
     {   // SRC_UPSAMPLING_MENU
         .text   = src_port_a_source_text,
-        .type   = MENU_OPTION,
+        .type   = MENU_OPTION_LIST,
         .num_elements = 2,
         .prev   = SRC_RETURN_MENU,
         .next   = SRC_MCLK_DIV_MENU,
@@ -523,7 +523,7 @@ const menu_t menu_arr[] =
     },
     {   // SRC_MCLK_DIV_MENU
         .text   = src_master_clock_divider_text,
-        .type   = MENU_OPTION,
+        .type   = MENU_OPTION_LIST,
         .num_elements = 4,
         .prev   = SRC_UPSAMPLING_MENU,
         .next   = SRC_FORMAT_MENU,
@@ -534,7 +534,7 @@ const menu_t menu_arr[] =
     },
     {   // SRC_FORMAT_MENU
         .text   = src_audio_output_format_text,
-        .type   = MENU_OPTION,
+        .type   = MENU_OPTION_LIST,
         .num_elements = 6,
         .prev   = SRC_MCLK_DIV_MENU,
         .next   = SRC_INTERPOLATION_FILTER_MENU,
@@ -545,7 +545,7 @@ const menu_t menu_arr[] =
     },
     {   // SRC_INTERPOLATION_FILTER_MENU
         .text   = src_interpolation_filter_text,
-        .type   = MENU_OPTION,
+        .type   = MENU_OPTION_LIST,
         .num_elements = 2,
         .prev   = SRC_FORMAT_MENU,
         .next   = SRC_INTERPOLATION_DELAY_MENU,
@@ -556,7 +556,7 @@ const menu_t menu_arr[] =
     },
     {   // SRC_INTERPOLATION_DELAY_MENU
         .text   = src_interpolation_delay_text,
-        .type   = MENU_OPTION,
+        .type   = MENU_OPTION_LIST,
         .num_elements = 4,
         .prev   = SRC_INTERPOLATION_FILTER_MENU,
         .next   = SRC_MUTE_MENU,
@@ -567,7 +567,7 @@ const menu_t menu_arr[] =
     },
     {   // SRC_MUTE_MENU
         .text   = src_output_mute_text,
-        .type   = MENU_OPTION,
+        .type   = MENU_OPTION_LIST,
         .num_elements = 2,
         .prev   = SRC_INTERPOLATION_DELAY_MENU,
         .next   = SRC_ERROR_MUTE_MENU,
@@ -578,7 +578,7 @@ const menu_t menu_arr[] =
     },
     {   // SRC_ERROR_MUTE_MENU
         .text   = src_mute_pll_error_text,
-        .type   = MENU_OPTION,
+        .type   = MENU_OPTION_LIST,
         .num_elements = 2,
         .prev   = SRC_MUTE_MENU,
         .next   = SRC_RETURN_MENU,
@@ -640,7 +640,7 @@ void menu_btn_set(void)
             menu_arr[m.index].set(1);
             break;
                         
-        case MENU_OPTION:
+        case MENU_OPTION_LIST:
         case MENU_OPTION_INT:
             switch(m.state)
             {
@@ -686,7 +686,7 @@ void menu_btn_right(void)
             menu_call_next();     
             break;
             
-        case MENU_OPTION:
+        case MENU_OPTION_LIST:
         case MENU_OPTION_INT:
             switch(m.state)
             {
@@ -736,7 +736,7 @@ void menu_btn_left(void)
             menu_call_prev();
             break;
             
-        case MENU_OPTION:
+        case MENU_OPTION_LIST:
         case MENU_OPTION_INT:
             switch(m.state)
             {
@@ -783,7 +783,7 @@ void menu_write_line(uint16_t line, uint16_t index)
             }
             break;
             
-        case MENU_OPTION:
+        case MENU_OPTION_LIST:
             switch(m.state)
             {
                 case MENU_STATE_NORMAL:
@@ -878,7 +878,7 @@ void menu_call_sub(uint16_t dummy)
     switch(menu_arr[m.index].type)
     {
         case MENU_NORMAL:
-        case MENU_OPTION:
+        case MENU_OPTION_LIST:
         case MENU_OPTION_INT:
             menu_write_headline();
             menu_refresh_lines();
